@@ -403,7 +403,7 @@ class TopologyScene(QGraphicsScene):
 def _make_label(text="—", bold=False) -> QLabel:
     lbl = QLabel(text)
     lbl.setStyleSheet(
-        f"color: {'#e6edf3' if bold else '#8b949e'}; font-family: 'Courier New'; font-size: 11px;"
+        f"color: {'#e6edf3' if bold else '#8b949e'}; font-family: 'Courier New'; font-size: 18px;"
     )
     if bold:
         lbl.setStyleSheet(lbl.styleSheet() + " font-weight: bold;")
@@ -415,14 +415,14 @@ def _make_bar() -> QProgressBar:
     bar.setRange(0, 100)
     bar.setValue(0)
     bar.setTextVisible(True)
-    bar.setMaximumHeight(14)
+    bar.setMaximumHeight(20)
     bar.setStyleSheet("""
         QProgressBar {
             border: 1px solid #30363d;
             border-radius: 3px;
             background: #0d1117;
             color: #e6edf3;
-            font-size: 9px;
+            font-size: 12px;
             text-align: center;
         }
         QProgressBar::chunk {
@@ -498,7 +498,7 @@ class PathGroup(QGroupBox):
             row = QHBoxLayout()
             key_lbl = QLabel(key)
             key_lbl.setStyleSheet(
-                "color: #8b949e; font-size: 10px; font-family: Courier New;"
+                "color: #8b949e; font-size: 15px; font-family: Courier New;"
             )
             row.addWidget(key_lbl)
             row.addStretch()
@@ -529,7 +529,7 @@ class DecisionGroup(QGroupBox):
                 margin-top: 8px;
                 color: #ffa657;
                 font-family: 'Courier New';
-                font-size: 11px;
+                font-size: 15px;
                 font-weight: bold;
             }
             QGroupBox::title { subcontrol-origin: margin; left: 8px; padding: 0 4px; }
@@ -551,7 +551,7 @@ class DecisionGroup(QGroupBox):
             row = QHBoxLayout()
             kl = QLabel(display)
             kl.setStyleSheet(
-                "color: #8b949e; font-size: 10px; font-family: Courier New;"
+                "color: #8b949e; font-size: 15px; font-family: Courier New;"
             )
             vl = _make_label()
             self._rows[key] = vl
@@ -575,7 +575,7 @@ class DecisionGroup(QGroupBox):
         # Colour active path label
         color = C_PATH0_ACT.name() if ap == 0 else C_PATH1_ACT.name()
         self._rows["active_path"].setStyleSheet(
-            f"color: {color}; font-family: 'Courier New'; font-size: 11px; font-weight: bold;"
+            f"color: {color}; font-family: 'Courier New'; font-size: 15px; font-weight: bold;"
         )
 
 
@@ -585,9 +585,8 @@ class MetricsPanel(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setMinimumWidth(240)
-        self.setMaximumWidth(300)
+        self.setMaximumWidth(500)
         self.setStyleSheet(f"background-color: {C_PANEL.name()};")
-
         layout = QVBoxLayout(self)
         layout.setContentsMargins(8, 8, 8, 8)
         layout.setSpacing(10)
@@ -630,7 +629,7 @@ class EventLog(QPlainTextEdit):
                 background-color: {C_BG.name()};
                 color: #8b949e;
                 font-family: 'Courier New';
-                font-size: 10px;
+                font-size: 15px;
                 border: 1px solid {C_BORDER.name()};
                 border-radius: 4px;
                 padding: 4px;
@@ -732,7 +731,7 @@ class MainWindow(QMainWindow):
         mid_splitter.addWidget(self._metrics)
         mid_splitter.setStretchFactor(0, 3)
         mid_splitter.setStretchFactor(1, 1)
-
+        mid_splitter.setSizes([900, 350])
         main_layout.addWidget(mid_splitter, stretch=1)
 
         # ── Event log ────────────────────────────────────────────────────────
@@ -748,7 +747,7 @@ class MainWindow(QMainWindow):
 
         # ── Status bar ───────────────────────────────────────────────────────
         self.statusBar().setStyleSheet(
-            "color: #8b949e; font-family: 'Courier New'; font-size: 10px;"
+            "color: #8b949e; font-family: 'Courier New'; font-size: 15px;"
             "background: #161b22; border-top: 1px solid #30363d;"
         )
         self.statusBar().showMessage("Initialising…")
