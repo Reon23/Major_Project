@@ -267,6 +267,7 @@ def compute_layout(nodes: list, links: list) -> dict:
 
 def util_color(util: float) -> QColor:
     """Green < 0.5, Yellow/orange < 0.8, Red >= 0.8."""
+    util = max(0.0, min(float(util), 1.0))  # clamp so colour never wraps
     if util < 0.5:
         t = util / 0.5
         r = int(35 + (227 - 35) * t)
@@ -482,8 +483,9 @@ class TopologyScene(QGraphicsScene):
                 continue
 
             src, dst = lnk["src"], lnk["dst"]
-            util = float(lnk.get("util", 0.0))
+            util = max(0.0, min(float(lnk.get("util", 0.0)), 1.0))
             rate = float(lnk.get("rate_mbps", 0.0))
+            percent = max(0.0, min(util * 100.0, 100.0))
 
             key_fwd = (src, dst)
             key_rev = (dst, src)
@@ -497,11 +499,13 @@ class TopologyScene(QGraphicsScene):
             pen = QPen(color, width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap)
             item["line"].setPen(pen)
 
+            label = item["label"]
+            label.setPlainText("")  # Clear old text first to prevent ghost artifacts
             if rate > 0.01:
-                item["label"].setPlainText(f"{util * 100:.0f}%  {rate:.1f}M")
-                item["label"].setDefaultTextColor(color.lighter(130))
-            else:
-                item["label"].setPlainText("")
+                label_text = f"{percent:6.1f}%  {rate:6.1f}M"
+                label.setPlainText(label_text)
+                label.setDefaultTextColor(color.lighter(130))
+            label.update()
 
         self._update_dots(links, flows)
 
@@ -632,7 +636,13 @@ class SidePanel(QWidget):
         while layout.count():
             child = layout.takeAt(0)
             if child.widget():
+                # Hide immediately so the widget cannot repaint before the
+                # deferred delete fires — prevents the split-colour ghost artefact.
+                child.widget().hide()
                 child.widget().deleteLater()
+            elif child.layout():
+                # Recursively clear nested row layouts
+                self._clear_layout(child.layout())
 
     def refresh(self, state: dict):
         links = state.get("links", [])
@@ -646,7 +656,8 @@ class SidePanel(QWidget):
 
         shown = 0
         for lnk in sorted_links:
-            util = float(lnk.get("util", 0))
+            util = max(0.0, min(float(lnk.get("util", 0)), 1.0))
+            percent = max(0.0, min(util * 100.0, 100.0))
             if util < 0.01:
                 continue
             color = util_color(util).name()
@@ -657,7 +668,7 @@ class SidePanel(QWidget):
             edge_lbl.setStyleSheet(
                 "color: #8b949e; font-family: Courier New; font-size: 15px;"
             )
-            util_lbl = QLabel(f"{util * 100:.1f}%  {lnk.get('rate_mbps', 0):.1f}M")
+            util_lbl = QLabel(f"{percent:6.1f}%  {lnk.get('rate_mbps', 0):6.1f}M")
             util_lbl.setStyleSheet(
                 f"color: {color}; font-family: Courier New; "
                 f"font-size: 15px; font-weight: bold;"
