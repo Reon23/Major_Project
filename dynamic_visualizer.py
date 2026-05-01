@@ -1,25 +1,3 @@
-"""
-dynamic_visualizer.py — Dynamic PyQt6 SDN Topology Monitor
-===========================================================
-
-Reads state.json written by active_inference_dynamic.py and builds
-the topology graph dynamically from JSON — no hardcoded positions,
-edges, or paths.
-
-Architecture
-------------
-  TopologyScene      – QGraphicsScene: builds graph from JSON, animates dots
-  SidePanel          – QWidget: top congested links only (cleaned up)
-  EventLog           – QPlainTextEdit wrapper with auto-scroll
-  MainWindow         – QMainWindow: orchestrates layout + QTimer polling
-  load_state()       – pure function; reads / validates state.json
-
-Run
----
-  python3 dynamic_visualizer.py
-  python3 dynamic_visualizer.py --state /path/to/state.json
-"""
-
 import sys
 import json
 import math
@@ -59,10 +37,6 @@ from PyQt6.QtGui import (
     QTransform,
 )
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Colour palette (dark terminal aesthetic)
-# ─────────────────────────────────────────────────────────────────────────────
-
 C_BG = QColor("#0d1117")
 C_PANEL = QColor("#161b22")
 C_BORDER = QColor("#30363d")
@@ -74,7 +48,6 @@ C_LINK_LOW = QColor("#238636")
 C_LINK_MED = QColor("#e3b341")
 C_LINK_HI = QColor("#da3633")
 C_LINK_OFF = QColor("#30363d")
-# Host-switch links drawn in a distinct muted colour — no util data available
 C_HOST_LINK = QColor("#3d444d")
 C_TEXT = QColor("#e6edf3")
 C_TEXT_DIM = QColor("#8b949e")
@@ -82,12 +55,8 @@ C_DOT = QColor("#ffa657")
 
 SCENE_W = 760
 SCENE_H = 540
-UTIL_DOT_THRESHOLD = 0.02  # show traffic dots when util > this
+UTIL_DOT_THRESHOLD = 0.02
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  State loader
-# ─────────────────────────────────────────────────────────────────────────────
 
 DEMO_STATE = {
     "timestamp": "demo",
@@ -199,7 +168,6 @@ DEMO_STATE = {
 
 
 def load_state(path: str) -> tuple:
-    """Returns (state_dict, error_message). Falls back to DEMO_STATE on error."""
     p = Path(path)
     if not p.exists():
         return DEMO_STATE, "state.json not found — showing demo data"
@@ -213,11 +181,6 @@ def load_state(path: str) -> tuple:
         return DEMO_STATE, f"JSON parse error: {exc}"
     except Exception as exc:
         return DEMO_STATE, f"Read error: {exc}"
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Layout helper — compute positions using NetworkX spring_layout
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 def compute_layout(nodes: list, links: list) -> dict:
@@ -239,10 +202,8 @@ def compute_layout(nodes: list, links: list) -> dict:
     if len(G.nodes) == 0:
         return {}
 
-    # spring_layout returns values in [-1, 1]
     pos_raw = nx.spring_layout(G, seed=42, k=2.5 / max(math.sqrt(len(G.nodes)), 1))
 
-    # Scale to scene coordinates with padding
     PAD = 80
     xs = [v[0] for v in pos_raw.values()]
     ys = [v[1] for v in pos_raw.values()]
@@ -258,11 +219,6 @@ def compute_layout(nodes: list, links: list) -> dict:
         result[node_id] = (sx, sy)
 
     return result
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Util-based colour
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 def util_color(util: float) -> QColor:
@@ -282,11 +238,6 @@ def util_color(util: float) -> QColor:
         return QColor(r, g, b)
     else:
         return C_LINK_HI
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Traffic dot
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 class TrafficDot:
@@ -316,21 +267,7 @@ class TrafficDot:
         self.dot.setPos(x - 4, y - 4)
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Topology Scene
-# ─────────────────────────────────────────────────────────────────────────────
-
-
 class TopologyScene(QGraphicsScene):
-    """
-    Dynamically builds and redraws the topology from state JSON.
-    Layout is recomputed with NetworkX spring_layout whenever topology changes.
-
-    Host-switch links are rendered as plain grey dashed edges — they carry no
-    utilisation data so they skip the util-colouring / dot-animation path.
-    Switch-to-switch links behave exactly as before.
-    """
-
     _topo_sig: str = ""
 
     def __init__(self, parent=None):
@@ -345,8 +282,6 @@ class TopologyScene(QGraphicsScene):
 
         for _ in range(32):
             self._dots.append(TrafficDot(self))
-
-    # ── Topology rebuild ──────────────────────────────────────────────────────
 
     def _topo_signature(self, nodes: list, links: list) -> str:
         n_ids = sorted(n["id"] for n in nodes)
@@ -364,7 +299,6 @@ class TopologyScene(QGraphicsScene):
             self.removeItem(items["label"])
         self._link_items.clear()
 
-        # Layout includes host nodes so they are placed next to their switch
         positions = compute_layout(nodes, links)
 
         for n in nodes:
@@ -389,7 +323,6 @@ class TopologyScene(QGraphicsScene):
             shape = QGraphicsRectItem(cx - W / 2, cy - H / 2, W, H)
             shape.setBrush(QBrush(C_SWITCH))
             shape.setPen(QPen(C_SWITCH.lighter(130), 1.5))
-            # Show switch name (e.g. "s1") as label
             display_name = nid
             txt_color = C_SWITCH_T
         else:
@@ -397,7 +330,6 @@ class TopologyScene(QGraphicsScene):
             shape = QGraphicsEllipseItem(cx - W / 2, cy - H / 2, W, H)
             shape.setBrush(QBrush(C_HOST))
             shape.setPen(QPen(C_HOST.lighter(130), 1.5))
-            # Show friendly host name derived from IP last octet (e.g. "h1")
             if ip:
                 try:
                     octet = int(ip.split(".")[-1])
@@ -427,7 +359,6 @@ class TopologyScene(QGraphicsScene):
         n2 = self._node_items[dst]
 
         if is_host_link:
-            # Host-switch edges: muted grey dashed line, behind switch links
             pen = QPen(C_HOST_LINK, 1.5, Qt.PenStyle.DashLine, Qt.PenCapStyle.RoundCap)
             z = 0
         else:
@@ -439,7 +370,6 @@ class TopologyScene(QGraphicsScene):
         line.setZValue(z)
         self.addItem(line)
 
-        # Util label — only meaningful for switch-to-switch links
         mx = (n1["cx"] + n2["cx"]) / 2
         my = (n1["cy"] + n2["cy"]) / 2
         lbl = QGraphicsTextItem("")
@@ -451,8 +381,6 @@ class TopologyScene(QGraphicsScene):
 
         key = (src, dst)
         self._link_items[key] = {"line": line, "label": lbl, "host_link": is_host_link}
-
-    # ── State update ──────────────────────────────────────────────────────────
 
     def update_state(self, state: dict):
         nodes = state.get("nodes", [])
@@ -478,7 +406,6 @@ class TopologyScene(QGraphicsScene):
                 flow_edges.add((path[i + 1], path[i]))
 
         for lnk in links:
-            # Skip host-switch links — they carry no utilisation information
             if lnk.get("host_link", False):
                 continue
 
@@ -510,13 +437,11 @@ class TopologyScene(QGraphicsScene):
         self._update_dots(links, flows)
 
     def _update_dots(self, links: list, flows: list):
-        """Animate traffic dots on switch-to-switch links above threshold."""
         for dot in self._dots:
             dot.hide()
 
         flow_edge_util = {}
         for lnk in links:
-            # Host-switch links are excluded from dot animation
             if lnk.get("host_link", False):
                 continue
             src, dst = lnk["src"], lnk["dst"]
@@ -554,15 +479,6 @@ class TopologyScene(QGraphicsScene):
                 dot.tick()
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Side Panel  — CLEANED UP
-#  Removed: Summary section, Active Flows section
-#  Kept:    Top Congested Links only
-#  Fonts:   bumped to 15px throughout for readability
-# ─────────────────────────────────────────────────────────────────────────────
-
-
-# [FONT CHANGE] Base font size increased from 12px → 15px for all panel labels
 def _styled_label(text="—", bold=False, color="#8b949e") -> QLabel:
     lbl = QLabel(text)
     weight = "bold" if bold else "normal"
@@ -573,15 +489,6 @@ def _styled_label(text="—", bold=False, color="#8b949e") -> QLabel:
 
 
 class SidePanel(QWidget):
-    """
-    Right-side panel showing ONLY:
-    - Top Congested Links
-
-    REMOVED:
-    - Summary section  (switch/host/link counts)
-    - Active Flows section
-    """
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setMinimumWidth(250)
@@ -601,16 +508,13 @@ class SidePanel(QWidget):
         )
         outer.addWidget(title)
 
-        # ── Top congested links (ONLY remaining metric) ───────────────────────
         cong_box = QGroupBox("▲ Top Congested Links")
         cong_box.setStyleSheet(self._gbox_style("#da3633"))
         self._cong_layout = QVBoxLayout(cong_box)
         self._cong_layout.setSpacing(4)
         self._cong_layout.setContentsMargins(8, 12, 8, 8)
-        # stretch=1 so it fills the panel naturally without leaving dead space
         outer.addWidget(cong_box, stretch=1)
 
-        # Push remaining space to the bottom so the box expands cleanly
         outer.addStretch()
 
     @staticmethod
@@ -636,21 +540,16 @@ class SidePanel(QWidget):
         while layout.count():
             child = layout.takeAt(0)
             if child.widget():
-                # Hide immediately so the widget cannot repaint before the
-                # deferred delete fires — prevents the split-colour ghost artefact.
                 child.widget().hide()
                 child.widget().deleteLater()
             elif child.layout():
-                # Recursively clear nested row layouts
                 self._clear_layout(child.layout())
 
     def refresh(self, state: dict):
         links = state.get("links", [])
 
-        # Top congested links (top 5 by util, switch-to-switch only)
         self._clear_layout(self._cong_layout)
 
-        # Filter out host-switch links — they carry no util data
         sw_links = [l for l in links if not l.get("host_link", False)]
         sorted_links = sorted(sw_links, key=lambda l: l.get("util", 0), reverse=True)
 
@@ -687,17 +586,11 @@ class SidePanel(QWidget):
         self._cong_layout.addStretch()
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Event Log
-# ─────────────────────────────────────────────────────────────────────────────
-
-
 class EventLog(QPlainTextEdit):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setReadOnly(True)
         self.setMaximumHeight(130)
-        # [FONT CHANGE] Event log font-size: 12px → 15px
         self.setStyleSheet(f"""
             QPlainTextEdit {{
                 background-color: {C_BG.name()};
@@ -722,11 +615,6 @@ class EventLog(QPlainTextEdit):
 
     def log(self, message: str):
         self.append_event(message, force=True)
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Main Window
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 class MainWindow(QMainWindow):
@@ -761,7 +649,6 @@ class MainWindow(QMainWindow):
         root.setContentsMargins(8, 8, 8, 8)
         root.setSpacing(6)
 
-        # Header
         header = QLabel("  ◈  SDN ACTIVE INFERENCE — DYNAMIC TOPOLOGY MONITOR")
         header.setStyleSheet(
             "color: #58a6ff; font-family: 'Courier New'; font-size: 13px;"
@@ -771,7 +658,6 @@ class MainWindow(QMainWindow):
         )
         root.addWidget(header)
 
-        # Middle: topology | side panel
         mid = QSplitter(Qt.Orientation.Horizontal)
         mid.setStyleSheet("QSplitter::handle { background: #30363d; width: 2px; }")
 
@@ -791,8 +677,6 @@ class MainWindow(QMainWindow):
         mid.setSizes([820, 340])
         root.addWidget(mid, stretch=1)
 
-        # Event log
-        # [FONT CHANGE] Log label kept at 10px (it is a section divider, not content)
         log_label = QLabel("EVENT LOG")
         log_label.setStyleSheet(
             "color: #8b949e; font-family: 'Courier New'; font-size: 10px;"
@@ -844,11 +728,6 @@ class MainWindow(QMainWindow):
         self._view.fitInView(
             self._scene.sceneRect(), Qt.AspectRatioMode.KeepAspectRatio
         )
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Entry point
-# ─────────────────────────────────────────────────────────────────────────────
 
 
 def main():
