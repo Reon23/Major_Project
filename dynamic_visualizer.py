@@ -56,6 +56,11 @@ C_DOT = QColor("#ffa657")
 SCENE_W = 760
 SCENE_H = 540
 UTIL_DOT_THRESHOLD = 0.02
+# How many consecutive polls a previously-seen switch/link may be missing
+# from state.json before the visualizer actually removes it. This absorbs
+# brief topology blips (e.g. a momentary EventLinkDelete under congestion)
+# without ever showing a torn or half-drawn graph.
+MISSING_GRACE_POLLS = 3
 
 
 DEMO_STATE = {
@@ -67,18 +72,13 @@ DEMO_STATE = {
         {"id": "s4", "type": "switch"},
         {"id": "h_10.0.0.1", "type": "host", "ip": "10.0.0.1"},
         {"id": "h_10.0.0.2", "type": "host", "ip": "10.0.0.2"},
-        {"id": "h_10.0.0.3", "type": "host", "ip": "10.0.0.3"},
-        {"id": "h_10.0.0.4", "type": "host", "ip": "10.0.0.4"},
-        {"id": "h_10.0.0.5", "type": "host", "ip": "10.0.0.5"},
-        {"id": "h_10.0.0.6", "type": "host", "ip": "10.0.0.6"},
     ],
     "links": [
-        # Switch-to-switch links (with utilisation)
         {
             "src": "s1",
             "dst": "s2",
             "src_port": 2,
-            "dst_port": 1,
+            "dst_port": 3,
             "rate_mbps": 4.5,
             "util": 0.45,
             "capacity_mbps": 10,
@@ -87,7 +87,7 @@ DEMO_STATE = {
             "src": "s1",
             "dst": "s3",
             "src_port": 3,
-            "dst_port": 1,
+            "dst_port": 3,
             "rate_mbps": 1.2,
             "util": 0.12,
             "capacity_mbps": 10,
@@ -95,7 +95,7 @@ DEMO_STATE = {
         {
             "src": "s2",
             "dst": "s4",
-            "src_port": 3,
+            "src_port": 4,
             "dst_port": 2,
             "rate_mbps": 4.5,
             "util": 0.45,
@@ -104,13 +104,12 @@ DEMO_STATE = {
         {
             "src": "s3",
             "dst": "s4",
-            "src_port": 3,
-            "dst_port": 2,
+            "src_port": 4,
+            "dst_port": 3,
             "rate_mbps": 0.8,
             "util": 0.08,
             "capacity_mbps": 10,
         },
-        # Host-to-switch links (plain topology edges, no util)
         {
             "src": "h_10.0.0.1",
             "dst": "s1",
@@ -121,34 +120,6 @@ DEMO_STATE = {
         {
             "src": "h_10.0.0.2",
             "dst": "s4",
-            "host_link": True,
-            "rate_mbps": 0.0,
-            "util": 0.0,
-        },
-        {
-            "src": "h_10.0.0.3",
-            "dst": "s2",
-            "host_link": True,
-            "rate_mbps": 0.0,
-            "util": 0.0,
-        },
-        {
-            "src": "h_10.0.0.4",
-            "dst": "s2",
-            "host_link": True,
-            "rate_mbps": 0.0,
-            "util": 0.0,
-        },
-        {
-            "src": "h_10.0.0.5",
-            "dst": "s3",
-            "host_link": True,
-            "rate_mbps": 0.0,
-            "util": 0.0,
-        },
-        {
-            "src": "h_10.0.0.6",
-            "dst": "s3",
             "host_link": True,
             "rate_mbps": 0.0,
             "util": 0.0,
@@ -187,22 +158,28 @@ def compute_layout(nodes: list, links: list) -> dict:
     """
     Build a NetworkX graph from nodes/links and return
     {node_id: (x_px, y_px)} in scene coordinates.
-
-    Host nodes are included so spring_layout places them adjacent to their
-    connected switch, giving a natural topology appearance.
+    Layout is stable — only switch nodes participate in spring_layout;
+    host nodes are pinned adjacent to their connected switch.
     """
-    G = nx.Graph()
-    for n in nodes:
-        G.add_node(n["id"])
-    for lnk in links:
-        src, dst = lnk["src"], lnk["dst"]
-        if G.has_node(src) and G.has_node(dst):
-            G.add_edge(src, dst)
+    # Separate switch nodes from host nodes
+    switch_ids = {n["id"] for n in nodes if n.get("type") == "switch"}
+    host_ids = {n["id"] for n in nodes if n.get("type") != "switch"}
 
-    if len(G.nodes) == 0:
+    # Build switch-only graph for layout
+    G_sw = nx.Graph()
+    for sid in switch_ids:
+        G_sw.add_node(sid)
+    for lnk in links:
+        s, d = lnk["src"], lnk["dst"]
+        if s in switch_ids and d in switch_ids:
+            G_sw.add_edge(s, d)
+
+    if len(G_sw.nodes) == 0:
         return {}
 
-    pos_raw = nx.spring_layout(G, seed=42, k=2.5 / max(math.sqrt(len(G.nodes)), 1))
+    pos_raw = nx.spring_layout(
+        G_sw, seed=42, k=2.5 / max(math.sqrt(len(G_sw.nodes)), 1)
+    )
 
     PAD = 80
     xs = [v[0] for v in pos_raw.values()]
@@ -218,12 +195,50 @@ def compute_layout(nodes: list, links: list) -> dict:
         sy = PAD + (nx_y - min_y) / ry * (SCENE_H - 2 * PAD)
         result[node_id] = (sx, sy)
 
+    # Build host->switch map
+    host_switch = {}
+    for lnk in links:
+        if lnk.get("host_link"):
+            h = lnk["src"] if lnk["src"] in host_ids else lnk["dst"]
+            sw = lnk["dst"] if lnk["src"] in host_ids else lnk["src"]
+            if sw in result:
+                host_switch[h] = sw
+
+    # Pin each host 70px away from its switch at a fixed angle offset
+    # so hosts don't overlap each other when multiple hang on the same switch.
+    sw_host_count: dict = {}
+    for h, sw in host_switch.items():
+        sw_host_count[sw] = sw_host_count.get(sw, 0) + 1
+
+    sw_host_idx: dict = {}
+    HOST_DIST = 70
+    for hid in host_ids:
+        sw = host_switch.get(hid)
+        if sw is None or sw not in result:
+            continue
+        sx, sy = result[sw]
+        n = sw_host_count.get(sw, 1)
+        idx = sw_host_idx.get(sw, 0)
+        sw_host_idx[sw] = idx + 1
+        # Spread hosts evenly around the switch
+        base_angle = math.pi / 4  # 45° — avoids overlap with trunk links
+        angle = base_angle + idx * (2 * math.pi / n)
+        result[hid] = (
+            sx + HOST_DIST * math.cos(angle),
+            sy + HOST_DIST * math.sin(angle),
+        )
+
     return result
+
+
+def _canonical_link_key(src: str, dst: str) -> tuple:
+    """Always store / look up a link as (lexicographically smaller, larger)."""
+    return (src, dst) if src <= dst else (dst, src)
 
 
 def util_color(util: float) -> QColor:
     """Green < 0.5, Yellow/orange < 0.8, Red >= 0.8."""
-    util = max(0.0, min(float(util), 1.0))  # clamp so colour never wraps
+    util = max(0.0, min(float(util), 1.0))
     if util < 0.5:
         t = util / 0.5
         r = int(35 + (227 - 35) * t)
@@ -268,25 +283,41 @@ class TrafficDot:
 
 
 class TopologyScene(QGraphicsScene):
-    _topo_sig: str = ""
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setBackgroundBrush(QBrush(C_BG))
         self.setSceneRect(0, 0, SCENE_W, SCENE_H)
 
         self._node_items: dict = {}
+        # FIX: link items keyed by canonical (small, large) pair so
+        # lookups always hit regardless of which direction state.json wrote.
         self._link_items: dict = {}
         self._dots: list = []
         self._last_state: dict = {}
+        # FIX: topology signature based only on node set + undirected edge set,
+        # not on directed src/dst order — prevents spurious rebuilds when the
+        # controller writes the same link with src/dst swapped on different polls.
+        self._topo_sig: str = ""
+        # Last-known-good node/link sets, used to absorb brief blips: a node
+        # or link must be missing for MISSING_GRACE_POLLS consecutive polls
+        # before it's actually torn down.
+        self._known_node_ids: set = set()
+        self._known_link_keys: set = set()
+        self._missing_node_count: dict = {}  # node_id -> consecutive misses
+        self._missing_link_count: dict = {}  # canonical key -> consecutive misses
+        self._node_type_cache: dict = {}  # node_id -> "switch" | "host"
+        self._node_ip_cache: dict = {}  # node_id -> ip (for hosts)
 
         for _ in range(32):
             self._dots.append(TrafficDot(self))
 
     def _topo_signature(self, nodes: list, links: list) -> str:
         n_ids = sorted(n["id"] for n in nodes)
-        l_ids = sorted(f"{l['src']}-{l['dst']}" for l in links)
-        return "|".join(n_ids) + "||" + "|".join(l_ids)
+        # Canonical edge set: sort each edge internally, then sort the list
+        edges = sorted(
+            f"{min(l['src'], l['dst'])}-{max(l['src'], l['dst'])}" for l in links
+        )
+        return "|".join(n_ids) + "||" + "|".join(edges)
 
     def _rebuild_topology(self, nodes: list, links: list):
         for items in self._node_items.values():
@@ -310,12 +341,18 @@ class TopologyScene(QGraphicsScene):
             cx, cy = pos
             self._draw_node(nid, cx, cy, is_switch, n.get("ip", ""))
 
+        # Deduplicate links before drawing: same canonical key → draw once
+        drawn_keys: set = set()
         for lnk in links:
             src, dst = lnk["src"], lnk["dst"]
+            key = _canonical_link_key(src, dst)
+            if key in drawn_keys:
+                continue
+            drawn_keys.add(key)
             if src not in self._node_items or dst not in self._node_items:
                 continue
             is_host_link = bool(lnk.get("host_link", False))
-            self._draw_link(src, dst, is_host_link=is_host_link)
+            self._draw_link(key, is_host_link=is_host_link)
 
     def _draw_node(self, nid: str, cx: float, cy: float, is_switch: bool, ip: str = ""):
         if is_switch:
@@ -354,7 +391,9 @@ class TopologyScene(QGraphicsScene):
 
         self._node_items[nid] = {"shape": shape, "label": label, "cx": cx, "cy": cy}
 
-    def _draw_link(self, src: str, dst: str, is_host_link: bool = False):
+    def _draw_link(self, key: tuple, is_host_link: bool = False):
+        """key is always the canonical (small, large) pair."""
+        src, dst = key
         n1 = self._node_items[src]
         n2 = self._node_items[dst]
 
@@ -379,13 +418,85 @@ class TopologyScene(QGraphicsScene):
         lbl.setZValue(5)
         self.addItem(lbl)
 
-        key = (src, dst)
         self._link_items[key] = {"line": line, "label": lbl, "host_link": is_host_link}
+
+    def _apply_missing_grace(self, nodes: list, links: list) -> tuple:
+        """
+        Merge the just-received nodes/links with the last-known-good set so
+        that anything missing for fewer than MISSING_GRACE_POLLS consecutive
+        polls is kept (using its last-known data) instead of being torn down
+        immediately. Returns the (possibly patched) nodes, links to render.
+        """
+        incoming_node_ids = {n["id"] for n in nodes}
+        incoming_link_keys = {_canonical_link_key(l["src"], l["dst"]) for l in links}
+
+        # Refresh type/ip cache from whatever's currently present
+        for n in nodes:
+            self._node_type_cache[n["id"]] = n.get("type", "switch")
+            if n.get("ip"):
+                self._node_ip_cache[n["id"]] = n["ip"]
+
+        # ── Nodes ────────────────────────────────────────────────────────────
+        for nid in list(self._known_node_ids):
+            if nid in incoming_node_ids:
+                self._missing_node_count.pop(nid, None)
+                continue
+            miss = self._missing_node_count.get(nid, 0) + 1
+            self._missing_node_count[nid] = miss
+            if miss <= MISSING_GRACE_POLLS:
+                # Re-inject the node using its cached type so it stays on
+                # screen during the grace window.
+                node_type = self._node_type_cache.get(nid, "switch")
+                patched = {"id": nid, "type": node_type}
+                if nid in self._node_ip_cache:
+                    patched["ip"] = self._node_ip_cache[nid]
+                nodes = nodes + [patched]
+                incoming_node_ids.add(nid)
+            else:
+                self._known_node_ids.discard(nid)
+
+        self._known_node_ids |= incoming_node_ids
+
+        # ── Links ────────────────────────────────────────────────────────────
+        # Index incoming links by canonical key, keep last-seen full dict so we
+        # can re-inject a faithful copy (including its util/rate) on a miss.
+        last_link_by_key = {}
+        for l in links:
+            last_link_by_key[_canonical_link_key(l["src"], l["dst"])] = l
+
+        for key in list(self._known_link_keys):
+            if key in incoming_link_keys:
+                self._missing_link_count.pop(key, None)
+                continue
+            miss = self._missing_link_count.get(key, 0) + 1
+            self._missing_link_count[key] = miss
+            if miss <= MISSING_GRACE_POLLS:
+                cached = self._link_items.get(key)
+                if cached is not None:
+                    src, dst = key
+                    links = links + [
+                        {
+                            "src": src,
+                            "dst": dst,
+                            "host_link": cached.get("host_link", False),
+                            "rate_mbps": 0.0,
+                            "util": 0.0,
+                        }
+                    ]
+                    incoming_link_keys.add(key)
+            else:
+                self._known_link_keys.discard(key)
+
+        self._known_link_keys |= incoming_link_keys
+
+        return nodes, links
 
     def update_state(self, state: dict):
         nodes = state.get("nodes", [])
         links = state.get("links", [])
         flows = state.get("flows", [])
+
+        nodes, links = self._apply_missing_grace(nodes, links)
 
         sig = self._topo_signature(nodes, links)
         if sig != self._topo_sig:
@@ -396,43 +507,56 @@ class TopologyScene(QGraphicsScene):
         self._refresh_links(links, flows)
 
     def _refresh_links(self, links: list, flows: list):
-        """Update switch-to-switch link thickness/colour and util label.
-        Host-switch links are skipped — they have no util data."""
-        flow_edges = set()
-        for flow in flows:
-            path = flow.get("path", [])
-            for i in range(len(path) - 1):
-                flow_edges.add((path[i], path[i + 1]))
-                flow_edges.add((path[i + 1], path[i]))
+        """
+        Update switch-to-switch link colour/thickness and util label.
 
+        FIX: util for each link is accumulated by canonical key so that two
+        entries for the same physical link (written as s1↔s2 and s2↔s1 in
+        different port-stat cycles) are merged rather than clobbering each
+        other. We take the max util seen for the canonical key.
+        """
+        # Build canonical util map from all link entries in state.json
+        util_map: dict = {}  # canonical_key -> {util, rate, src, dst}
         for lnk in links:
             if lnk.get("host_link", False):
                 continue
-
             src, dst = lnk["src"], lnk["dst"]
+            key = _canonical_link_key(src, dst)
             util = max(0.0, min(float(lnk.get("util", 0.0)), 1.0))
             rate = float(lnk.get("rate_mbps", 0.0))
-            percent = max(0.0, min(util * 100.0, 100.0))
+            # Keep the entry with the higher util (max of both directions)
+            if key not in util_map or util > util_map[key]["util"]:
+                util_map[key] = {"util": util, "rate": rate}
 
-            key_fwd = (src, dst)
-            key_rev = (dst, src)
-            item = self._link_items.get(key_fwd) or self._link_items.get(key_rev)
+        for key, data in util_map.items():
+            item = self._link_items.get(key)
             if item is None:
                 continue
 
+            util = data["util"]
+            rate = data["rate"]
+            percent = util * 100.0
+
             color = util_color(util)
             width = 1.5 + util * 6.0
-
             pen = QPen(color, width, Qt.PenStyle.SolidLine, Qt.PenCapStyle.RoundCap)
             item["line"].setPen(pen)
 
             label = item["label"]
-            label.setPlainText("")  # Clear old text first to prevent ghost artifacts
             if rate > 0.01:
-                label_text = f"{percent:6.1f}%  {rate:6.1f}M"
-                label.setPlainText(label_text)
+                label.setPlainText(f"{percent:5.1f}%  {rate:5.1f}M")
                 label.setDefaultTextColor(color.lighter(130))
+            else:
+                label.setPlainText("")
             label.update()
+
+        # Links not present in util_map (shouldn't happen, but just in case)
+        for key, item in self._link_items.items():
+            if item.get("host_link"):
+                continue
+            if key not in util_map:
+                item["line"].setPen(QPen(C_LINK_OFF, 2, Qt.PenStyle.SolidLine))
+                item["label"].setPlainText("")
 
         self._update_dots(links, flows)
 
@@ -440,20 +564,23 @@ class TopologyScene(QGraphicsScene):
         for dot in self._dots:
             dot.hide()
 
-        flow_edge_util = {}
+        # Build util by canonical key (same merge as above)
+        util_map: dict = {}
         for lnk in links:
             if lnk.get("host_link", False):
                 continue
             src, dst = lnk["src"], lnk["dst"]
+            key = _canonical_link_key(src, dst)
             util = float(lnk.get("util", 0.0))
             if util > UTIL_DOT_THRESHOLD:
-                flow_edge_util[(src, dst)] = util
-                flow_edge_util[(dst, src)] = util
+                if key not in util_map or util > util_map[key]:
+                    util_map[key] = util
 
         dot_idx = 0
-        for (src, dst), util in list(flow_edge_util.items()):
+        for key, util in util_map.items():
             if dot_idx + 1 >= len(self._dots):
                 break
+            src, dst = key
             if src not in self._node_items or dst not in self._node_items:
                 continue
 
@@ -499,7 +626,6 @@ class SidePanel(QWidget):
         outer.setContentsMargins(8, 8, 8, 8)
         outer.setSpacing(8)
 
-        # [FONT CHANGE] Title font-size: 12px → 15px
         title = QLabel("NETWORK DASHBOARD")
         title.setStyleSheet(
             "color: #58a6ff; font-family: 'Courier New'; font-size: 15px; "
@@ -550,24 +676,39 @@ class SidePanel(QWidget):
 
         self._clear_layout(self._cong_layout)
 
-        sw_links = [l for l in links if not l.get("host_link", False)]
-        sorted_links = sorted(sw_links, key=lambda l: l.get("util", 0), reverse=True)
+        # Merge by canonical key before displaying (same fix as _refresh_links)
+        util_map: dict = {}
+        for lnk in links:
+            if lnk.get("host_link", False):
+                continue
+            src, dst = lnk["src"], lnk["dst"]
+            key = _canonical_link_key(src, dst)
+            util = max(0.0, min(float(lnk.get("util", 0.0)), 1.0))
+            rate = float(lnk.get("rate_mbps", 0.0))
+            if key not in util_map or util > util_map[key]["util"]:
+                util_map[key] = {
+                    "util": util,
+                    "rate": rate,
+                    "label": f"{min(src,dst)} ↔ {max(src,dst)}",
+                }
+
+        sorted_links = sorted(util_map.values(), key=lambda x: x["util"], reverse=True)
 
         shown = 0
-        for lnk in sorted_links:
-            util = max(0.0, min(float(lnk.get("util", 0)), 1.0))
-            percent = max(0.0, min(util * 100.0, 100.0))
+        for data in sorted_links:
+            util = data["util"]
             if util < 0.01:
                 continue
+            percent = util * 100.0
+            rate = data["rate"]
             color = util_color(util).name()
             row = QHBoxLayout()
 
-            # [FONT CHANGE] Congestion row labels: 11px → 15px
-            edge_lbl = QLabel(f"{lnk['src']} ↔ {lnk['dst']}")
+            edge_lbl = QLabel(data["label"])
             edge_lbl.setStyleSheet(
                 "color: #8b949e; font-family: Courier New; font-size: 15px;"
             )
-            util_lbl = QLabel(f"{percent:6.1f}%  {lnk.get('rate_mbps', 0):6.1f}M")
+            util_lbl = QLabel(f"{percent:6.1f}%  {rate:6.1f}M")
             util_lbl.setStyleSheet(
                 f"color: {color}; font-family: Courier New; "
                 f"font-size: 15px; font-weight: bold;"

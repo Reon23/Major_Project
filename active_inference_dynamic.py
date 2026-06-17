@@ -5,13 +5,27 @@ active_inference_dynamic.py  —  Topology-Independent Ryu SDN Controller
 This file contains only the RyuApp class.  All logic is delegated to:
 
   ai/belief.py            PathBelief
-  ai/policy.py            compute_efe_for_path, select_best_path
+  ai/policy.py            compute_efe_for_path, select_best_path,
+                          compute_multipath_weights
   sdn/constants.py        all constants
   sdn/topology_manager.py graph, switches, links, trunk ports, paths
   sdn/host_manager.py     host IP/MAC/location learning
-  sdn/flow_manager.py     add/delete/install flow rules, PacketOut
+  sdn/flow_manager.py     add/delete/install flow rules, PacketOut,
+                          install_multipath_flows (SELECT groups)
   sdn/state_writer.py     atomic state.json export
   utils/ip_utils.py       IP address classification
+
+Routing modes
+-------------
+SINGLE-PATH  (active path util < MULTIPATH_CONGESTION_THRESHOLD)
+  EFE picks the single best path; plain output() actions are installed.
+
+MULTIPATH    (active path util >= MULTIPATH_CONGESTION_THRESHOLD)
+  All candidate paths are active simultaneously via an OF1.3 SELECT group.
+  Bucket weights are proportional to each path's remaining headroom
+  (congestion_threshold - belief.mu), computed by compute_multipath_weights().
+  The switch hardware distributes packets per-flow (ECMP-style) without
+  any controller involvement in the data plane.
 
 Run
 ---
@@ -24,6 +38,7 @@ Verify
     mininet> iperf h1 h2
     mininet> iperf h3 h6
     mininet> sh ovs-ofctl -O OpenFlow13 dump-flows s1
+    mininet> sh ovs-ofctl -O OpenFlow13 dump-groups s1
 """
 
 import threading
@@ -39,11 +54,13 @@ from ryu.ofproto import ofproto_v1_3
 from ryu.topology import event as topo_event
 
 from ai.belief import PathBelief
-from ai.policy import compute_efe_for_path, select_best_path
+from ai.policy import compute_multipath_weights, compute_efe_for_path, select_best_path
 from sdn import flow_manager as fm
 from sdn.constants import (
     ARP_CACHE_TTL,
     ETH_TYPE_LLDP,
+    LINK_FLAP_GRACE_SEC,
+    MULTIPATH_CONGESTION_THRESHOLD,
     POLL_INTERVAL,
     PREFERRED_UTIL,
     STATE_JSON_PATH,
@@ -68,20 +85,29 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
 
         # Active flows
         # _flows[(src_ip, dst_ip)] = {
-        #   "path": [dpid, ...],
-        #   "path_idx": int,
-        #   "beliefs": {idx: PathBelief},
+        #   "path":         [dpid, ...],     active single path (EFE best)
+        #   "path_idx":     int,
+        #   "beliefs":      {idx: PathBelief},
         #   "load_estimate": float,
+        #   "multipath":    bool,            True when SELECT group is active
         # }
         self._flows = {}
 
         # Per-port byte / time accumulators
-        self._last_bytes = defaultdict(int)   # (dpid, port_no) -> bytes
-        self._last_time = {}                  # (dpid, port_no) -> timestamp
+        self._last_bytes = defaultdict(int)  # (dpid, port_no) -> bytes
+        self._last_time = {}  # (dpid, port_no) -> timestamp
+
+        # Per-flow byte accumulators for direct load measurement
+        # key: (src_ip, dst_ip) -> {"bytes": int, "time": float, "rate_mbps": float}
+        self._flow_bytes = {}
 
         # ARP duplicate-suppression cache
         # key: (dpid, in_port, src_mac, dst_ip, opcode) -> expiry timestamp
         self._arp_seen = {}
+
+        # Pending link removals, for flap debouncing.
+        # key: (src_dpid, dst_dpid) normalised low->high -> hub.GreenThread
+        self._pending_link_removal = {}
 
         # Monitor loop
         self.monitor_thread = hub.spawn(self._monitor_loop)
@@ -117,28 +143,77 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
     def link_add_handler(self, ev):
         src = ev.link.src
         dst = ev.link.dst
+        key = (min(src.dpid, dst.dpid), max(src.dpid, dst.dpid))
+
+        # If a removal for this exact link is still pending (within the grace
+        # window), this Add is the other half of a flap caused by a delayed
+        # LLDP probe under congestion — cancel the pending removal and treat
+        # the link as having never gone away. No flow flush, no topology edit.
+        pending = self._pending_link_removal.pop(key, None)
+        if pending is not None:
+            hub.kill(pending)
+            self.logger.info(
+                "Topology: link s%d <-> s%d flap absorbed (re-add within %.1fs)",
+                src.dpid,
+                dst.dpid,
+                LINK_FLAP_GRACE_SEC,
+            )
+            return
+
         self._topo.add_link(src.dpid, src.port_no, dst.dpid, dst.port_no)
         # Invalidate all flow candidates — topology changed
         with self._lock:
             self._flows.clear()
         self.logger.info(
             "Topology: link s%d-eth%d <-> s%d-eth%d",
-            src.dpid, src.port_no, dst.dpid, dst.port_no,
+            src.dpid,
+            src.port_no,
+            dst.dpid,
+            dst.port_no,
         )
 
     @set_ev_cls(topo_event.EventLinkDelete)
     def link_delete_handler(self, ev):
         src = ev.link.src
         dst = ev.link.dst
-        self._topo.remove_link(src.dpid, src.port_no, dst.dpid, dst.port_no)
+        key = (min(src.dpid, dst.dpid), max(src.dpid, dst.dpid))
+
+        # Don't remove immediately. Schedule the removal after a short grace
+        # period; if EventLinkAdd for the same link arrives first (the
+        # common case under congestion, where the delete was spurious),
+        # link_add_handler cancels this greenthread and nothing happens.
+        greenthread = hub.spawn(
+            self._apply_link_removal, src.dpid, src.port_no, dst.dpid, dst.port_no, key
+        )
+        self._pending_link_removal[key] = greenthread
+
+    def _apply_link_removal(
+        self, src_dpid: int, src_port: int, dst_dpid: int, dst_port: int, key: tuple
+    ) -> None:
+        hub.sleep(LINK_FLAP_GRACE_SEC)
+
+        # Still pending after the grace period -> genuinely down. Apply it.
+        with self._lock:
+            still_pending = self._pending_link_removal.get(key) is not None
+        if not still_pending:
+            return  # was cancelled by a matching Add (shouldn't normally hit here)
+
+        self._pending_link_removal.pop(key, None)
+        self._topo.remove_link(src_dpid, src_port, dst_dpid, dst_port)
         with self._lock:
             stale = [
-                k for k, v in self._flows.items()
-                if TopologyManager.path_uses_link(v["path"], src.dpid, dst.dpid)
+                k
+                for k, v in self._flows.items()
+                if TopologyManager.path_uses_link(v["path"], src_dpid, dst_dpid)
             ]
             for k in stale:
                 del self._flows[k]
-        self.logger.info("Topology: link s%d <-> s%d removed", src.dpid, dst.dpid)
+        self.logger.info(
+            "Topology: link s%d <-> s%d removed (confirmed after %.1fs grace)",
+            src_dpid,
+            dst_dpid,
+            LINK_FLAP_GRACE_SEC,
+        )
 
     # =========================================================================
     #  Packet-in
@@ -207,14 +282,12 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
         with self._lock:
             expiry = self._arp_seen.get(dedup_key, 0)
         if now < expiry:
-            return   # seen recently — drop to break potential loop
+            return  # seen recently — drop to break potential loop
         with self._lock:
             self._arp_seen[dedup_key] = now + ARP_CACHE_TTL
             if len(self._arp_seen) > 2000:
                 cutoff = now - ARP_CACHE_TTL
-                self._arp_seen = {
-                    k: v for k, v in self._arp_seen.items() if v > cutoff
-                }
+                self._arp_seen = {k: v for k, v in self._arp_seen.items() if v > cutoff}
 
         # ── Forward ARP ───────────────────────────────────────────────────────
         dst_loc = self._hosts.get_location(dst_ip)
@@ -222,31 +295,38 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
         if dst_loc is not None:
             dst_dpid, dst_port = dst_loc
             if dst_dpid == dpid:
-                # Destination host is on this same switch
                 if dst_port != in_port:
                     self.logger.debug(
                         "ARP unicast same-switch: %s -> %s out_port=%d",
-                        src_ip, dst_ip, dst_port,
+                        src_ip,
+                        dst_ip,
+                        dst_port,
                     )
-                    fm.packet_out(dp, in_port,
-                                  [parser.OFPActionOutput(dst_port)], raw_data)
+                    fm.packet_out(
+                        dp, in_port, [parser.OFPActionOutput(dst_port)], raw_data
+                    )
             else:
-                # Forward toward the switch hosting dst_ip
                 out_port = self._topo.get_out_port_toward(dpid, dst_dpid)
                 if out_port is not None and out_port != in_port:
                     self.logger.debug(
                         "ARP unicast toward s%d: %s -> %s out_port=%d",
-                        dst_dpid, src_ip, dst_ip, out_port,
+                        dst_dpid,
+                        src_ip,
+                        dst_ip,
+                        out_port,
                     )
-                    fm.packet_out(dp, in_port,
-                                  [parser.OFPActionOutput(out_port)], raw_data)
+                    fm.packet_out(
+                        dp, in_port, [parser.OFPActionOutput(out_port)], raw_data
+                    )
                 else:
                     self._flood_safe(dp, in_port, raw_data)
         else:
-            # Destination unknown — controlled flood (dedup prevents storm)
             self.logger.debug(
                 "ARP flood (dst unknown): %s -> %s from s%d-eth%d",
-                src_ip, dst_ip, dpid, in_port,
+                src_ip,
+                dst_ip,
+                dpid,
+                in_port,
             )
             self._flood_safe(dp, in_port, raw_data)
 
@@ -262,7 +342,6 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
         src_ip = ip_pkt.src
         dst_ip = ip_pkt.dst
 
-        # Only learn from access ports and valid IPs
         learned = self._hosts.learn_host(
             src_ip, eth.src, dpid, in_port, self._topo, self.logger
         )
@@ -270,7 +349,6 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             self._topo.invalidate_path_cache(src_ip)
             self._trigger_flows_for(src_ip)
 
-        # ── Forward or install flows ──────────────────────────────────────────
         if self._hosts.is_known(dst_ip):
             if self._hosts.is_known(src_ip):
                 self._install_flow_pair(src_ip, dst_ip)
@@ -279,14 +357,15 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             if out_port is not None:
                 self.logger.debug(
                     "IPv4 PacketOut: %s -> %s s%d out_port=%d",
-                    src_ip, dst_ip, dpid, out_port,
+                    src_ip,
+                    dst_ip,
+                    dpid,
+                    out_port,
                 )
-                fm.packet_out(dp, in_port,
-                              [parser.OFPActionOutput(out_port)], raw_data)
+                fm.packet_out(dp, in_port, [parser.OFPActionOutput(out_port)], raw_data)
             else:
                 self._flood_safe(dp, in_port, raw_data)
         else:
-            # Destination unknown
             self._flood_safe(dp, in_port, raw_data)
 
     # -------------------------------------------------------------------------
@@ -294,16 +373,11 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
     # -------------------------------------------------------------------------
 
     def _flood_safe(self, dp, in_port, raw_data):
-        """
-        Flood out of all ports except in_port using OFPP_FLOOD.
-        OVS's OFPP_FLOOD respects STP and never sends back on in_port,
-        so it is safe to use here as long as the ARP dedup cache
-        prevents the controller from re-processing the same broadcast.
-        """
         ofproto = dp.ofproto
         parser = dp.ofproto_parser
-        fm.packet_out(dp, in_port,
-                      [parser.OFPActionOutput(ofproto.OFPP_FLOOD)], raw_data)
+        fm.packet_out(
+            dp, in_port, [parser.OFPActionOutput(ofproto.OFPP_FLOOD)], raw_data
+        )
 
     # =========================================================================
     #  Host learning callback
@@ -318,40 +392,104 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             self._install_flow_pair(other_ip, new_ip)
 
     # =========================================================================
-    #  Flow installation
+    #  Flow installation — routing mode decision
     # =========================================================================
 
     def _install_flow_pair(self, src_ip: str, dst_ip: str) -> None:
         """
-        Select path via Active Inference and install bidirectional flow rules.
+        Select path(s) via Active Inference and install bidirectional flow rules.
+
+        Routing mode is decided per flow:
+          * load_estimate < MULTIPATH_CONGESTION_THRESHOLD
+              → single-path: EFE picks best path; plain output() actions.
+          * load_estimate >= MULTIPATH_CONGESTION_THRESHOLD
+              → multipath: ALL candidate paths active; SELECT group with
+                headroom-proportional bucket weights.
         """
-        fwd_candidates = self._topo.get_candidate_paths(
-            src_ip, dst_ip, self._hosts
-        )
+        fwd_candidates = self._topo.get_candidate_paths(src_ip, dst_ip, self._hosts)
         if not fwd_candidates:
             return
 
-        rev_candidates = self._topo.get_candidate_paths(
-            dst_ip, src_ip, self._hosts
-        )
+        rev_candidates = self._topo.get_candidate_paths(dst_ip, src_ip, self._hosts)
         if not rev_candidates:
             rev_candidates = [list(reversed(fwd_candidates[0]))]
 
         fwd_key = (src_ip, dst_ip)
         rev_key = (dst_ip, src_ip)
 
-        # ── Forward direction ─────────────────────────────────────────────────
-        fwd_path = self._pick_path(fwd_key, fwd_candidates)
-        # ── Reverse direction ─────────────────────────────────────────────────
-        rev_path = self._pick_path(rev_key, rev_candidates)
+        # Initialise flow state if not present.
+        # Seed load_estimate from live link utilisation on the first candidate
+        # path so the routing mode decision is correct from the very first
+        # install, rather than waiting for the EMA to climb from 0.0.
+        with self._lock:
+            for key, candidates in [
+                (fwd_key, fwd_candidates),
+                (rev_key, rev_candidates),
+            ]:
+                if key not in self._flows:
+                    beliefs = {i: PathBelief() for i in range(len(candidates))}
+                    seed_load = self._topo.path_max_util(candidates[0])
+                    self._flows[key] = {
+                        "path": candidates[0],
+                        "path_idx": 0,
+                        "beliefs": beliefs,
+                        "load_estimate": seed_load,
+                        "multipath": False,
+                    }
 
-        # Install bidirectional rules
-        fm.install_bidirectional_flows(
-            src_ip, dst_ip,
-            fwd_path, rev_path,
-            self._hosts, self._topo,
-            logger=self.logger,
+        fwd_flow = self._flows[fwd_key]
+        rev_flow = self._flows[rev_key]
+
+        fwd_load = fwd_flow.get("load_estimate", 0.0)
+        rev_load = rev_flow.get("load_estimate", 0.0)
+
+        use_multipath = (
+            len(fwd_candidates) > 1 and fwd_load >= MULTIPATH_CONGESTION_THRESHOLD
         )
+
+        if use_multipath:
+            fwd_weights = compute_multipath_weights(
+                fwd_candidates, fwd_flow["beliefs"], fwd_load
+            )
+            rev_weights = compute_multipath_weights(
+                rev_candidates, rev_flow["beliefs"], rev_load
+            )
+            fm.install_multipath_flows(
+                src_ip,
+                dst_ip,
+                fwd_candidates,
+                fwd_weights,
+                rev_candidates,
+                rev_weights,
+                self._hosts,
+                self._topo,
+                logger=self.logger,
+            )
+            with self._lock:
+                fwd_flow["multipath"] = True
+                rev_flow["multipath"] = True
+            self.logger.info(
+                "Multipath activated: %s->%s  fwd_weights=%s",
+                src_ip,
+                dst_ip,
+                fwd_weights,
+            )
+        else:
+            # Single-path: EFE selection
+            fwd_path = self._pick_path(fwd_key, fwd_candidates)
+            rev_path = self._pick_path(rev_key, rev_candidates)
+            fm.install_bidirectional_flows(
+                src_ip,
+                dst_ip,
+                fwd_path,
+                rev_path,
+                self._hosts,
+                self._topo,
+                logger=self.logger,
+            )
+            with self._lock:
+                fwd_flow["multipath"] = False
+                rev_flow["multipath"] = False
 
     def _pick_path(self, flow_key: tuple, candidates: list) -> list:
         """
@@ -366,6 +504,7 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                     "path_idx": 0,
                     "beliefs": beliefs,
                     "load_estimate": 0.0,
+                    "multipath": False,
                 }
                 self._flows[flow_key] = flow
                 return candidates[0]
@@ -374,13 +513,17 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             active_idx = flow["path_idx"]
             # Resize if topology changed
             if len(beliefs) != len(candidates):
-                new_beliefs = {i: beliefs.get(i, PathBelief())
-                               for i in range(len(candidates))}
+                new_beliefs = {
+                    i: beliefs.get(i, PathBelief()) for i in range(len(candidates))
+                }
                 flow["beliefs"] = new_beliefs
                 beliefs = new_beliefs
 
         best_idx = select_best_path(
-            flow_key, candidates, beliefs, active_idx,
+            flow_key,
+            candidates,
+            beliefs,
+            active_idx,
             flow.get("load_estimate", 0.0),
             logger=self.logger,
         )
@@ -389,7 +532,9 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             if best_idx != flow["path_idx"]:
                 self.logger.info(
                     "Flow %s: rerouting path%d -> path%d",
-                    flow_key, flow["path_idx"], best_idx,
+                    flow_key,
+                    flow["path_idx"],
+                    best_idx,
                 )
             flow["path_idx"] = best_idx
             flow["path"] = candidates[best_idx]
@@ -417,7 +562,6 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                 idx = path.index(dpid)
                 if idx + 1 < len(path):
                     return self._topo.get_out_port_between(dpid, path[idx + 1])
-                # Last switch — deliver to host
                 if dst_loc is not None and dst_loc[0] == dpid:
                     return dst_loc[1]
         return None
@@ -427,10 +571,32 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
     # =========================================================================
 
     def _monitor_loop(self):
-        hub.sleep(5)   # wait for topology to stabilise
+        from sdn.constants import (
+            CONGESTION_INVALIDATE_THRESHOLD,
+            FLOW_STATS_POLL_INTERVAL,
+        )
+
+        hub.sleep(5)  # wait for topology to stabilise
+        _flow_stat_tick = 0
+
         while True:
             for dp in self._topo.all_datapaths():
                 self._request_port_stats(dp)
+
+            _flow_stat_tick += POLL_INTERVAL
+            if _flow_stat_tick >= FLOW_STATS_POLL_INTERVAL:
+                _flow_stat_tick = 0
+                for dp in self._topo.all_datapaths():
+                    self._request_flow_stats(dp)
+
+            cleared = self._topo.invalidate_cache_for_congested_paths(
+                CONGESTION_INVALIDATE_THRESHOLD
+            )
+            if cleared:
+                self.logger.info(
+                    "Path cache: cleared %d entries (congested links detected)", cleared
+                )
+
             hub.sleep(POLL_INTERVAL)
 
     def _request_port_stats(self, dp):
@@ -438,9 +604,65 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
         parser = dp.ofproto_parser
         dp.send_msg(parser.OFPPortStatsRequest(dp, 0, ofproto.OFPP_ANY))
 
+    def _request_flow_stats(self, dp):
+        """Request per-flow byte counters from switch dp."""
+        ofproto = dp.ofproto
+        parser = dp.ofproto_parser
+        dp.send_msg(
+            parser.OFPFlowStatsRequest(
+                dp,
+                0,
+                ofproto.OFPTT_ALL,
+                ofproto.OFPP_ANY,
+                ofproto.OFPG_ANY,
+                match=parser.OFPMatch(),
+            )
+        )
+
+    @set_ev_cls(ofp_event.EventOFPFlowStatsReply, MAIN_DISPATCHER)
+    def flow_stats_reply_handler(self, ev):
+        """
+        Receive per-flow byte counters and compute per-flow rate_mbps.
+        """
+        import time as _time
+
+        now = _time.time()
+
+        for stat in ev.msg.body:
+            match = stat.match
+            if match.get("eth_type") != 0x0800:
+                continue
+            src_ip = match.get("ipv4_src")
+            dst_ip = match.get("ipv4_dst")
+            if src_ip is None or dst_ip is None:
+                continue
+
+            key = (src_ip, dst_ip)
+            total_bytes = stat.byte_count
+            prev = self._flow_bytes.get(key)
+
+            if prev is None:
+                self._flow_bytes[key] = {
+                    "bytes": total_bytes,
+                    "time": now,
+                    "rate_mbps": 0.0,
+                }
+                continue
+
+            dt = max(now - prev["time"], 0.001)
+            delta = max(0, total_bytes - prev["bytes"])
+            rate_mbps = (delta * 8) / 1e6 / dt
+
+            self._flow_bytes[key] = {
+                "bytes": total_bytes,
+                "time": now,
+                "rate_mbps": rate_mbps,
+            }
+
     @set_ev_cls(ofp_event.EventOFPPortStatsReply, MAIN_DISPATCHER)
     def port_stats_reply_handler(self, ev):
         import time as _time
+
         dpid = ev.msg.datapath.id
         now = _time.time()
 
@@ -476,8 +698,8 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
 
     def _run_inference_cycle(self):
         """
-        Update PathBeliefs for all flows, re-run EFE, reroute if beneficial,
-        then export state.json.
+        Update PathBeliefs for all flows, re-run EFE, reroute or rebalance
+        multipath weights if beneficial, then export state.json.
         """
         events = []
 
@@ -486,9 +708,7 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
 
         for flow_key in flow_keys:
             src_ip, dst_ip = flow_key
-            candidates = self._topo.get_candidate_paths(
-                src_ip, dst_ip, self._hosts
-            )
+            candidates = self._topo.get_candidate_paths(src_ip, dst_ip, self._hosts)
             if not candidates:
                 continue
 
@@ -497,8 +717,25 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             if flow is None:
                 continue
 
-            beliefs = flow["beliefs"]
-            active_idx = flow["path_idx"]
+            # Topology can change between when this flow's path was chosen
+            # and now (e.g. a link removal shrank the candidate set, or an
+            # addition grew it). Reconcile beliefs/active_idx against the
+            # freshly computed `candidates` before indexing into it, or a
+            # stale path_idx / undersized beliefs dict will throw IndexError
+            # / KeyError below.
+            with self._lock:
+                beliefs = flow["beliefs"]
+                if len(beliefs) != len(candidates):
+                    beliefs = {
+                        i: beliefs.get(i, PathBelief()) for i in range(len(candidates))
+                    }
+                    flow["beliefs"] = beliefs
+
+                active_idx = flow["path_idx"]
+                if active_idx >= len(candidates):
+                    active_idx = 0
+                    flow["path_idx"] = 0
+                    flow["path"] = candidates[0]
 
             # Update beliefs with measured utilisation
             for i, path in enumerate(candidates):
@@ -511,48 +748,117 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                 else:
                     beliefs[i].decay_confidence()
 
-            # Estimate flow's contribution to active path
-            active_util = beliefs[active_idx].mu
-            idle_utils = [
-                beliefs[i].mu for i in range(len(candidates))
-                if i != active_idx
-            ]
-            min_idle = min(idle_utils) if idle_utils else 0.0
-            load_est = max(0.0, active_util - min_idle)
-            load_est = 0.6 * flow.get("load_estimate", 0.0) + 0.4 * load_est
+            # ── Direct per-flow load measurement ─────────────────────────────
+            # Asymmetric EMA: fast rise (α=0.8) to detect congestion quickly;
+            # slow fall (α=0.2) so we don't drop out of multipath the instant
+            # a burst subsides.  Port-level bottleneck util is used as a floor
+            # so we never under-estimate during the gap before flow stats arrive.
+            measured = self._flow_bytes.get(flow_key)
+            port_floor = self._topo.path_max_util(candidates[active_idx])
+            if measured and measured["rate_mbps"] > 0:
+                active_capacity = self._topo.get_link_util(
+                    candidates[active_idx][0],
+                    candidates[active_idx][1]
+                    if len(candidates[active_idx]) > 1
+                    else candidates[active_idx][0],
+                ).get("capacity_mbps", 10.0)
+                raw_load = min(measured["rate_mbps"] / max(active_capacity, 0.001), 1.0)
+            else:
+                raw_load = port_floor
+            prev_load = flow.get("load_estimate", 0.0)
+            alpha = 0.8 if raw_load > prev_load else 0.2
+            load_est = max(alpha * raw_load + (1.0 - alpha) * prev_load, port_floor)
             with self._lock:
                 flow["load_estimate"] = load_est
 
-            best_idx = select_best_path(
-                flow_key, candidates, beliefs, active_idx, load_est,
-                logger=self.logger,
+            # ── Routing mode decision ─────────────────────────────────────────
+            use_multipath = (
+                len(candidates) > 1 and load_est >= MULTIPATH_CONGESTION_THRESHOLD
             )
 
-            if best_idx != active_idx:
-                with self._lock:
-                    flow["path_idx"] = best_idx
-                    flow["path"] = candidates[best_idx]
-
+            if use_multipath:
+                # Recompute weights and refresh SELECT groups
                 rev_candidates = self._topo.get_candidate_paths(
                     dst_ip, src_ip, self._hosts
-                ) or [list(reversed(candidates[best_idx]))]
-                rev_path = self._pick_path((dst_ip, src_ip), rev_candidates)
+                ) or [list(reversed(candidates[active_idx]))]
 
-                fm.install_bidirectional_flows(
-                    src_ip, dst_ip,
-                    candidates[best_idx], rev_path,
-                    self._hosts, self._topo,
+                with self._lock:
+                    rev_flow = self._flows.get((dst_ip, src_ip))
+                rev_load = rev_flow.get("load_estimate", 0.0) if rev_flow else 0.0
+                rev_beliefs = (
+                    rev_flow["beliefs"]
+                    if rev_flow
+                    else {i: PathBelief() for i in range(len(rev_candidates))}
+                )
+
+                fwd_weights = compute_multipath_weights(candidates, beliefs, load_est)
+                rev_weights = compute_multipath_weights(
+                    rev_candidates, rev_beliefs, rev_load
+                )
+
+                fm.install_multipath_flows(
+                    src_ip,
+                    dst_ip,
+                    candidates,
+                    fwd_weights,
+                    rev_candidates,
+                    rev_weights,
+                    self._hosts,
+                    self._topo,
                     logger=self.logger,
                 )
+                with self._lock:
+                    flow["multipath"] = True
+                    if rev_flow:
+                        rev_flow["multipath"] = True
+
                 events.append(
-                    f"REROUTED {src_ip}->{dst_ip}: "
-                    f"path{active_idx}->path{best_idx}"
+                    f"MULTIPATH {src_ip}->{dst_ip}: "
+                    f"load={load_est:.2f} weights={fwd_weights}"
                 )
+
             else:
-                events.append(
-                    f"Held {src_ip}->{dst_ip} on path{active_idx} "
-                    f"(util={active_util:.2f})"
+                # Single-path EFE
+                best_idx = select_best_path(
+                    flow_key,
+                    candidates,
+                    beliefs,
+                    active_idx,
+                    load_est,
+                    logger=self.logger,
                 )
+
+                if best_idx != active_idx:
+                    with self._lock:
+                        flow["path_idx"] = best_idx
+                        flow["path"] = candidates[best_idx]
+                        flow["multipath"] = False
+
+                    rev_candidates = self._topo.get_candidate_paths(
+                        dst_ip, src_ip, self._hosts
+                    ) or [list(reversed(candidates[best_idx]))]
+                    rev_path = self._pick_path((dst_ip, src_ip), rev_candidates)
+
+                    fm.install_bidirectional_flows(
+                        src_ip,
+                        dst_ip,
+                        candidates[best_idx],
+                        rev_path,
+                        self._hosts,
+                        self._topo,
+                        logger=self.logger,
+                    )
+                    events.append(
+                        f"REROUTED {src_ip}->{dst_ip}: "
+                        f"path{active_idx}->path{best_idx}"
+                    )
+                else:
+                    with self._lock:
+                        flow["multipath"] = False
+                    events.append(
+                        f"Held {src_ip}->{dst_ip} on path{active_idx} "
+                        f"(util={beliefs[active_idx].mu:.2f})"
+                    )
 
         event_str = " | ".join(events) if events else "Monitoring..."
 
@@ -560,6 +866,9 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             flows_snapshot = dict(self._flows)
 
         write_state(
-            self._topo, self._hosts, flows_snapshot,
-            event=event_str, path=STATE_JSON_PATH,
+            self._topo,
+            self._hosts,
+            flows_snapshot,
+            event=event_str,
+            path=STATE_JSON_PATH,
         )

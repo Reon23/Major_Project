@@ -9,6 +9,7 @@ import math
 from ai.belief import PathBelief
 from sdn.constants import (
     EFE_TEMPERATURE,
+    MULTIPATH_CONGESTION_THRESHOLD,
     PREFERRED_UTIL,
     REROUTE_MIN_IMPROVEMENT,
     SWITCH_PROB_THRESHOLD,
@@ -23,61 +24,42 @@ def compute_efe_for_path(
     preferred_util: float = PREFERRED_UTIL,
     sigma_prior: float = 0.15,
     congestion_threshold: float = 0.8,
+    split_fraction: float = 1.0,
 ) -> float:
     """
     Compute Expected Free Energy G for routing flow to path_idx.
 
+    split_fraction controls what fraction of load_delta moves:
+      1.0  = full switch (original behaviour)
+      0.0  = stay (original STAY behaviour)
+      0..1 = partial load migration (load balancing)
+
     G(path) = Σ_paths [ extrinsic_dev + congestion_penalty ]
             + epistemic_penalty(target_path)
 
-    Two distinct actions are modelled:
-
     STAY  (path_idx == active_idx):
-        The agent keeps the flow on its current path.
-        → No load moves anywhere; every path retains its current utilisation.
-        → Predicted util for ALL paths = belief.mu (no change).
+        No load moves. All paths keep belief.mu.
+        split_fraction is ignored.
 
-        BUG that caused one-way switching:
-        The old code always applied predict_after_load_removed() to active_idx
-        even during STAY evaluation. This made STAY look artificially cheap
-        (as if the load had vanished), so once path1 was active and congested,
-        STAY still appeared better than SWITCH back to path0 — breaking
-        symmetry and preventing the reverse switch.
-
-    SWITCH (path_idx != active_idx):
-        The agent moves the flow from active_idx to path_idx.
-        → active_idx loses the h1<->h2 load  → predict_after_load_removed
-        → path_idx gains the h1<->h2 load    → predict_after_load_added
-        → every other path is unaffected      → belief.mu
-
-    Extrinsic term: predicted deviation from preferred utilisation across all paths.
-    Epistemic penalty: sigma_obs of the *target* path (prefer well-known paths).
-    Congestion penalty: exponential above threshold.
+    SWITCH / SPLIT (path_idx != active_idx):
+        active_idx sheds  load_delta * split_fraction
+        path_idx   absorbs load_delta * split_fraction
+        All other paths are unaffected.
     """
-    # Determine whether this evaluation represents STAY or SWITCH.
     is_stay = path_idx == active_idx
+    effective_delta = load_delta * split_fraction
 
     total_G = 0.0
 
     for idx, belief in beliefs.items():
         if is_stay:
-            # ── STAY: no load movement; all paths keep current utilisation ──
-            # Do NOT call predict_after_load_removed on active_idx here.
-            # Doing so would incorrectly remove load from the current path,
-            # making STAY appear cheaper than it truly is and preventing the
-            # agent from ever switching back once it has left path0.
             predicted = belief.mu
-
         else:
-            # ── SWITCH: load moves from active_idx to path_idx ──
             if idx == active_idx:
-                # Active path sheds the flow load after switching away.
-                predicted = belief.predict_after_load_removed(load_delta)
+                predicted = belief.predict_after_load_removed(effective_delta)
             elif idx == path_idx:
-                # Target path absorbs the flow load after switching to it.
-                predicted = belief.predict_after_load_added(load_delta)
+                predicted = belief.predict_after_load_added(effective_delta)
             else:
-                # All other paths are unaffected by this switching decision.
                 predicted = belief.mu
 
         extrinsic = (predicted - preferred_util) ** 2 / (2 * sigma_prior**2)
@@ -86,7 +68,6 @@ def compute_efe_for_path(
         if predicted > congestion_threshold:
             total_G += 5.0 * (predicted - congestion_threshold) ** 2
 
-    # Epistemic penalty only for the target path (not the already-known active path)
     target_belief = beliefs[path_idx]
     epistemic = target_belief.sigma_obs if path_idx != active_idx else 0.0
     total_G += epistemic
@@ -103,23 +84,42 @@ def select_best_path(
     logger=None,
 ) -> int:
     """
-    Compute EFE for all candidate paths and return the index of the best one.
+    Compute EFE for all candidate paths under both full-switch and split-load
+    actions. Return the index of the path with the lowest expected free energy.
     Uses softmax selection with hysteresis on the active path.
     """
     n = len(candidates)
     if n == 1:
         return 0
 
-    G_values = {
-        i: compute_efe_for_path(
-            path_idx=i,
-            active_idx=active_idx,
-            beliefs=beliefs,
-            load_delta=load_estimate,
-            preferred_util=PREFERRED_UTIL,
-        )
-        for i in range(n)
-    }
+    # Evaluate each candidate under two split fractions: full-switch and half
+    SPLIT_FRACTIONS = [1.0, 0.5]
+
+    G_values = {}
+    for i in range(n):
+        # For STAY, split_fraction is irrelevant; compute once
+        if i == active_idx:
+            G_values[i] = compute_efe_for_path(
+                path_idx=i,
+                active_idx=active_idx,
+                beliefs=beliefs,
+                load_delta=load_estimate,
+                preferred_util=PREFERRED_UTIL,
+                split_fraction=1.0,  # ignored for STAY
+            )
+        else:
+            # Take the minimum G across split fractions (most attractive action)
+            G_values[i] = min(
+                compute_efe_for_path(
+                    path_idx=i,
+                    active_idx=active_idx,
+                    beliefs=beliefs,
+                    load_delta=load_estimate,
+                    preferred_util=PREFERRED_UTIL,
+                    split_fraction=sf,
+                )
+                for sf in SPLIT_FRACTIONS
+            )
 
     # Numerically stable softmax
     g_min = min(G_values.values())
@@ -129,7 +129,7 @@ def select_best_path(
 
     best_idx = max(probs, key=lambda i: probs[i])
 
-    # Hysteresis: only reroute if the improvement is meaningful
+    # Hysteresis: only reroute if the improvement clears both thresholds
     if best_idx != active_idx:
         improvement = G_values[active_idx] - G_values[best_idx]
         p_reroute = probs[best_idx]
@@ -145,3 +145,45 @@ def select_best_path(
             best_idx = active_idx
 
     return best_idx
+
+
+def compute_multipath_weights(
+    candidates: list,
+    beliefs: dict,
+    load_estimate: float,
+    preferred_util: float = PREFERRED_UTIL,
+    congestion_threshold: float = MULTIPATH_CONGESTION_THRESHOLD,
+) -> list:
+    """
+    Compute integer bucket weights for a SELECT group across all candidate paths.
+
+    Strategy
+    --------
+    Weight each path by its available headroom:
+        headroom_i = max(0, congestion_threshold - beliefs[i].mu)
+
+    Paths already at or above the congestion threshold get weight 0 —
+    the SELECT group will never send to a saturated port.
+
+    Weights are normalised to integers in [0, 100] so OVS can use them
+    directly as bucket weights.  If every path is congested, fall back
+    to equal weights so traffic still flows.
+
+    Returns
+    -------
+    list of int, one per candidate, same order as `candidates`.
+    """
+    n = len(candidates)
+    if n == 1:
+        return [1]
+
+    headrooms = [max(0.0, congestion_threshold - beliefs[i].mu) for i in range(n)]
+
+    total = sum(headrooms)
+    if total <= 0.0:
+        # All paths congested — equal weights (traffic must go somewhere)
+        return [1] * n
+
+    # Scale to integers 1..100 (minimum weight 1 so bucket is never dead)
+    weights = [max(1, round(100 * h / total)) for h in headrooms]
+    return weights

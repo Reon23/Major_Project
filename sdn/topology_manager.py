@@ -28,11 +28,11 @@ class TopologyManager:
     def __init__(self):
         self._lock = threading.Lock()
         self._graph = nx.Graph()
-        self._datapaths = {}           # dpid -> datapath
-        self._sw_port = {}             # (src_dpid, dst_dpid) -> out_port
-        self._trunk_ports = set()      # (dpid, port_no)
-        self._link_util = {}           # (src_dpid, dst_dpid) -> dict
-        self._path_cache = {}          # (src_ip, dst_ip) -> [[dpid,...],...]
+        self._datapaths = {}  # dpid -> datapath
+        self._sw_port = {}  # (src_dpid, dst_dpid) -> out_port
+        self._trunk_ports = set()  # (dpid, port_no)
+        self._link_util = {}  # (src_dpid, dst_dpid) -> dict
+        self._path_cache = {}  # (src_ip, dst_ip) -> [[dpid,...],...]
 
     # ── Switch registry ───────────────────────────────────────────────────────
 
@@ -48,9 +48,7 @@ class TopologyManager:
             if self._graph.has_node(dpid):
                 self._graph.remove_node(dpid)
             # Remove trunk ports for this switch
-            self._trunk_ports = {
-                (d, p) for (d, p) in self._trunk_ports if d != dpid
-            }
+            self._trunk_ports = {(d, p) for (d, p) in self._trunk_ports if d != dpid}
             self._path_cache.clear()
 
     def get_datapath(self, dpid: int):
@@ -63,8 +61,9 @@ class TopologyManager:
 
     # ── Link management ───────────────────────────────────────────────────────
 
-    def add_link(self, src_dpid: int, src_port: int,
-                 dst_dpid: int, dst_port: int) -> None:
+    def add_link(
+        self, src_dpid: int, src_port: int, dst_dpid: int, dst_port: int
+    ) -> None:
         with self._lock:
             self._sw_port[(src_dpid, dst_dpid)] = src_port
             self._sw_port[(dst_dpid, src_dpid)] = dst_port
@@ -75,7 +74,8 @@ class TopologyManager:
 
             if not self._graph.has_edge(src_dpid, dst_dpid):
                 self._graph.add_edge(
-                    src_dpid, dst_dpid,
+                    src_dpid,
+                    dst_dpid,
                     src_port=src_port,
                     dst_port=dst_port,
                     capacity_mbps=DEFAULT_LINK_BW_MBPS,
@@ -92,8 +92,9 @@ class TopologyManager:
 
             self._path_cache.clear()
 
-    def remove_link(self, src_dpid: int, src_port: int,
-                    dst_dpid: int, dst_port: int) -> None:
+    def remove_link(
+        self, src_dpid: int, src_port: int, dst_dpid: int, dst_port: int
+    ) -> None:
         with self._lock:
             self._sw_port.pop((src_dpid, dst_dpid), None)
             self._sw_port.pop((dst_dpid, src_dpid), None)
@@ -149,8 +150,7 @@ class TopologyManager:
 
     # ── Candidate path computation ────────────────────────────────────────────
 
-    def get_candidate_paths(self, src_ip: str, dst_ip: str,
-                            host_manager) -> list:
+    def get_candidate_paths(self, src_ip: str, dst_ip: str, host_manager) -> list:
         """
         Return up to MAX_CANDIDATE_PATHS simple paths (lists of dpids)
         between the switches that host src_ip and dst_ip.
@@ -199,10 +199,46 @@ class TopologyManager:
                 for k in stale:
                     del self._path_cache[k]
 
+    def get_congested_links(self, threshold: float) -> list:
+        """Return list of (src_dpid, dst_dpid) pairs whose utilisation >= threshold."""
+        with self._lock:
+            return [
+                (src, dst)
+                for (src, dst), info in self._link_util.items()
+                if info.get("util", 0.0) >= threshold
+            ]
+
+    def invalidate_cache_for_congested_paths(self, threshold: float) -> int:
+        """
+        Remove cached paths that route through any link whose utilisation >= threshold.
+        Returns the number of cache entries cleared.
+        Called after every monitoring cycle to ensure path selection uses fresh weights.
+        """
+        congested = set(self.get_congested_links(threshold))
+        if not congested:
+            return 0
+
+        with self._lock:
+            stale_keys = []
+            for cache_key, paths in self._path_cache.items():
+                for path in paths:
+                    uses_congested = any(
+                        (path[i], path[i + 1]) in congested
+                        or (path[i + 1], path[i]) in congested
+                        for i in range(len(path) - 1)
+                    )
+                    if uses_congested:
+                        stale_keys.append(cache_key)
+                        break
+            for k in stale_keys:
+                del self._path_cache[k]
+            return len(stale_keys)
+
     # ── Link utilisation ──────────────────────────────────────────────────────
 
-    def update_link_util(self, src_dpid: int, dst_dpid: int,
-                         rate_mbps: float, capacity_mbps: float) -> None:
+    def update_link_util(
+        self, src_dpid: int, dst_dpid: int, rate_mbps: float, capacity_mbps: float
+    ) -> None:
         util = min(rate_mbps / max(capacity_mbps, 0.001), 1.0)
         with self._lock:
             self._link_util[(src_dpid, dst_dpid)] = {
@@ -239,16 +275,19 @@ class TopologyManager:
                 seen.add((src, dst))
                 rev_port = self._sw_port.get((dst, src), 0)
                 util_info = self._link_util.get((src, dst), {})
-                links.append({
-                    "src": f"s{src}",
-                    "dst": f"s{dst}",
-                    "src_port": port,
-                    "dst_port": rev_port,
-                    "rate_mbps": util_info.get("rate_mbps", 0.0),
-                    "util": util_info.get("util", 0.0),
-                    "capacity_mbps": util_info.get(
-                        "capacity_mbps", DEFAULT_LINK_BW_MBPS),
-                })
+                links.append(
+                    {
+                        "src": f"s{src}",
+                        "dst": f"s{dst}",
+                        "src_port": port,
+                        "dst_port": rev_port,
+                        "rate_mbps": util_info.get("rate_mbps", 0.0),
+                        "util": util_info.get("util", 0.0),
+                        "capacity_mbps": util_info.get(
+                            "capacity_mbps", DEFAULT_LINK_BW_MBPS
+                        ),
+                    }
+                )
         return links
 
     def get_all_switch_dpids(self) -> list:
@@ -262,7 +301,8 @@ class TopologyManager:
     @staticmethod
     def path_uses_link(path: list, a: int, b: int) -> bool:
         for i in range(len(path) - 1):
-            if (path[i] == a and path[i + 1] == b) or \
-               (path[i] == b and path[i + 1] == a):
+            if (path[i] == a and path[i + 1] == b) or (
+                path[i] == b and path[i + 1] == a
+            ):
                 return True
         return False
