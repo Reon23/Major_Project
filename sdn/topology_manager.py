@@ -22,6 +22,7 @@ class TopologyManager:
       - switch-to-switch port map  _sw_port[(src, dst)] = out_port
       - trunk port set  _trunk_ports: set of (dpid, port_no)
       - per-link utilisation  _link_util[(src, dst)] = {...}
+      - per-link packet-loss fraction (parallel to util)
       - candidate path cache  _path_cache[(src_ip, dst_ip)] = [[dpid,...], ...]
     """
 
@@ -88,6 +89,7 @@ class TopologyManager:
                         "rate_mbps": 0.0,
                         "util": 0.0,
                         "capacity_mbps": DEFAULT_LINK_BW_MBPS,
+                        "loss_fraction": 0.0,
                     }
 
             self._path_cache.clear()
@@ -241,13 +243,42 @@ class TopologyManager:
     ) -> None:
         util = min(rate_mbps / max(capacity_mbps, 0.001), 1.0)
         with self._lock:
+            existing = self._link_util.get((src_dpid, dst_dpid), {})
             self._link_util[(src_dpid, dst_dpid)] = {
                 "rate_mbps": round(rate_mbps, 4),
                 "util": round(util, 4),
                 "capacity_mbps": capacity_mbps,
+                # Preserve loss_fraction across util updates — they arrive
+                # from the same port_stats_reply_handler in one batch.
+                "loss_fraction": existing.get("loss_fraction", 0.0),
             }
             if self._graph.has_edge(src_dpid, dst_dpid):
                 self._graph[src_dpid][dst_dpid]["weight"] = max(0.01, util)
+
+    def update_link_drops(
+        self, src_dpid: int, dst_dpid: int, loss_fraction: float
+    ) -> None:
+        """
+        Parallel to `update_link_util`: store the per-link packet-loss
+        fraction in [0, 1] for the CIU computation (Eq. 6).
+
+        Computed in `port_stats_reply_handler` as
+            delta_dropped / max(delta_packets, 1)
+        from OFPPortStatsReply's rx_dropped / tx_dropped / rx_packets /
+        tx_packets counters.
+        """
+        loss_fraction = max(0.0, min(1.0, float(loss_fraction)))
+        with self._lock:
+            existing = self._link_util.get((src_dpid, dst_dpid))
+            if existing is None:
+                self._link_util[(src_dpid, dst_dpid)] = {
+                    "rate_mbps": 0.0,
+                    "util": 0.0,
+                    "capacity_mbps": DEFAULT_LINK_BW_MBPS,
+                    "loss_fraction": round(loss_fraction, 6),
+                }
+            else:
+                existing["loss_fraction"] = round(loss_fraction, 6)
 
     def get_link_util(self, src_dpid: int, dst_dpid: int) -> dict:
         with self._lock:
@@ -261,6 +292,35 @@ class TopologyManager:
                 info = self._link_util.get((path[i], path[i + 1]), {})
                 max_util = max(max_util, info.get("util", 0.0))
         return max_util
+
+    def path_max_loss(self, path: list) -> float:
+        """Return the bottleneck (max) packet-loss fraction along the path."""
+        max_loss = 0.0
+        with self._lock:
+            for i in range(len(path) - 1):
+                info = self._link_util.get((path[i], path[i + 1]), {})
+                max_loss = max(max_loss, info.get("loss_fraction", 0.0))
+        return max_loss
+
+    def path_link_utils(self, path: list) -> dict:
+        """Return {(a, b): util} for each link along the path (for audit log)."""
+        out = {}
+        with self._lock:
+            for i in range(len(path) - 1):
+                a, b = path[i], path[i + 1]
+                info = self._link_util.get((a, b), {})
+                out[(a, b)] = info.get("util", 0.0)
+        return out
+
+    def path_link_losses(self, path: list) -> dict:
+        """Return {(a, b): loss_fraction} for each link along the path."""
+        out = {}
+        with self._lock:
+            for i in range(len(path) - 1):
+                a, b = path[i], path[i + 1]
+                info = self._link_util.get((a, b), {})
+                out[(a, b)] = info.get("loss_fraction", 0.0)
+        return out
 
     # ── State export helpers ──────────────────────────────────────────────────
 
@@ -286,6 +346,7 @@ class TopologyManager:
                         "capacity_mbps": util_info.get(
                             "capacity_mbps", DEFAULT_LINK_BW_MBPS
                         ),
+                        "loss_fraction": util_info.get("loss_fraction", 0.0),
                     }
                 )
         return links

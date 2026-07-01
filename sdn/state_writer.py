@@ -11,7 +11,8 @@ Schema
   ],
   "links": [
     {"src": "s1", "dst": "s2", "src_port": 2, "dst_port": 1,
-     "rate_mbps": 4.52, "util": 0.452, "capacity_mbps": 10},
+     "rate_mbps": 4.52, "util": 0.452, "capacity_mbps": 10,
+     "loss_fraction": 0.012},
 
     # Host-switch edges (no util data — drawn as plain topology edges):
     {"src": "h_10.0.0.1", "dst": "s1", "host_link": true,
@@ -21,7 +22,16 @@ Schema
     {"src_ip": "...", "dst_ip": "...", "path": ["s1","s3","s4"],
      "G": 0.42, "rerouted": true}
   ],
-  "event": "..."
+  "event": "...",
+
+  # Optional — only present when the blockchain audit ledger is enabled.
+  # Existing readers that ignore unknown keys continue to work unchanged.
+  "ledger": {
+    "chain_length": 42,
+    "latest_block_hash": "ab12…",
+    "latest_block_index": 41,
+    "last_transactions": [ {index, tx_type, timestamp, payload, hash}, ... ]
+  }
 }
 """
 
@@ -31,7 +41,6 @@ import logging
 import os
 
 from ai.policy import compute_efe_for_path
-from sdn.constants import STATE_JSON_PATH  # noqa — defined below if not in constants
 
 # Allow constants.py to omit STATE_JSON_PATH without import error
 try:
@@ -48,10 +57,18 @@ def write_state(
     flows: dict,  # (src_ip, dst_ip) -> flow_info dict
     event: str = "",
     path: str = STATE_JSON_PATH,
+    ledger=None,
 ) -> None:
     """
     Atomically write current network state to `path`.
     Uses temp-file + os.replace so the visualiser never reads a partial file.
+
+    Parameters
+    ----------
+    ledger : optional
+        If provided (a `blockchain.ledger.Ledger` instance), a compact
+        summary is added under the top-level "ledger" key. Existing
+        readers that ignore unknown keys keep working unchanged.
     """
     # ── Nodes ─────────────────────────────────────────────────────────────────
     nodes = []
@@ -115,6 +132,14 @@ def write_state(
         "flows": flows_out,
         "event": event,
     }
+
+    # ── Optional ledger summary (additive — unknown-key-tolerant readers
+    #    continue to work unchanged). ────────────────────────────────────────
+    if ledger is not None:
+        try:
+            state["ledger"] = ledger.summary_for_state(last_n=10)
+        except Exception as exc:  # pragma: no cover — defensive
+            _log.warning("state_writer: ledger summary failed: %s", exc)
 
     tmp = path + ".tmp"
     try:

@@ -61,3 +61,38 @@ MININET_SUBNET = "10.0.0."  # only learn hosts in this /24
 
 # ── State export ──────────────────────────────────────────────────────────────
 STATE_JSON_PATH = "state.json"
+
+# ── Blockchain layer (Section III / Fig. 2) ──────────────────────────────────
+# Both flags default to True but must gate cleanly to False for regression
+# testing: with both off, controller behaviour is unchanged from the
+# pre-blockchain codebase.
+ENABLE_MODEL_TRADING = True
+ENABLE_AUDIT_LEDGER = True
+
+# Controller id -> set of managed dpids (matches Nc ⊆ N from the paper).
+# c1 ("alpha") manages {s1, s2}; c2 ("beta") manages {s3, s4}.
+CONTROLLER_DOMAINS = {1: {1, 2}, 2: {3, 4}}
+
+# Friendly DID labels per controller id (used by ControllerIdentity).
+CONTROLLER_DID_LABELS = {1: "alpha", 2: "beta"}
+
+# Simulated IPFS shard store tuning.
+IPFS_NODE_COUNT = 3
+MODEL_SHARD_COUNT = 4
+
+# Throttle: publish own belief snapshot to the model store every N inference
+# ticks (avoids hammering the chain on every cycle).
+MODEL_PUBLISH_INTERVAL_TICKS = 5
+
+# ── CIU (Congestion Index Unit) — Eq. 6 of the paper ────────────────────────
+#   C = w_Y · Y_trs + w_G · G_pls + w_L · L_lld
+# Y_trs is a util-derived delay proxy (Y_max = 100 ms means at util=1.0 the
+# proxy equals 100 ms). G_pls is the per-link packet-loss fraction.
+# L_lld is the per-link load (= utilisation). Each term is standardized
+# against its threshold and clipped to [0, 1] before weighting.
+CIU_WEIGHT_Y = 0.4  # transmission delay
+CIU_WEIGHT_G = 0.3  # packet loss rate
+CIU_WEIGHT_L = 0.3  # link load
+CIU_Y_MAX_MS = 100.0
+CIU_G_MAX = 0.1
+CIU_L_MAX = 0.8
