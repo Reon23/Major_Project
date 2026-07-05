@@ -1,0 +1,105 @@
+{
+  "timestamp": 1783260101.4534879,
+  "controller": "reactive",
+  "mode": "reactive-congestion-aware",
+  "thresholds": {
+    "warning": 0.55,
+    "congestion": 0.7,
+    "recovery": 0.4
+  },
+  "switches": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "links": [
+    {
+      "src": 1,
+      "dst": 3,
+      "utilization": 0.0,
+      "status": "normal",
+      "color": "#2ecc71",
+      "congested": false
+    },
+    {
+      "src": 1,
+      "dst": 2,
+      "utilization": 0.0,
+      "status": "normal",
+      "color": "#2ecc71",
+      "congested": false
+    },
+    {
+      "src": 3,
+      "dst": 4,
+      "utilization": 0.0,
+      "status": "normal",
+      "color": "#2ecc71",
+      "congested": false
+    },
+    {
+      "src": 2,
+      "dst": 4,
+      "utilization": 0.0,
+      "status": "normal",
+      "color": "#2ecc71",
+      "congested": false
+    }
+  ],
+  "hosts": {
+    "10.0.0.1": {
+      "mac": "00:00:00:00:00:01",
+      "dpid": 1,
+      "port": 1
+    },
+    "10.0.0.2": {
+      "mac": "00:00:00:00:00:02",
+      "dpid": 4,
+      "port": 1
+    }
+  },
+  "flows": {
+    "10.0.0.1->10.0.0.2": {
+      "path": [
+        1,
+        3,
+        4
+      ],
+      "status": "normal",
+      "color": "#2ecc71"
+    },
+    "10.0.0.2->10.0.0.1": {
+      "path": [
+        4,
+        3,
+        1
+      ],
+      "status": "normal",
+      "color": "#2ecc71"
+    }
+  },
+  "event": "RECOVERED s3<->s4 (0%)",
+  "events": [
+    "CONGESTED s2<->s4 (99%)",
+    "RECOVERED s3<->s4 (4%)",
+    "RECOVERED s1<->s2 (3%)",
+    "CONGESTED s1<->s3 (99%)",
+    "RECOVERED s2<->s4 (4%)",
+    "CONGESTED s3<->s4 (99%)",
+    "REROUTED 10.0.0.1->10.0.0.2: [1, 3, 4] -> [1, 2, 4]",
+    "REROUTED 10.0.0.2->10.0.0.1: [4, 3, 1] -> [4, 2, 1]",
+    "CONGESTED s1<->s2 (99%)",
+    "RECOVERED s1<->s3 (4%)",
+    "REROUTED 10.0.0.1->10.0.0.2: [1, 2, 4] -> [1, 3, 4]",
+    "REROUTED 10.0.0.2->10.0.0.1: [4, 2, 1] -> [4, 3, 1]",
+    "CONGESTED s2<->s4 (98%)",
+    "RECOVERED s3<->s4 (4%)",
+    "RECOVERED s1<->s2 (3%)",
+    "CONGESTED s1<->s3 (99%)",
+    "CONGESTED s3<->s4 (99%)",
+    "RECOVERED s2<->s4 (4%)",
+    "RECOVERED s1<->s3 (0%)",
+    "RECOVERED s3<->s4 (0%)"
+  ]
+}
