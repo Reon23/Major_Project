@@ -67,6 +67,7 @@ Verify
     mininet> sh ovs-ofctl -O OpenFlow13 dump-groups s1
 """
 
+import os
 import threading
 import time
 from collections import defaultdict
@@ -82,10 +83,10 @@ from ryu.topology import event as topo_event
 from ai.belief import PathBelief, serialize_belief_snapshot, deserialize_belief_snapshot
 from ai.policy import compute_multipath_weights, compute_efe_for_path, select_best_path
 from sdn import flow_manager as fm
+from sdn import topology_spec
 from sdn.constants import (
     ARP_CACHE_TTL,
     CONTROLLER_DID_LABELS,
-    CONTROLLER_DOMAINS,
     ENABLE_AUDIT_LEDGER,
     ENABLE_MODEL_TRADING,
     ETH_TYPE_LLDP,
@@ -185,49 +186,125 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             )
             self._bc_enabled = False
 
+        # dpid -> controller id, recomputed dynamically as switches come
+        # and go (see _refresh_controller_domains) instead of trusting the
+        # static CONTROLLER_DOMAINS = {1: {1,2}, 2: {3,4}} shape, which is
+        # stale for any topology whose dpids aren't exactly {1,2,3,4}
+        # (task doc §2.1).
+        self._dpid_to_cid = {}
+        self._published_model_ids = {}
+
         if self._bc_enabled:
             self._ledger = Ledger()
             self._registry = DIDRegistry()
             self._model_store = ModelStore(node_count=IPFS_NODE_COUNT)
             self._contract = ModelTradingContract(self._ledger)
+            # Controller identities (and _dpid_to_cid) are (re)built the
+            # first time switches are discovered — see
+            # _refresh_controller_domains(), invoked from
+            # switch_enter_handler/switch_leave_handler.
 
-            # Construct one ControllerIdentity per controller id (1, 2).
-            for cid, dpids in CONTROLLER_DOMAINS.items():
-                did = CONTROLLER_DID_LABELS.get(cid, f"c{cid}")
-                ident = ControllerIdentity(did=did, managed_dpids=set(dpids))
-                self._controllers[cid] = ident
-                try:
-                    register_did(ident, self._registry, self._ledger)
-                    self.logger.info(
-                        "Blockchain: registered controller %s (cid=%d) "
-                        "managing dpids %s",
-                        did,
-                        cid,
-                        sorted(dpids),
-                    )
-                except Exception as exc:  # pragma: no cover — defensive
-                    self.logger.warning(
-                        "Blockchain: DID registration failed for %s: %s",
-                        did,
-                        exc,
-                    )
-
-            # Map dpid -> controller id for fast flow-ownership lookup.
-            self._dpid_to_cid = {}
-            for cid, dpids in CONTROLLER_DOMAINS.items():
-                for d in dpids:
-                    self._dpid_to_cid[d] = cid
-
-            # Map (owner_cid, src_ip, dst_ip, path_idx) -> model_id, so we
-            # can update an existing model in place rather than create a
-            # new one every publish tick.
-            self._published_model_ids = {}
-        else:
-            self._dpid_to_cid = {}
-            self._published_model_ids = {}
+        # ── Topology spec (bandwidth source of truth) ───────────────────────
+        # Read once at startup so a manually-launched controller (fallback
+        # path, no orchestrator) still gets real link capacities if a spec
+        # file happens to be present; re-checked every monitor tick so an
+        # "Apply topology" from the GUI (which rewrites this file) is
+        # picked up without restarting the controller (task doc §3 — the
+        # controller is topology-independent and doesn't need a restart).
+        self._spec_path = os.environ.get(
+            "SDN_TOPOLOGY_SPEC", topology_spec.DEFAULT_SPEC_PATH
+        )
+        self._spec_mtime = None
+        self._reload_topology_spec(initial=True)
 
         # Monitor loop
         self.monitor_thread = hub.spawn(self._monitor_loop)
+
+    # =========================================================================
+    #  Topology spec (bandwidth source of truth) + dynamic controller domains
+    # =========================================================================
+
+    def _reload_topology_spec(self, initial: bool = False) -> None:
+        """
+        Re-read the topology spec file (if it changed) and push its
+        switch<->switch link bandwidths into TopologyManager, so
+        utilisation/EFE/congestion math is computed against the real
+        configured capacity instead of DEFAULT_LINK_BW_MBPS (task §2.2).
+        Cheap no-op when the file hasn't changed since last check.
+        """
+        mtime = topology_spec.spec_mtime(self._spec_path)
+        if mtime is None:
+            if initial:
+                self.logger.info(
+                    "No topology spec at %s yet — using DEFAULT_LINK_BW_MBPS "
+                    "until one is applied.",
+                    self._spec_path,
+                )
+            return
+        if mtime == self._spec_mtime:
+            return  # unchanged since last check
+
+        try:
+            spec = topology_spec.load_spec(self._spec_path)
+        except (OSError, ValueError) as exc:
+            self.logger.warning(
+                "Failed to (re)load topology spec %s: %s", self._spec_path, exc
+            )
+            return
+
+        self._spec_mtime = mtime
+        capacities = topology_spec.link_capacity_by_dpid(spec)
+        self._topo.set_link_capacities(capacities)
+        self.logger.info(
+            "Topology spec %s (re)loaded: %d switch<->switch link "
+            "capacities applied.",
+            self._spec_path,
+            len(capacities) // 2,
+        )
+
+    def _refresh_controller_domains(self) -> None:
+        """
+        Recompute the controller-id <-> dpid split from whatever switches
+        are *currently* discovered (TopologyManager.compute_controller_domains)
+        and keep self._dpid_to_cid / self._controllers[*].managed_dpids in
+        sync with it. Called on switch enter/leave. A no-op unless the
+        blockchain layer is enabled — _dpid_to_cid still needs to exist
+        either way so _owning_controller_id() never KeyErrors.
+        """
+        domains = self._topo.compute_controller_domains()
+
+        dpid_to_cid = {}
+        for cid, dpids in domains.items():
+            for d in dpids:
+                dpid_to_cid[d] = cid
+        self._dpid_to_cid = dpid_to_cid
+
+        if not self._bc_enabled:
+            return
+
+        for cid, dpids in domains.items():
+            existing = self._controllers.get(cid)
+            if existing is not None:
+                # ControllerIdentity keeps its DID/keys; only the managed
+                # dpid set needs updating as the topology changes.
+                existing.managed_dpids = set(dpids)
+                continue
+            did = CONTROLLER_DID_LABELS.get(cid, f"c{cid}")
+            ident = ControllerIdentity(did=did, managed_dpids=set(dpids))
+            self._controllers[cid] = ident
+            try:
+                register_did(ident, self._registry, self._ledger)
+                self.logger.info(
+                    "Blockchain: registered controller %s (cid=%d) "
+                    "managing dpids %s",
+                    did,
+                    cid,
+                    sorted(dpids),
+                )
+            except Exception as exc:  # pragma: no cover — defensive
+                self.logger.warning(
+                    "Blockchain: DID registration failed for %s: %s", did, exc
+                )
 
     # =========================================================================
     #  OpenFlow: switch connects
@@ -248,12 +325,14 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
     def switch_enter_handler(self, ev):
         dpid = ev.switch.dp.id
         self._topo.add_switch(dpid, ev.switch.dp)
+        self._refresh_controller_domains()
         self.logger.info("Topology: switch s%d discovered", dpid)
 
     @set_ev_cls(topo_event.EventSwitchLeave)
     def switch_leave_handler(self, ev):
         dpid = ev.switch.dp.id
         self._topo.remove_switch(dpid)
+        self._refresh_controller_domains()
         self.logger.info("Topology: switch s%d left", dpid)
 
     @set_ev_cls(topo_event.EventLinkAdd)
@@ -888,6 +967,8 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
         _flow_stat_tick = 0
 
         while True:
+            self._reload_topology_spec()
+
             for dp in self._topo.all_datapaths():
                 self._request_port_stats(dp)
 

@@ -35,6 +35,33 @@ class TopologyManager:
         self._link_util = {}  # (src_dpid, dst_dpid) -> dict
         self._path_cache = {}  # (src_ip, dst_ip) -> [[dpid,...],...]
 
+        # (src_dpid, dst_dpid) -> capacity_mbps, seeded from the topology
+        # spec (see sdn/topology_spec.link_capacity_by_dpid). When present,
+        # this overrides DEFAULT_LINK_BW_MBPS for that link so utilisation
+        # is computed against the real configured bandwidth instead of a
+        # flat fallback (see task doc §2.2). Set via set_link_capacities().
+        self._capacity_overrides = {}
+
+    # ── Link capacity overrides (from topology spec) ────────────────────────
+
+    def set_link_capacities(self, capacity_by_dpid: dict) -> None:
+        """
+        Install/replace the (src_dpid, dst_dpid) -> capacity_mbps table
+        used to seed and re-anchor link capacities. Safe to call at any
+        time (e.g. controller startup, or after a topology-spec reload);
+        applies immediately to any already-discovered links so a link's
+        capacity is corrected even if the topology was applied before the
+        controller (re)read the spec.
+        """
+        with self._lock:
+            self._capacity_overrides = dict(capacity_by_dpid)
+            for key, info in self._link_util.items():
+                cap = self._capacity_overrides.get(key)
+                if cap is not None and info.get("capacity_mbps") != cap:
+                    info["capacity_mbps"] = cap
+                    if self._graph.has_edge(*key):
+                        self._graph[key[0]][key[1]]["capacity_mbps"] = cap
+
     # ── Switch registry ───────────────────────────────────────────────────────
 
     def add_switch(self, dpid: int, dp) -> None:
@@ -73,13 +100,17 @@ class TopologyManager:
             self._trunk_ports.add((src_dpid, src_port))
             self._trunk_ports.add((dst_dpid, dst_port))
 
+            capacity = self._capacity_overrides.get(
+                (src_dpid, dst_dpid), DEFAULT_LINK_BW_MBPS
+            )
+
             if not self._graph.has_edge(src_dpid, dst_dpid):
                 self._graph.add_edge(
                     src_dpid,
                     dst_dpid,
                     src_port=src_port,
                     dst_port=dst_port,
-                    capacity_mbps=DEFAULT_LINK_BW_MBPS,
+                    capacity_mbps=capacity,
                     weight=1,
                 )
 
@@ -88,7 +119,9 @@ class TopologyManager:
                     self._link_util[key] = {
                         "rate_mbps": 0.0,
                         "util": 0.0,
-                        "capacity_mbps": DEFAULT_LINK_BW_MBPS,
+                        "capacity_mbps": self._capacity_overrides.get(
+                            key, DEFAULT_LINK_BW_MBPS
+                        ),
                         "loss_fraction": 0.0,
                     }
 
@@ -274,7 +307,9 @@ class TopologyManager:
                 self._link_util[(src_dpid, dst_dpid)] = {
                     "rate_mbps": 0.0,
                     "util": 0.0,
-                    "capacity_mbps": DEFAULT_LINK_BW_MBPS,
+                    "capacity_mbps": self._capacity_overrides.get(
+                        (src_dpid, dst_dpid), DEFAULT_LINK_BW_MBPS
+                    ),
                     "loss_fraction": round(loss_fraction, 6),
                 }
             else:
@@ -354,6 +389,28 @@ class TopologyManager:
     def get_all_switch_dpids(self) -> list:
         with self._lock:
             return list(self._graph.nodes)
+
+    def compute_controller_domains(self) -> dict:
+        """
+        Generate a {controller_id: set(dpids)} split from whatever switch
+        dpids are *currently* discovered, instead of assuming the fixed
+        4-switch {1: {1,2}, 2: {3,4}} shape from sdn.constants.
+
+        Splits the sorted dpid list in half (alpha gets the first half,
+        beta the second) so this degrades gracefully for any switch count,
+        including counts that don't divide evenly or aren't exactly 4.
+        With 0 or 1 switches, alpha owns everything and beta's domain is
+        empty (still a valid, non-crashing split).
+
+        See task doc §2.1 — this replaces the hardcoded CONTROLLER_DOMAINS
+        for topologies where dpids other than {1,2,3,4} may appear.
+        """
+        with self._lock:
+            dpids = sorted(self._graph.nodes)
+        if not dpids:
+            return {1: set(), 2: set()}
+        mid = (len(dpids) + 1) // 2  # alpha gets the extra one if odd
+        return {1: set(dpids[:mid]), 2: set(dpids[mid:])}
 
     def get_sw_port_map(self) -> dict:
         with self._lock:

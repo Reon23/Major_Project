@@ -10,7 +10,10 @@
       };
       sysLibs = with pkgs; [
         stdenv.cc.cc
+        zlib
         zstd
+        krb5
+        openssl
         glib
         dbus
         libGL
@@ -48,6 +51,7 @@
             iproute2
             iptables
             openvswitch
+            iperf3
           ]
           ++ sysLibs;
         shellHook = ''

@@ -1,0 +1,166 @@
+{
+  "controller": {
+    "ip": "127.0.0.1",
+    "port": 6633
+  },
+  "switches": [
+    {
+      "id": "s1"
+    },
+    {
+      "id": "s2"
+    },
+    {
+      "id": "s3"
+    },
+    {
+      "id": "s4"
+    },
+    {
+      "id": "s5"
+    },
+    {
+      "id": "s6"
+    }
+  ],
+  "hosts": [
+    {
+      "id": "h1",
+      "ip": "10.0.0.1/24"
+    },
+    {
+      "id": "h2",
+      "ip": "10.0.0.2/24"
+    },
+    {
+      "id": "h3",
+      "ip": "10.0.0.3/24"
+    },
+    {
+      "id": "h4",
+      "ip": "10.0.0.4/24"
+    },
+    {
+      "id": "h5",
+      "ip": "10.0.0.5/24"
+    },
+    {
+      "id": "h6",
+      "ip": "10.0.0.6/24"
+    },
+    {
+      "id": "h7",
+      "ip": "10.0.0.7/24"
+    },
+    {
+      "id": "h8",
+      "ip": "10.0.0.8/24"
+    }
+  ],
+  "links": [
+    {
+      "src": "h1",
+      "dst": "s1",
+      "bw": 50,
+      "delay": "1ms"
+    },
+    {
+      "src": "h2",
+      "dst": "s4",
+      "bw": 50,
+      "delay": "1ms"
+    },
+    {
+      "src": "h3",
+      "dst": "s2",
+      "bw": 50,
+      "delay": "1ms"
+    },
+    {
+      "src": "h4",
+      "dst": "s2",
+      "bw": 50,
+      "delay": "1ms"
+    },
+    {
+      "src": "h5",
+      "dst": "s3",
+      "bw": 50,
+      "delay": "1ms"
+    },
+    {
+      "src": "h6",
+      "dst": "s3",
+      "bw": 50,
+      "delay": "1ms"
+    },
+    {
+      "src": "s1",
+      "dst": "s2",
+      "bw": 10,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s1",
+      "dst": "s3",
+      "bw": 10,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s2",
+      "dst": "s4",
+      "bw": 10,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s3",
+      "dst": "s4",
+      "bw": 10,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s3",
+      "dst": "s5",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s4",
+      "dst": "s5",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s2",
+      "dst": "s6",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s1",
+      "dst": "s6",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "h7",
+      "dst": "s5",
+      "bw": 50.0,
+      "delay": "1ms"
+    },
+    {
+      "src": "h8",
+      "dst": "s6",
+      "bw": 50.0,
+      "delay": "1ms"
+    }
+  ]
+}

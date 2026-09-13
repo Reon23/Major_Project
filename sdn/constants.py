@@ -70,7 +70,14 @@ ENABLE_MODEL_TRADING = True
 ENABLE_AUDIT_LEDGER = True
 
 # Controller id -> set of managed dpids (matches Nc ⊆ N from the paper).
-# c1 ("alpha") manages {s1, s2}; c2 ("beta") manages {s3, s4}.
+# NOTE: this fixed {1: {1,2}, 2: {3,4}} shape is only the historical
+# 4-switch default. Since the topology editor allows arbitrary switch
+# counts/ids, the controller no longer trusts this constant at runtime —
+# it recomputes the split dynamically from whatever dpids are actually
+# discovered (see TopologyManager.compute_controller_domains() and
+# ActiveInferenceDynamic._refresh_controller_domains()). Kept here only
+# as documentation of the original scheme / for any code that wants a
+# static reference value.
 CONTROLLER_DOMAINS = {1: {1, 2}, 2: {3, 4}}
 
 # Friendly DID labels per controller id (used by ControllerIdentity).
