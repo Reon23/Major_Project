@@ -268,7 +268,7 @@ class TopologyEditorModel:
 #  Qt visual layer
 # =============================================================================
 
-from PyQt6.QtCore import QPointF, Qt, pyqtSignal
+from PyQt6.QtCore import QPointF, QRect, QSize, Qt, pyqtSignal
 from PyQt6.QtGui import QBrush, QColor, QFont, QPen
 from PyQt6.QtWidgets import (
     QComboBox,
@@ -286,11 +286,11 @@ from PyQt6.QtWidgets import (
     QGraphicsView,
     QHBoxLayout,
     QLabel,
+    QLayout,
     QLineEdit,
     QMessageBox,
     QPushButton,
     QSpinBox,
-    QToolBar,
     QVBoxLayout,
     QWidget,
 )
@@ -639,6 +639,106 @@ def _point_near_segment(p: QPointF, a: QPointF, b: QPointF, tol: float) -> bool:
     return math.hypot(px - cx, py - cy) <= tol
 
 
+class FlowLayout(QLayout):
+    """
+    A layout that arranges child widgets left-to-right, wrapping onto a
+    new row whenever the current row runs out of horizontal space —
+    standard Qt "Flow Layout" pattern, adapted for PyQt6.
+
+    Used instead of QToolBar for the editor's button row: QToolBar used as
+    a plain child widget (not hosted in a QMainWindow toolbar area) does
+    not wrap or scroll, so on a narrow dock/window the later buttons
+    (Load, Apply, ...) simply get pushed outside the visible area with no
+    way to reach them. FlowLayout instead always keeps every button
+    visible and clickable — it just uses more vertical space on narrow
+    screens, which is the correct trade-off for a panel that must work on
+    small displays.
+    """
+
+    def __init__(self, parent=None, margin: int = 0, h_spacing: int = 6, v_spacing: int = 6):
+        super().__init__(parent)
+        self._h_spacing = h_spacing
+        self._v_spacing = v_spacing
+        self._items: list = []
+        self.setContentsMargins(margin, margin, margin, margin)
+
+    def __del__(self):
+        while self.count():
+            self.takeAt(0)
+
+    def addItem(self, item) -> None:
+        self._items.append(item)
+
+    def horizontalSpacing(self) -> int:
+        return self._h_spacing
+
+    def verticalSpacing(self) -> int:
+        return self._v_spacing
+
+    def count(self) -> int:
+        return len(self._items)
+
+    def itemAt(self, index: int):
+        if 0 <= index < len(self._items):
+            return self._items[index]
+        return None
+
+    def takeAt(self, index: int):
+        if 0 <= index < len(self._items):
+            return self._items.pop(index)
+        return None
+
+    def expandingDirections(self):
+        return Qt.Orientation(0)
+
+    def hasHeightForWidth(self) -> bool:
+        return True
+
+    def heightForWidth(self, width: int) -> int:
+        return self._do_layout(QRect(0, 0, width, 0), test_only=True)
+
+    def setGeometry(self, rect) -> None:
+        super().setGeometry(rect)
+        self._do_layout(rect, test_only=False)
+
+    def sizeHint(self):
+        return self.minimumSize()
+
+    def minimumSize(self):
+        size = QSize()
+        for item in self._items:
+            size = size.expandedTo(item.minimumSize())
+        margins = self.contentsMargins()
+        size += QSize(
+            margins.left() + margins.right(), margins.top() + margins.bottom()
+        )
+        return size
+
+    def _do_layout(self, rect, test_only: bool) -> int:
+        left, top, right, bottom = self.getContentsMargins()
+        effective_rect = rect.adjusted(left, top, -right, -bottom)
+        x, y = effective_rect.x(), effective_rect.y()
+        line_height = 0
+
+        for item in self._items:
+            item_width = item.sizeHint().width()
+            item_height = item.sizeHint().height()
+            next_x = x + item_width + self._h_spacing
+            if next_x - self._h_spacing > effective_rect.right() and line_height > 0:
+                x = effective_rect.x()
+                y = y + line_height + self._v_spacing
+                next_x = x + item_width + self._h_spacing
+                line_height = 0
+
+            if not test_only:
+                item.setGeometry(QRect(x, y, item_width, item_height))
+
+            x = next_x
+            line_height = max(line_height, item_height)
+
+        return y + line_height - rect.y() + bottom
+
+
 class TopologyEditorWidget(QWidget):
     """Dockable panel: toolbar + canvas + Save/Load/Apply."""
 
@@ -654,7 +754,8 @@ class TopologyEditorWidget(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(4, 4, 4, 4)
 
-        toolbar = QToolBar()
+        toolbar_widget = QWidget()
+        toolbar = FlowLayout(toolbar_widget, margin=0, h_spacing=6, v_spacing=4)
         self.mode_buttons: dict = {}
         for label, mode in [
             ("Select/Move", "select"),
@@ -670,7 +771,6 @@ class TopologyEditorWidget(QWidget):
             self.mode_buttons[mode] = btn
         self.mode_buttons["select"].setChecked(True)
 
-        toolbar.addSeparator()
         save_btn = QPushButton("Save As...")
         save_btn.clicked.connect(self._save_as)
         load_btn = QPushButton("Load...")
@@ -683,7 +783,7 @@ class TopologyEditorWidget(QWidget):
         for b in (save_btn, load_btn, reset_btn, apply_btn):
             toolbar.addWidget(b)
 
-        layout.addWidget(toolbar)
+        layout.addWidget(toolbar_widget)
 
         self.view = QGraphicsView(self.scene)
         self.view.setRenderHint(self.view.renderHints().Antialiasing)
