@@ -79,6 +79,14 @@ MULTIPATH_CONGESTION_THRESHOLD = 0.45  # fraction of link capacity
 REACTIVE_CONGESTION_THRESHOLD = 0.45  # fraction of link capacity
 REACTIVE_MIN_IMPROVEMENT = 0.05  # min utilisation gap before switching paths
 
+# Hysteresis/cooldown: after the Reactive controller reroutes a flow, it must
+# wait this many monitor ticks before rerouting the same flow again. This
+# prevents rapid oscillation when the bottleneck utilisation is hovering
+# around the threshold (e.g. bursty_threshold scenario). At POLL_INTERVAL=2s,
+# 3 ticks = 6 seconds cooldown, which is long enough to break a flap cycle
+# but short enough to react to a real sustained congestion shift.
+REACTIVE_REROUTE_COOLDOWN_TICKS = 3
+
 # ── Load estimation ───────────────────────────────────────────────────────────
 FLOW_STATS_POLL_INTERVAL = 4  # seconds between OFPFlowStatsRequest polls
 CONGESTION_INVALIDATE_THRESHOLD = 0.75  # util above which path cache is force-cleared

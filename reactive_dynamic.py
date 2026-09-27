@@ -81,6 +81,7 @@ from ryu.lib.packet import arp, ethernet, ipv4, packet
 from ryu.ofproto import ofproto_v1_3
 from ryu.topology import event as topo_event
 
+from sdn import event_log
 from sdn import flow_manager as fm
 from sdn import topology_spec
 from sdn.constants import (
@@ -90,6 +91,7 @@ from sdn.constants import (
     POLL_INTERVAL,
     REACTIVE_CONGESTION_THRESHOLD,
     REACTIVE_MIN_IMPROVEMENT,
+    REACTIVE_REROUTE_COOLDOWN_TICKS,
     STATE_JSON_PATH,
 )
 from sdn.host_manager import HostManager
@@ -121,7 +123,16 @@ class ReactiveController(app_manager.RyuApp):
         #                                   comparable apples-to-apples
         #   "multipath":     bool,          True when a plain ECMP SELECT
         #                                   group is active
-        #   "ticks":         int,
+        #   "ticks":         int,           monitor tick counter
+        #   "ticks_since_reroute": int,     hysteresis: must reach
+        #                                   REACTIVE_REROUTE_COOLDOWN_TICKS
+        #                                   before this flow is allowed
+        #                                   to reroute again. 0 means "OK
+        #                                   to reroute".
+        #   "congestion_events": int,      how many times load_est has
+        #                                   crossed >= threshold for this
+        #                                   flow (per-trial counter for
+        #                                   the benchmark).
         # }
         self._flows = {}
 
@@ -442,7 +453,27 @@ class ReactiveController(app_manager.RyuApp):
                         "load_estimate": seed_load,
                         "multipath": False,
                         "ticks": 0,
+                        "ticks_since_reroute": 0,
+                        "congestion_events": 0,
                     }
+                    # Emit cold_start event so the benchmark has a record
+                    # of the initial path selection — comparable to the
+                    # AI controller's cold_start event.
+                    src, dst = key
+                    event_log.log_reroute_event(
+                        flow_id=event_log.make_flow_id(src, dst),
+                        src_ip=src,
+                        dst_ip=dst,
+                        old_path=[],
+                        new_path=[f"s{d}" for d in candidates[0]],
+                        trigger_reason=event_log.REASON_COLD_START,
+                        bottleneck_util_before=None,
+                        bottleneck_util_after=seed_load,
+                        approach_specific={
+                            "path_idx": 0,
+                            "num_candidates": len(candidates),
+                        },
+                    )
 
         fm.install_bidirectional_flows(
             src_ip,
@@ -625,6 +656,41 @@ class ReactiveController(app_manager.RyuApp):
     #  Reactive re-evaluation cycle
     # =========================================================================
 
+    def _emit_reroute_event(
+        self,
+        flow_key: tuple,
+        old_path: list,
+        new_path: list,
+        trigger_reason: str,
+        bottleneck_util_before: float = None,
+        bottleneck_util_after: float = None,
+        alt_path_best_util: float = None,
+        improvement: float = None,
+        success: bool = True,
+        approach_specific: dict = None,
+    ) -> None:
+        """
+        Emit a structured reroute event to the shared event log.
+
+        Same schema as the AI controller's _emit_reroute_event — the
+        benchmark recorder treats events from both controllers uniformly.
+        """
+        src_ip, dst_ip = flow_key
+        event_log.log_reroute_event(
+            flow_id=event_log.make_flow_id(src_ip, dst_ip),
+            src_ip=src_ip,
+            dst_ip=dst_ip,
+            old_path=[f"s{d}" for d in old_path] if old_path else [],
+            new_path=[f"s{d}" for d in new_path] if new_path else [],
+            trigger_reason=trigger_reason,
+            bottleneck_util_before=bottleneck_util_before,
+            bottleneck_util_after=bottleneck_util_after,
+            alt_path_best_util=alt_path_best_util,
+            improvement=improvement,
+            success=success,
+            approach_specific=approach_specific or {},
+        )
+
     def _run_reactive_cycle(self):
         """
         For every active flow: measure the active path's current
@@ -632,7 +698,24 @@ class ReactiveController(app_manager.RyuApp):
         nothing (no proactive rebalancing — the defining trait of
         "reactive" vs. Active Inference). At/above it, move to the
         least-loaded alternative if that's a clear (REACTIVE_MIN_IMPROVEMENT)
-        win, otherwise fall back to a plain equal-weight ECMP SELECT group.
+        win AND the per-flow cooldown has elapsed, otherwise fall back to
+        a plain equal-weight ECMP SELECT group.
+
+        Hysteresis
+        -----------
+        After any reroute, the flow is "in cooldown" for
+        REACTIVE_REROUTE_COOLDOWN_TICKS monitor ticks. During cooldown,
+        threshold-crossing events are still logged (as hysteresis_hold)
+        so the benchmark can count congestion events, but no actual
+        path change is performed. This breaks flap cycles where the
+        bottleneck utilisation oscillates around the threshold.
+
+        Event logging
+        -------------
+        Every routing decision — including failed reroute attempts (no
+        better path found) and hysteresis holds — is logged as a
+        structured event via sdn.event_log. This is the SINGLE source
+        of truth for the benchmark recorder.
         """
         events = []
 
@@ -657,6 +740,10 @@ class ReactiveController(app_manager.RyuApp):
                     flow["path_idx"] = 0
                     flow["path"] = candidates[0]
                 flow["ticks"] = flow.get("ticks", 0) + 1
+                # Increment cooldown counter (capped at the threshold so
+                # it doesn't grow unbounded).
+                if flow.get("ticks_since_reroute", 0) < REACTIVE_REROUTE_COOLDOWN_TICKS:
+                    flow["ticks_since_reroute"] = flow.get("ticks_since_reroute", 0) + 1
 
             # ── Direct per-flow load measurement — identical maths to the
             # Active Inference controller, so REACTIVE_CONGESTION_THRESHOLD
@@ -678,6 +765,14 @@ class ReactiveController(app_manager.RyuApp):
             load_est = max(alpha * raw_load + (1.0 - alpha) * prev_load, port_floor)
             with self._lock:
                 flow["load_estimate"] = load_est
+                # Count congestion events (threshold crossings) for this flow.
+                # A "congestion event" is the transition from below-threshold
+                # to at/above-threshold — not every tick above threshold.
+                was_congested = flow.get("_was_congested", False)
+                is_congested = load_est >= REACTIVE_CONGESTION_THRESHOLD
+                if is_congested and not was_congested:
+                    flow["congestion_events"] = flow.get("congestion_events", 0) + 1
+                flow["_was_congested"] = is_congested
 
             # ── Reactive decision — no action below threshold ─────────────────
             if load_est < REACTIVE_CONGESTION_THRESHOLD or len(candidates) <= 1:
@@ -689,21 +784,57 @@ class ReactiveController(app_manager.RyuApp):
                 )
                 continue
 
+            # ── Above threshold: congestion detected ────────────────────────
             path_utils = [self._topo.path_max_util(p) for p in candidates]
             best_idx = min(range(len(candidates)), key=lambda i: path_utils[i])
             improvement = path_utils[active_idx] - path_utils[best_idx]
+
+            # Check cooldown (hysteresis) — if active, log a hysteresis_hold
+            # event but don't reroute. The benchmark still sees the
+            # congestion event.
+            in_cooldown = flow.get("ticks_since_reroute", 0) < REACTIVE_REROUTE_COOLDOWN_TICKS
 
             rev_candidates = self._topo.get_candidate_paths(
                 dst_ip, src_ip, self._hosts
             ) or [list(reversed(candidates[active_idx]))]
 
             if best_idx != active_idx and improvement >= REACTIVE_MIN_IMPROVEMENT:
+                if in_cooldown:
+                    # Would reroute, but cooldown prevents it. Log as a
+                    # hysteresis_hold — this is a real measured event, not
+                    # a fabricated one.
+                    self._emit_reroute_event(
+                        flow_key=flow_key,
+                        old_path=candidates[active_idx],
+                        new_path=candidates[best_idx],
+                        trigger_reason=event_log.REASON_HYSTERESIS_HOLD,
+                        bottleneck_util_before=path_utils[active_idx],
+                        bottleneck_util_after=path_utils[active_idx],
+                        alt_path_best_util=path_utils[best_idx],
+                        improvement=improvement,
+                        success=False,
+                        approach_specific={
+                            "cooldown_ticks_remaining": (
+                                REACTIVE_REROUTE_COOLDOWN_TICKS
+                                - flow.get("ticks_since_reroute", 0)
+                            ),
+                            "load_estimate": round(load_est, 4),
+                        },
+                    )
+                    events.append(
+                        f"HYSTERESIS {src_ip}->{dst_ip}: would reroute "
+                        f"path{active_idx}->path{best_idx} but in cooldown "
+                        f"(util={load_est:.2f}, improvement={improvement:.2f})"
+                    )
+                    continue
+
                 # A clearly-better single alternative exists — full commit,
                 # exactly the "move away from the problem" reactive action.
                 with self._lock:
                     flow["path_idx"] = best_idx
                     flow["path"] = candidates[best_idx]
                     flow["multipath"] = False
+                    flow["ticks_since_reroute"] = 0  # reset cooldown
 
                 fm.install_bidirectional_flows(
                     src_ip,
@@ -719,11 +850,51 @@ class ReactiveController(app_manager.RyuApp):
                     f"path{active_idx}->path{best_idx} "
                     f"(util {path_utils[active_idx]:.2f}->{path_utils[best_idx]:.2f})"
                 )
+
+                # Emit successful reroute event.
+                self._emit_reroute_event(
+                    flow_key=flow_key,
+                    old_path=candidates[active_idx],
+                    new_path=candidates[best_idx],
+                    trigger_reason=event_log.REASON_CONGESTION,
+                    bottleneck_util_before=path_utils[active_idx],
+                    bottleneck_util_after=path_utils[best_idx],
+                    alt_path_best_util=path_utils[best_idx],
+                    improvement=improvement,
+                    success=True,
+                    approach_specific={
+                        "old_idx": active_idx,
+                        "new_idx": best_idx,
+                        "load_estimate": round(load_est, 4),
+                        "min_improvement_required": REACTIVE_MIN_IMPROVEMENT,
+                    },
+                )
             else:
-                # Congested, but no single path is clearly better — the
-                # standard reactive fallback is naive equal-weight ECMP,
-                # not a proportional split: every candidate gets the same
-                # bucket weight regardless of its exact utilisation.
+                # Congested, but no single path is clearly better — log
+                # a no_better_path failed reroute event FIRST (so the
+                # benchmark sees the failed attempt), then fall back to
+                # the equal-weight ECMP SELECT group.
+                self._emit_reroute_event(
+                    flow_key=flow_key,
+                    old_path=candidates[active_idx],
+                    new_path=candidates[active_idx],  # no change
+                    trigger_reason=event_log.REASON_NO_BETTER_PATH,
+                    bottleneck_util_before=path_utils[active_idx],
+                    bottleneck_util_after=path_utils[active_idx],
+                    alt_path_best_util=path_utils[best_idx] if best_idx != active_idx else None,
+                    improvement=improvement if best_idx != active_idx else None,
+                    success=False,
+                    approach_specific={
+                        "load_estimate": round(load_est, 4),
+                        "reason": (
+                            "no_alternative_better_by_min_improvement"
+                            if best_idx == active_idx
+                            else "improvement_below_min_threshold"
+                        ),
+                    },
+                )
+
+                # Equal-weight ECMP fallback (standard reactive behaviour).
                 equal_weights = [1] * len(candidates)
                 fm.install_multipath_flows(
                     src_ip,
@@ -741,6 +912,25 @@ class ReactiveController(app_manager.RyuApp):
                 events.append(
                     f"ECMP {src_ip}->{dst_ip}: load={load_est:.2f} "
                     f"equal-weight across {len(candidates)} paths"
+                )
+
+                # Emit ecmp_fallback event so the benchmark has a record
+                # of this fallback decision.
+                self._emit_reroute_event(
+                    flow_key=flow_key,
+                    old_path=candidates[active_idx],
+                    new_path=candidates,  # all paths active
+                    trigger_reason=event_log.REASON_ECMP_FALLBACK,
+                    bottleneck_util_before=path_utils[active_idx],
+                    bottleneck_util_after=max(path_utils),  # worst still
+                    alt_path_best_util=path_utils[best_idx],
+                    improvement=improvement,
+                    success=True,  # ECMP IS the action — it succeeded
+                    approach_specific={
+                        "equal_weights": equal_weights,
+                        "num_paths": len(candidates),
+                        "load_estimate": round(load_est, 4),
+                    },
                 )
 
         event_str = " | ".join(events) if events else "Monitoring..."

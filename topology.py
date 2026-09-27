@@ -129,13 +129,22 @@ class FlowController:
             return {"ok": False, "error": "missing flow id"}
         with self._lock:
             if fid in self._flows:
+                # The flow ID is currently in use by a running flow.
+                # (Finished flows are deleted from self._flows by
+                # _finish_flow, so this only triggers for genuinely
+                # running duplicates.)
+                print(f"[FLOW START FAILED] id={fid} reason=already_exists",
+                      flush=True)
                 return {"ok": False, "error": f"flow id {fid!r} already exists"}
 
         src_node = self.net.get(src) if src in self.net else None
         dst_node = self.net.get(dst) if dst in self.net else None
         if src_node is None or dst_node is None:
+            print(f"[FLOW START FAILED] id={fid} reason=unknown_host "
+                  f"src={src!r} dst={dst!r}", flush=True)
             return {"ok": False, "error": f"unknown host(s): {src!r}, {dst!r}"}
         if src == dst:
+            print(f"[FLOW START FAILED] id={fid} reason=src_eq_dst", flush=True)
             return {"ok": False, "error": "src and dst must be different hosts"}
 
         port = self._alloc_port()
@@ -181,6 +190,9 @@ class FlowController:
             }
 
         threading.Thread(target=self._reader_loop, args=(fid,), daemon=True).start()
+        print(f"[FLOW START] id={fid} src={src} dst={dst} proto={proto} "
+              f"bw={bw}Mbps duration={duration}s port={port} "
+              f"client_pid={client_proc.pid}", flush=True)
         return {"ok": True}
 
     def _reader_loop(self, fid: str) -> None:
@@ -224,6 +236,18 @@ class FlowController:
                     self._finish_flow(fid, "stopped" if flow["stop_requested"] else "completed")
 
     def _finish_flow(self, fid: str, reason: str) -> None:
+        """
+        Mark a flow as finished, kill its processes, broadcast the
+        flow_finished event, and DELETE it from self._flows so the flow
+        ID can be reused by a future start_flow call.
+
+        Without the deletion, finished flows would accumulate in
+        self._flows forever and start_flow would reject any ID that
+        had ever been used — breaking trial-to-trial and controller-
+        to-controller ID reuse (the benchmark requires the same flow
+        IDs "base", "fb_a", "ramp_1", etc. to be reusable across
+        trials and approaches).
+        """
         with self._lock:
             flow = self._flows.get(fid)
             if flow is None or flow["status"] != "running":
@@ -231,6 +255,8 @@ class FlowController:
             flow["status"] = reason
             server_proc = flow["server_proc"]
             client_proc = flow["client_proc"]
+            src = flow.get("src", "?")
+            dst = flow.get("dst", "?")
         for proc in (client_proc, server_proc):
             try:
                 if proc.poll() is None:
@@ -240,15 +266,42 @@ class FlowController:
         self._broadcast(
             {"type": "event", "event": "flow_finished", "id": fid, "reason": reason}
         )
+        # Delete the flow from self._flows so its ID is reusable.
+        # This is the root-cause fix for the benchmark's flow-ID-reuse
+        # problem: without this, the second controller (Reactive) could
+        # never start flows with the same IDs the first controller (AI)
+        # had already used.
+        with self._lock:
+            self._flows.pop(fid, None)
+        print(f"[FLOW FINISHED] id={fid} src={src} dst={dst} reason={reason} "
+              f"(id now reusable)", flush=True)
 
     def stop_flow(self, fid: str) -> dict:
+        """
+        Stop a running flow. Returns {"ok": True} if the flow was
+        running and is now stopped, OR if the flow is no longer in
+        self._flows (already finished and cleaned up — treat as
+        "already done", not an error).
+
+        The "already gone" case happens when the flow completed
+        naturally (iperf3 exited) and _finish_flow deleted it, but
+        the client's stop_flow call arrives slightly later. Returning
+        ok=True here makes stop_all idempotent and avoids spurious
+        error logs.
+        """
         with self._lock:
             flow = self._flows.get(fid)
             if flow is None:
-                return {"ok": False, "error": f"no such flow {fid!r}"}
+                # Already finished and cleaned up — not an error.
+                return {"ok": True}
             if flow["status"] != "running":
-                return {"ok": True}  # already finished/stopped
+                # Finished but not yet deleted (race with _finish_flow's
+                # pop). Treat as already done.
+                return {"ok": True}
             flow["stop_requested"] = True
+            src = flow.get("src", "?")
+            dst = flow.get("dst", "?")
+        print(f"[FLOW STOP] id={fid} src={src} dst={dst}", flush=True)
         self._finish_flow(fid, "stopped")
         return {"ok": True}
 

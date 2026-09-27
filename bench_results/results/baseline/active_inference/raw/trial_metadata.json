@@ -1,0 +1,8 @@
+{
+  "trial_id": "active_inference__baseline__trial03",
+  "approach": "active_inference",
+  "scenario": "baseline",
+  "trial": 3,
+  "event_log_path": "bench_results/results/baseline/active_inference/raw/trial03_events.jsonl",
+  "updated_at": 1790517465.2577064
+}

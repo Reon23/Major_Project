@@ -99,6 +99,7 @@ from ai.policy import (
     compute_multipath_weights,
     decide_routing_action,
 )
+from sdn import event_log
 from sdn import flow_manager as fm
 from sdn import topology_spec
 from sdn.constants import (
@@ -779,6 +780,47 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
     #  Flow installation — routing mode decision
     # =========================================================================
 
+    def _emit_reroute_event(
+        self,
+        flow_key: tuple,
+        old_path: list,
+        new_path: list,
+        trigger_reason: str,
+        bottleneck_util_before: float = None,
+        bottleneck_util_after: float = None,
+        alt_path_best_util: float = None,
+        improvement: float = None,
+        success: bool = True,
+        approach_specific: dict = None,
+    ) -> None:
+        """
+        Emit a structured reroute event to the shared event log.
+
+        Called whenever the AI controller makes a routing decision that
+        changes (or attempts to change) the active path for a flow.
+        The benchmark recorder reads these events as the SINGLE source
+        of truth for routing decisions — never infer them from state.json
+        path diffs (which miss intermediate changes).
+
+        Safe to call at any time; failures are silently swallowed by
+        sdn.event_log so logging can never crash the controller.
+        """
+        src_ip, dst_ip = flow_key
+        event_log.log_reroute_event(
+            flow_id=event_log.make_flow_id(src_ip, dst_ip),
+            src_ip=src_ip,
+            dst_ip=dst_ip,
+            old_path=[f"s{d}" for d in old_path] if old_path else [],
+            new_path=[f"s{d}" for d in new_path] if new_path else [],
+            trigger_reason=trigger_reason,
+            bottleneck_util_before=bottleneck_util_before,
+            bottleneck_util_after=bottleneck_util_after,
+            alt_path_best_util=alt_path_best_util,
+            improvement=improvement,
+            success=success,
+            approach_specific=approach_specific or {},
+        )
+
     def _install_flow_pair(self, src_ip: str, dst_ip: str) -> None:
         """
         Select path(s) via Active Inference and install bidirectional flow rules.
@@ -883,11 +925,30 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             with self._lock:
                 fwd_flow["multipath"] = True
                 rev_flow["multipath"] = True
+                # On multipath activation, the "active path" is the full
+                # candidate set — record it as an efe_split event so the
+                # benchmark sees the decision even though path_idx doesn't
+                # change.
+                old_path = [f"s{d}" for d in fwd_flow["path"]]
+                fwd_flow["path"] = fwd_candidates[0]  # nominal "active" path
             self.logger.info(
                 "Multipath activated: %s->%s  fwd_weights=%s",
                 src_ip,
                 dst_ip,
                 fwd_weights,
+            )
+            self._emit_reroute_event(
+                flow_key=fwd_key,
+                old_path=old_path,
+                new_path=fwd_candidates[0],
+                trigger_reason=event_log.REASON_EFE_SPLIT,
+                bottleneck_util_before=fwd_load,
+                bottleneck_util_after=self._topo.path_max_util(fwd_candidates[0]),
+                approach_specific={
+                    "fwd_weights": [round(w, 4) for w in fwd_weights],
+                    "decision": fwd_action,
+                    "load_estimate": round(fwd_load, 4),
+                },
             )
         else:
             # Single-path: EFE selection
@@ -905,6 +966,38 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             with self._lock:
                 fwd_flow["multipath"] = False
                 rev_flow["multipath"] = False
+                old_fwd_path = fwd_flow.get("path", [])
+                old_fwd_idx = fwd_flow.get("path_idx", 0)
+                fwd_flow["path"] = fwd_path
+                # Find which candidate index this corresponds to.
+                try:
+                    new_fwd_idx = fwd_candidates.index(fwd_path)
+                except ValueError:
+                    new_fwd_idx = 0
+                fwd_flow["path_idx"] = new_fwd_idx
+            # Emit cold_start on first install, or efe_switch if the path
+            # changed from a previous decision.
+            if not old_fwd_path:
+                trigger = event_log.REASON_COLD_START
+            elif old_fwd_path != fwd_path:
+                trigger = event_log.REASON_EFE_SWITCH
+            else:
+                trigger = None  # no change — don't emit
+            if trigger is not None:
+                self._emit_reroute_event(
+                    flow_key=fwd_key,
+                    old_path=old_fwd_path,
+                    new_path=fwd_path,
+                    trigger_reason=trigger,
+                    bottleneck_util_before=fwd_load,
+                    bottleneck_util_after=self._topo.path_max_util(fwd_path),
+                    approach_specific={
+                        "decision": fwd_action,
+                        "old_idx": old_fwd_idx,
+                        "new_idx": new_fwd_idx,
+                        "load_estimate": round(fwd_load, 4),
+                    },
+                )
 
     def _pick_path(self, flow_key: tuple, candidates: list) -> list:
         """
@@ -1293,6 +1386,22 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                     f"load={load_est:.2f} weights={fwd_weights}"
                 )
 
+                # Emit efe_split event (every monitor tick when multipath is
+                # active, so the benchmark has a complete decision record).
+                self._emit_reroute_event(
+                    flow_key=flow_key,
+                    old_path=candidates[active_idx],
+                    new_path=candidates[active_idx],
+                    trigger_reason=event_log.REASON_EFE_SPLIT,
+                    bottleneck_util_before=load_est,
+                    bottleneck_util_after=self._topo.path_max_util(candidates[active_idx]),
+                    approach_specific={
+                        "fwd_weights": [round(w, 4) for w in fwd_weights],
+                        "decision": action,
+                        "load_estimate": round(load_est, 4),
+                    },
+                )
+
                 # ── Audit + publish (throttled) ─────────────────────────────
                 active_path = candidates[active_idx]
                 self._audit_and_publish(
@@ -1314,20 +1423,22 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                 best_idx = alt_idx if action == "switch" else active_idx
 
                 if best_idx != active_idx:
+                    old_path = candidates[active_idx]
+                    new_path = candidates[best_idx]
                     with self._lock:
                         flow["path_idx"] = best_idx
-                        flow["path"] = candidates[best_idx]
+                        flow["path"] = new_path
                         flow["multipath"] = False
 
                     rev_candidates = self._topo.get_candidate_paths(
                         dst_ip, src_ip, self._hosts
-                    ) or [list(reversed(candidates[best_idx]))]
+                    ) or [list(reversed(new_path))]
                     rev_path = self._pick_path((dst_ip, src_ip), rev_candidates)
 
                     fm.install_bidirectional_flows(
                         src_ip,
                         dst_ip,
-                        candidates[best_idx],
+                        new_path,
                         rev_path,
                         self._hosts,
                         self._topo,
@@ -1336,6 +1447,34 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                     events.append(
                         f"REROUTED {src_ip}->{dst_ip}: "
                         f"path{active_idx}->path{best_idx}"
+                    )
+
+                    # Emit efe_switch event with before/after bottleneck util.
+                    util_before = self._topo.path_max_util(old_path)
+                    util_after = self._topo.path_max_util(new_path)
+                    self._emit_reroute_event(
+                        flow_key=flow_key,
+                        old_path=old_path,
+                        new_path=new_path,
+                        trigger_reason=event_log.REASON_EFE_SWITCH,
+                        bottleneck_util_before=util_before,
+                        bottleneck_util_after=util_after,
+                        improvement=round(util_before - util_after, 5),
+                        approach_specific={
+                            "decision": action,
+                            "old_idx": active_idx,
+                            "new_idx": best_idx,
+                            "G": round(
+                                compute_efe_for_path(
+                                    path_idx=best_idx,
+                                    active_idx=best_idx,
+                                    beliefs=beliefs,
+                                    load_delta=load_est,
+                                ),
+                                5,
+                            ),
+                            "load_estimate": round(load_est, 4),
+                        },
                     )
 
                     self._audit_and_publish(

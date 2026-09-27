@@ -1,0 +1,1716 @@
+{
+  "controller": "active_inference",
+  "approach": "active_inference",
+  "scenario": "baseline",
+  "trial": 2,
+  "started_at": 1790517442.7319865,
+  "finished_at": 1790517465.2563577,
+  "duration_s": 22.524,
+  "flow_ids": {
+    "base": {
+      "src": "h1",
+      "dst": "h2",
+      "proto": "udp",
+      "bandwidth_mbps": 3.0,
+      "duration_s": 15,
+      "started_at": 1790517444.9392564
+    }
+  },
+  "notes": "flow_log_events=23; last_lines=['[base] [  7]   0.00-15.00  sec  5.36 MBytes  3.00 Mbits/sec  0.000 ms  0/3885 (0%)  sender', '[base] [  7]   0.00-15.05  sec  5.36 MBytes  2.99 Mbits/sec  0.076 ms  0/3885 (0%)  receiver', '[base] iperf Done.']",
+  "flow_start_results": [
+    {
+      "flow_id": "_warmup_h1_h2",
+      "src": "h1",
+      "dst": "h2",
+      "ok": true,
+      "error": null,
+      "started_at": 1790517442.9336455,
+      "warmup": true
+    },
+    {
+      "flow_id": "base",
+      "src": "h1",
+      "dst": "h2",
+      "ok": true,
+      "error": null,
+      "started_at": 1790517444.9392548
+    }
+  ],
+  "link_samples": [
+    {
+      "t": 0.0,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0011,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.004504680633545,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0001,
+      "rate_mbps": 0.0011,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0522,
+      "rate_mbps": 0.5224,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0522,
+      "rate_mbps": 0.5224,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0006,
+      "rate_mbps": 0.0063,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.00479793548584,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0006,
+      "rate_mbps": 0.0063,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.2848,
+      "rate_mbps": 2.8481,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0013,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.2866,
+      "rate_mbps": 2.8664,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0013,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0003,
+      "rate_mbps": 0.0032,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.005053520202637,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0003,
+      "rate_mbps": 0.0032,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0061,
+      "rate_mbps": 0.0607,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.3021,
+      "rate_mbps": 3.0213,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0078,
+      "rate_mbps": 0.0777,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.3004,
+      "rate_mbps": 3.0037,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.005362033843994,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.3077,
+      "rate_mbps": 3.0772,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0001,
+      "rate_mbps": 0.001,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0031,
+      "rate_mbps": 0.0306,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.3022,
+      "rate_mbps": 3.022,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.3048,
+      "rate_mbps": 3.0478,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0048,
+      "rate_mbps": 0.0478,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.005641222000122,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0001,
+      "rate_mbps": 0.001,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0054,
+      "rate_mbps": 0.0542,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0013,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.3065,
+      "rate_mbps": 3.065,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.003,
+      "rate_mbps": 0.0301,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0036,
+      "rate_mbps": 0.0365,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0054,
+      "rate_mbps": 0.0538,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.3047,
+      "rate_mbps": 3.0468,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.005900859832764,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.3042,
+      "rate_mbps": 3.0422,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.003,
+      "rate_mbps": 0.0305,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.3025,
+      "rate_mbps": 3.0248,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0001,
+      "rate_mbps": 0.001,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0048,
+      "rate_mbps": 0.0481,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0012,
+      "rate_mbps": 0.0124,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.006754398345947,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0012,
+      "rate_mbps": 0.0124,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0002,
+      "rate_mbps": 0.0021,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0032,
+      "rate_mbps": 0.0318,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0013,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0002,
+      "rate_mbps": 0.0023,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.3044,
+      "rate_mbps": 3.0439,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0002,
+      "rate_mbps": 0.0021,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.005,
+      "rate_mbps": 0.0497,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0013,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0002,
+      "rate_mbps": 0.0021,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.3025,
+      "rate_mbps": 3.0255,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0014,
+      "rate_mbps": 0.0141,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.007009029388428,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0014,
+      "rate_mbps": 0.0142,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.3054,
+      "rate_mbps": 3.0536,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0013,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0024,
+      "rate_mbps": 0.0241,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.3014,
+      "rate_mbps": 3.0137,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.2963,
+      "rate_mbps": 2.9633,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0043,
+      "rate_mbps": 0.0428,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0024,
+      "rate_mbps": 0.0243,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.009126663208008,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0024,
+      "rate_mbps": 0.0241,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0072,
+      "rate_mbps": 0.0724,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.1669,
+      "rate_mbps": 1.6686,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0049,
+      "rate_mbps": 0.0492,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0037,
+      "rate_mbps": 0.0367,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0055,
+      "rate_mbps": 0.0553,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.1669,
+      "rate_mbps": 1.6686,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0003,
+      "rate_mbps": 0.0034,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.009340047836304,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0003,
+      "rate_mbps": 0.0035,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s3",
+      "dst": "s6",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.001,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.001,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009543657302856,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    }
+  ],
+  "flow_samples": [
+    {
+      "t": 0.0,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 3.39676,
+      "rerouted": true
+    },
+    {
+      "t": 0.0,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "G": 3.29977,
+      "rerouted": true
+    },
+    {
+      "t": 2.004504680633545,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 3.54368,
+      "rerouted": false
+    },
+    {
+      "t": 2.004504680633545,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 3.53867,
+      "rerouted": false
+    },
+    {
+      "t": 4.00479793548584,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 2.99078,
+      "rerouted": false
+    },
+    {
+      "t": 4.00479793548584,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 3.23127,
+      "rerouted": false
+    },
+    {
+      "t": 6.005053520202637,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s2",
+        "s8",
+        "s1"
+      ],
+      "G": 2.67594,
+      "rerouted": true
+    },
+    {
+      "t": 6.005053520202637,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 1.76982,
+      "rerouted": true
+    },
+    {
+      "t": 8.005362033843994,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 1.01959,
+      "rerouted": false
+    },
+    {
+      "t": 8.005362033843994,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 1.77693,
+      "rerouted": false
+    },
+    {
+      "t": 10.005641222000122,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 1.93129,
+      "rerouted": false
+    },
+    {
+      "t": 10.005641222000122,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s3",
+        "s4"
+      ],
+      "G": 1.08674,
+      "rerouted": false
+    },
+    {
+      "t": 12.005900859832764,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 1.54918,
+      "rerouted": false
+    },
+    {
+      "t": 12.005900859832764,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 1.18969,
+      "rerouted": false
+    },
+    {
+      "t": 14.006754398345947,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 1.07413,
+      "rerouted": true
+    },
+    {
+      "t": 14.006754398345947,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 1.72814,
+      "rerouted": true
+    },
+    {
+      "t": 16.007009029388428,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 1.04059,
+      "rerouted": false
+    },
+    {
+      "t": 16.007009029388428,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 1.18923,
+      "rerouted": false
+    },
+    {
+      "t": 18.009126663208008,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 1.15032,
+      "rerouted": false
+    },
+    {
+      "t": 18.009126663208008,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 1.20201,
+      "rerouted": false
+    },
+    {
+      "t": 20.009340047836304,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 1.55568,
+      "rerouted": true
+    },
+    {
+      "t": 20.009340047836304,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 1.44169,
+      "rerouted": true
+    },
+    {
+      "t": 22.009543657302856,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "G": 2.34891,
+      "rerouted": false
+    },
+    {
+      "t": 22.009543657302856,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 2.6372,
+      "rerouted": false
+    }
+  ],
+  "throughput_samples": [
+    {
+      "t": 17.516921758651733,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.51692509651184,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516926050186157,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516927003860474,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.51692795753479,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516928672790527,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516929388046265,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516930103302002,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.51693105697632,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516931772232056,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516932487487793,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.51693320274353,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516934156417847,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.516934871673584,
+      "flow_id": "base",
+      "mbps": 2.99
+    },
+    {
+      "t": 17.51693558692932,
+      "flow_id": "base",
+      "mbps": 3.01
+    },
+    {
+      "t": 17.516937494277954,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.51693820953369,
+      "flow_id": "base",
+      "mbps": 2.99
+    }
+  ],
+  "reroute_events": []
+}
