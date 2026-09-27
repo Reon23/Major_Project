@@ -18,6 +18,7 @@ zip -r project.zip \
   ai/ \
   sdn/ \
   utils/ \
+  blockchain/ \
   --exclude "*/__pycache__/*" \
   --exclude "*.pyc"
 

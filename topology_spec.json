@@ -138,56 +138,56 @@
     },
     {
       "src": "s3",
-      "dst": "s6",
-      "bw": 10.0,
-      "delay": "10ms",
-      "max_queue_size": 50
-    },
-    {
-      "src": "s2",
-      "dst": "s6",
-      "bw": 10.0,
-      "delay": "10ms",
-      "max_queue_size": 50
-    },
-    {
-      "src": "s2",
-      "dst": "s8",
-      "bw": 10.0,
-      "delay": "10ms",
-      "max_queue_size": 50
-    },
-    {
-      "src": "s1",
-      "dst": "s8",
-      "bw": 10.0,
-      "delay": "10ms",
-      "max_queue_size": 50
-    },
-    {
-      "src": "s1",
-      "dst": "s7",
+      "dst": "s5",
       "bw": 10.0,
       "delay": "10ms",
       "max_queue_size": 50
     },
     {
       "src": "s4",
-      "dst": "s7",
+      "dst": "s5",
       "bw": 10.0,
       "delay": "10ms",
       "max_queue_size": 50
     },
     {
       "src": "s3",
-      "dst": "s5",
+      "dst": "s6",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s2",
+      "dst": "s6",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s2",
+      "dst": "s8",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s1",
+      "dst": "s8",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s1",
+      "dst": "s7",
       "bw": 10.0,
       "delay": "10ms",
       "max_queue_size": 50
     },
     {
       "src": "s4",
-      "dst": "s5",
+      "dst": "s7",
       "bw": 10.0,
       "delay": "10ms",
       "max_queue_size": 50
