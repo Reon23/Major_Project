@@ -1,0 +1,8 @@
+{
+  "trial_id": "reactive__bursty_threshold__trial04",
+  "approach": "reactive",
+  "scenario": "bursty_threshold",
+  "trial": 4,
+  "event_log_path": "bench_results/results/bursty_threshold/reactive/raw/trial04_events.jsonl",
+  "updated_at": 1790519916.3378325
+}

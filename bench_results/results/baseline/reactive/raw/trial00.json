@@ -1,0 +1,4326 @@
+{
+  "controller": "reactive",
+  "approach": "reactive",
+  "scenario": "baseline",
+  "trial": 0,
+  "started_at": 1790519393.8046432,
+  "finished_at": 1790519416.363108,
+  "duration_s": 22.558,
+  "flow_ids": {
+    "base": {
+      "src": "h1",
+      "dst": "h2",
+      "proto": "udp",
+      "bandwidth_mbps": 3.0,
+      "duration_s": 15,
+      "started_at": 1790519396.0109444
+    }
+  },
+  "notes": "flow_log_events=23; last_lines=['[base] [  7]   0.00-15.00  sec  5.36 MBytes  3.00 Mbits/sec  0.000 ms  0/3885 (0%)  sender', '[base] [  7]   0.00-15.05  sec  5.36 MBytes  2.99 Mbits/sec  0.658 ms  0/3885 (0%)  receiver', '[base] iperf Done.']",
+  "flow_start_results": [
+    {
+      "flow_id": "_warmup_h1_h2",
+      "src": "h1",
+      "dst": "h2",
+      "ok": true,
+      "error": null,
+      "started_at": 1790519394.0092015,
+      "warmup": true
+    },
+    {
+      "flow_id": "base",
+      "src": "h1",
+      "dst": "h2",
+      "ok": true,
+      "error": null,
+      "started_at": 1790519396.010942
+    }
+  ],
+  "link_samples": [
+    {
+      "t": 0.0,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0011,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0006,
+      "rate_mbps": 0.0055,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0014,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0011,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0003,
+      "rate_mbps": 0.0028,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.038,
+      "rate_mbps": 0.3803,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.0383,
+      "rate_mbps": 0.3829,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.0003,
+      "rate_mbps": 0.0029,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0003,
+      "rate_mbps": 0.0029,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0006,
+      "rate_mbps": 0.0055,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0014,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0018091201782227,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0003,
+      "rate_mbps": 0.0028,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0005,
+      "rate_mbps": 0.0055,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.1259,
+      "rate_mbps": 1.2588,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.1265,
+      "rate_mbps": 1.2655,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0005,
+      "rate_mbps": 0.0055,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.002122402191162,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.3083,
+      "rate_mbps": 3.083,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.3091,
+      "rate_mbps": 3.0906,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.002336025238037,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.3062,
+      "rate_mbps": 3.0622,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.0048,
+      "rate_mbps": 0.0479,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.003,
+      "rate_mbps": 0.0303,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.3044,
+      "rate_mbps": 3.0445,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.3011,
+      "rate_mbps": 3.0113,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.002537250518799,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.3074,
+      "rate_mbps": 3.0738,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.308,
+      "rate_mbps": 3.0797,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.3103,
+      "rate_mbps": 3.1035,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.002751111984253,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.3058,
+      "rate_mbps": 3.0584,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.3058,
+      "rate_mbps": 3.0584,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.3069,
+      "rate_mbps": 3.0693,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.002993822097778,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0079,
+      "rate_mbps": 0.0785,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.2997,
+      "rate_mbps": 2.9971,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.0091,
+      "rate_mbps": 0.0905,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0108,
+      "rate_mbps": 0.1081,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.2985,
+      "rate_mbps": 2.9853,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.003984451293945,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.3064,
+      "rate_mbps": 3.0635,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0024,
+      "rate_mbps": 0.0244,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.0012,
+      "rate_mbps": 0.0124,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.0012,
+      "rate_mbps": 0.0124,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.3046,
+      "rate_mbps": 3.0456,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.3022,
+      "rate_mbps": 3.0217,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0036,
+      "rate_mbps": 0.0364,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.00423836708069,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0054,
+      "rate_mbps": 0.0542,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.3006,
+      "rate_mbps": 3.0058,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.3033,
+      "rate_mbps": 3.0327,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.0072,
+      "rate_mbps": 0.0721,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.009,
+      "rate_mbps": 0.0896,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.004478693008423,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0057,
+      "rate_mbps": 0.0569,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0344,
+      "rate_mbps": 0.3442,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.0036,
+      "rate_mbps": 0.036,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.0018,
+      "rate_mbps": 0.0183,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.0054,
+      "rate_mbps": 0.0538,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0054,
+      "rate_mbps": 0.0538,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0003,
+      "rate_mbps": 0.0034,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0344,
+      "rate_mbps": 0.3439,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.00523543357849,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s8",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s3",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s7",
+      "dst": "s1",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s8",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s6",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s4",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s1",
+      "dst": "s2",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s3",
+      "dst": "s5",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s4",
+      "dst": "s5",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s3",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s7",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.015159845352173,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    }
+  ],
+  "flow_samples": [
+    {
+      "t": 2.0018091201782227,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 2.0018091201782227,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 4.002122402191162,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 4.002122402191162,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 6.002336025238037,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 6.002336025238037,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 8.002537250518799,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 8.002537250518799,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 10.002751111984253,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 10.002751111984253,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 12.002993822097778,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 12.002993822097778,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 14.003984451293945,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 14.003984451293945,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 16.00423836708069,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 16.00423836708069,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 18.004478693008423,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 18.004478693008423,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 20.00523543357849,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 20.00523543357849,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 22.015159845352173,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    },
+    {
+      "t": 22.015159845352173,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "G": 0.0,
+      "rerouted": false
+    }
+  ],
+  "throughput_samples": [
+    {
+      "t": 17.536678791046143,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536682605743408,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536684036254883,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.5366849899292,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536685705184937,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536686658859253,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.53668761253357,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536688566207886,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.53668975830078,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536690950393677,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536691665649414,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.53669261932373,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536693334579468,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536694526672363,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.53669548034668,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536699771881104,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.536701202392578,
+      "flow_id": "base",
+      "mbps": 2.99
+    }
+  ],
+  "reroute_events": [
+    {
+      "t": 0.2336282730102539,
+      "wall_time": 1790519394.0382714,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "cold_start",
+      "bottleneck_util_before": null,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "num_candidates": 4,
+        "path_idx": 0
+      }
+    },
+    {
+      "t": 0.23369789123535156,
+      "wall_time": 1790519394.038341,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "cold_start",
+      "bottleneck_util_before": null,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "num_candidates": 4,
+        "path_idx": 0
+      }
+    },
+    {
+      "t": 5.155649662017822,
+      "wall_time": 1790519398.9602928,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "congestion_threshold_crossed",
+      "bottleneck_util_before": 0.3091,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.309,
+      "success": true,
+      "approach_specific": {
+        "load_estimate": 0.8618,
+        "min_improvement_required": 0.05,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 5.155965805053711,
+      "wall_time": 1790519398.960609,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9724,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 5.157517910003662,
+      "wall_time": 1790519398.962161,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3091,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9724,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 5.157884120941162,
+      "wall_time": 1790519398.9625273,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9945,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 5.159575939178467,
+      "wall_time": 1790519398.964219,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3091,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9945,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 5.159891128540039,
+      "wall_time": 1790519398.9645343,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9989,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 5.162174463272095,
+      "wall_time": 1790519398.9668176,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3091,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9989,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 7.1526525020599365,
+      "wall_time": 1790519400.9572957,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.7991,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 7.154291391372681,
+      "wall_time": 1790519400.9589345,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3091,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.7991,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 7.1551501750946045,
+      "wall_time": 1790519400.9597933,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.6393,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 7.156637668609619,
+      "wall_time": 1790519400.9612808,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3091,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.6393,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 7.156909465789795,
+      "wall_time": 1790519400.9615526,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.5115,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 7.162751197814941,
+      "wall_time": 1790519400.9673944,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3091,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.5115,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 9.157207012176514,
+      "wall_time": 1790519402.9618502,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.8137,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 9.15870714187622,
+      "wall_time": 1790519402.9633503,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.8137,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 9.158994436264038,
+      "wall_time": 1790519402.9636376,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.651,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 9.163810014724731,
+      "wall_time": 1790519402.9684532,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.651,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 9.164298057556152,
+      "wall_time": 1790519402.9689412,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.5208,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 9.167051553726196,
+      "wall_time": 1790519402.9716947,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.5208,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 9.167341947555542,
+      "wall_time": 1790519402.971985,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9042,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 9.168949604034424,
+      "wall_time": 1790519402.9735928,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9042,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 11.153806447982788,
+      "wall_time": 1790519404.9584496,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.8435,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 11.155453205108643,
+      "wall_time": 1790519404.9600964,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.8435,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 11.15641164779663,
+      "wall_time": 1790519404.9610548,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.795,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 11.159646272659302,
+      "wall_time": 1790519404.9642894,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.795,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 11.163395166397095,
+      "wall_time": 1790519404.9680383,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.7562,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 11.164931535720825,
+      "wall_time": 1790519404.9695747,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.7562,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 11.167209148406982,
+      "wall_time": 1790519404.9718523,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.7252,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 11.175947427749634,
+      "wall_time": 1790519404.9805906,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.7252,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 11.176328182220459,
+      "wall_time": 1790519404.9809713,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.7003,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 11.17815637588501,
+      "wall_time": 1790519404.9827995,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0001,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.7003,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 11.17848801612854,
+      "wall_time": 1790519404.9831312,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0001,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.6805,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 11.180190086364746,
+      "wall_time": 1790519404.9848332,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.3109,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0001,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.6805,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 11.180483102798462,
+      "wall_time": 1790519404.9851263,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.6646,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 11.183256149291992,
+      "wall_time": 1790519404.9878993,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3094,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.6646,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 11.183546543121338,
+      "wall_time": 1790519404.9881897,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.6519,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 11.185180187225342,
+      "wall_time": 1790519404.9898233,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3094,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.6519,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 13.158010959625244,
+      "wall_time": 1790519406.962654,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.6417,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 13.159569501876831,
+      "wall_time": 1790519406.9642127,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3094,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.6417,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 13.161128520965576,
+      "wall_time": 1790519406.9657717,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.6335,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 13.16247820854187,
+      "wall_time": 1790519406.9671214,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3094,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.6335,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 13.165090799331665,
+      "wall_time": 1790519406.969734,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.5068,
+        "reason": "improvement_below_min_threshold"
+      }
+    },
+    {
+      "t": 13.168465375900269,
+      "wall_time": 1790519406.9731085,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3058,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.5068,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 13.170223236083984,
+      "wall_time": 1790519406.9748664,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "congestion_threshold_crossed",
+      "bottleneck_util_before": 0.2985,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.2985,
+      "success": true,
+      "approach_specific": {
+        "load_estimate": 0.8768,
+        "min_improvement_required": 0.05,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 13.170652151107788,
+      "wall_time": 1790519406.9752953,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.7015,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 13.178260326385498,
+      "wall_time": 1790519406.9829035,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3031,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.7015,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 13.178657531738281,
+      "wall_time": 1790519406.9833007,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9403,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 13.180072784423828,
+      "wall_time": 1790519406.984716,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3031,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9403,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 15.15910291671753,
+      "wall_time": 1790519408.963746,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9881,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 15.160556316375732,
+      "wall_time": 1790519408.9651995,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3031,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9881,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 15.161383628845215,
+      "wall_time": 1790519408.9660268,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9976,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 15.162692546844482,
+      "wall_time": 1790519408.9673357,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3031,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9976,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 15.162964105606079,
+      "wall_time": 1790519408.9676073,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9995,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 15.16541075706482,
+      "wall_time": 1790519408.970054,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3031,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9995,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 15.165817737579346,
+      "wall_time": 1790519408.970461,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9999,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 15.171917200088501,
+      "wall_time": 1790519408.9765604,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3046,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9999,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 15.172500848770142,
+      "wall_time": 1790519408.977144,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 1.0,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 15.1746666431427,
+      "wall_time": 1790519408.9793098,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3046,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 1.0,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 15.1751127243042,
+      "wall_time": 1790519408.9797559,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.0012,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 1.0,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 15.176784038543701,
+      "wall_time": 1790519408.9814272,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.3046,
+      "alt_path_best_util": 0.0012,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 1.0,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 15.177181720733643,
+      "wall_time": 1790519408.9818249,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.0012,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 1.0,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 15.191008567810059,
+      "wall_time": 1790519408.9956517,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.3048,
+      "alt_path_best_util": 0.0012,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 1.0,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 15.191504716873169,
+      "wall_time": 1790519408.9961479,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.0012,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 1.0,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 15.193087339401245,
+      "wall_time": 1790519408.9977305,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.3048,
+      "alt_path_best_util": 0.0012,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 1.0,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 17.160550832748413,
+      "wall_time": 1790519410.965194,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.0012,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 1.0,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 17.162155866622925,
+      "wall_time": 1790519410.966799,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.3048,
+      "alt_path_best_util": 0.0012,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 1.0,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 17.163651704788208,
+      "wall_time": 1790519410.9682949,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.0012,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 1.0,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 17.16555380821228,
+      "wall_time": 1790519410.970197,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.3048,
+      "alt_path_best_util": 0.0012,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 1.0,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 17.165929794311523,
+      "wall_time": 1790519410.970573,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.0012,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.8002,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 17.168128728866577,
+      "wall_time": 1790519410.972772,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.3048,
+      "alt_path_best_util": 0.0012,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.8002,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 17.168463945388794,
+      "wall_time": 1790519410.973107,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.0012,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.6404,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 17.174604892730713,
+      "wall_time": 1790519410.979248,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.3048,
+      "alt_path_best_util": 0.0012,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.6404,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 17.175975799560547,
+      "wall_time": 1790519410.980619,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "congestion_threshold_crossed",
+      "bottleneck_util_before": 0.3017,
+      "bottleneck_util_after": 0.0036,
+      "alt_path_best_util": 0.0036,
+      "improvement": 0.2981,
+      "success": true,
+      "approach_specific": {
+        "load_estimate": 0.9281,
+        "min_improvement_required": 0.05,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 17.17638325691223,
+      "wall_time": 1790519410.9810264,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0036,
+      "bottleneck_util_after": 0.0036,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.7432,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 17.177927494049072,
+      "wall_time": 1790519410.9825706,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0036,
+      "bottleneck_util_after": 0.3048,
+      "alt_path_best_util": 0.0036,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.7432,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 17.17826509475708,
+      "wall_time": 1790519410.9829082,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0036,
+      "bottleneck_util_after": 0.0036,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.5953,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 17.182791233062744,
+      "wall_time": 1790519410.9874344,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0036,
+      "bottleneck_util_after": 0.3033,
+      "alt_path_best_util": 0.0036,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.5953,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 17.18367028236389,
+      "wall_time": 1790519410.9883134,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.9191,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 17.188194274902344,
+      "wall_time": 1790519410.9928374,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3033,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.9191,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 19.16449809074402,
+      "wall_time": 1790519412.9691412,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.7352,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 19.169146299362183,
+      "wall_time": 1790519412.9737895,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3033,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.7352,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 19.171246767044067,
+      "wall_time": 1790519412.97589,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.5882,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 19.174642086029053,
+      "wall_time": 1790519412.9792852,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3033,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.5882,
+        "num_paths": 4
+      }
+    },
+    {
+      "t": 19.175556182861328,
+      "wall_time": 1790519412.9801993,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "no_better_path",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": false,
+      "approach_specific": {
+        "load_estimate": 0.4706,
+        "reason": "no_alternative_better_by_min_improvement"
+      }
+    },
+    {
+      "t": 19.17880630493164,
+      "wall_time": 1790519412.9834495,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s[1, 2, 4]",
+        "s[1, 3, 4]",
+        "s[1, 7, 4]",
+        "s[1, 3, 5, 4]"
+      ],
+      "trigger_reason": "ecmp_fallback",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.3033,
+      "alt_path_best_util": 0.0,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "equal_weights": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "load_estimate": 0.4706,
+        "num_paths": 4
+      }
+    }
+  ]
+}

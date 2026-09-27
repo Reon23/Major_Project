@@ -3,9 +3,9 @@
   "approach": "active_inference",
   "scenario": "baseline",
   "trial": 2,
-  "started_at": 1790517442.7319865,
-  "finished_at": 1790517465.2563577,
-  "duration_s": 22.524,
+  "started_at": 1790518880.8793137,
+  "finished_at": 1790518903.4080272,
+  "duration_s": 22.529,
   "flow_ids": {
     "base": {
       "src": "h1",
@@ -13,10 +13,10 @@
       "proto": "udp",
       "bandwidth_mbps": 3.0,
       "duration_s": 15,
-      "started_at": 1790517444.9392564
+      "started_at": 1790518883.0824418
     }
   },
-  "notes": "flow_log_events=23; last_lines=['[base] [  7]   0.00-15.00  sec  5.36 MBytes  3.00 Mbits/sec  0.000 ms  0/3885 (0%)  sender', '[base] [  7]   0.00-15.05  sec  5.36 MBytes  2.99 Mbits/sec  0.076 ms  0/3885 (0%)  receiver', '[base] iperf Done.']",
+  "notes": "flow_log_events=23; last_lines=['[base] [  7]   0.00-15.00  sec  5.36 MBytes  3.00 Mbits/sec  0.000 ms  0/3885 (0%)  sender', '[base] [  7]   0.00-15.05  sec  5.36 MBytes  2.99 Mbits/sec  0.010 ms  0/3885 (0%)  receiver', '[base] iperf Done.']",
   "flow_start_results": [
     {
       "flow_id": "_warmup_h1_h2",
@@ -24,7 +24,7 @@
       "dst": "h2",
       "ok": true,
       "error": null,
-      "started_at": 1790517442.9336455,
+      "started_at": 1790518881.085508,
       "warmup": true
     },
     {
@@ -33,23 +33,14 @@
       "dst": "h2",
       "ok": true,
       "error": null,
-      "started_at": 1790517444.9392548
+      "started_at": 1790518883.08244
     }
   ],
   "link_samples": [
     {
       "t": 0.0,
-      "src": "s3",
-      "dst": "s6",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 0.0,
-      "src": "s3",
-      "dst": "s1",
+      "src": "s1",
+      "dst": "s3",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
@@ -57,10 +48,37 @@
     },
     {
       "t": 0.0,
-      "src": "s6",
-      "dst": "s2",
+      "src": "s2",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s2",
+      "dst": "s1",
       "util": 0.0001,
       "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 0.0,
+      "src": "s1",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
@@ -76,7 +94,7 @@
     {
       "t": 0.0,
       "src": "s2",
-      "dst": "s1",
+      "dst": "s4",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
@@ -84,8 +102,8 @@
     },
     {
       "t": 0.0,
-      "src": "s8",
-      "dst": "s1",
+      "src": "s6",
+      "dst": "s3",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
@@ -112,7 +130,7 @@
     {
       "t": 0.0,
       "src": "s4",
-      "dst": "s5",
+      "dst": "s7",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
@@ -120,24 +138,42 @@
     },
     {
       "t": 0.0,
+      "src": "s5",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0005266666412354,
+      "src": "s1",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0005266666412354,
       "src": "s2",
-      "dst": "s4",
+      "dst": "s6",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 2.0005266666412354,
+      "src": "s2",
+      "dst": "s1",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 0.0,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 0.0,
+      "t": 2.0005266666412354,
       "src": "s1",
       "dst": "s7",
       "util": 0.0,
@@ -146,34 +182,16 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
-      "src": "s3",
-      "dst": "s6",
+      "t": 2.0005266666412354,
+      "src": "s1",
+      "dst": "s8",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
-      "src": "s3",
-      "dst": "s1",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 2.004504680633545,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 2.004504680633545,
+      "t": 2.0005266666412354,
       "src": "s2",
       "dst": "s8",
       "util": 0.0001,
@@ -182,25 +200,25 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
+      "t": 2.0005266666412354,
       "src": "s2",
-      "dst": "s1",
+      "dst": "s4",
       "util": 0.0001,
       "rate_mbps": 0.0007,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
-      "src": "s8",
-      "dst": "s1",
+      "t": 2.0005266666412354,
+      "src": "s6",
+      "dst": "s3",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
+      "t": 2.0005266666412354,
       "src": "s4",
       "dst": "s3",
       "util": 0.0,
@@ -209,7 +227,7 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
+      "t": 2.0005266666412354,
       "src": "s5",
       "dst": "s3",
       "util": 0.0,
@@ -218,44 +236,35 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
+      "t": 2.0005266666412354,
       "src": "s4",
-      "dst": "s5",
+      "dst": "s7",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
-      "src": "s2",
+      "t": 2.0005266666412354,
+      "src": "s5",
       "dst": "s4",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 2.004504680633545,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0001,
-      "rate_mbps": 0.0011,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 2.004504680633545,
+      "t": 4.000809907913208,
       "src": "s1",
-      "dst": "s7",
-      "util": 0.0001,
-      "rate_mbps": 0.0011,
+      "dst": "s3",
+      "util": 0.0524,
+      "rate_mbps": 0.5236,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
-      "src": "s3",
+      "t": 4.000809907913208,
+      "src": "s2",
       "dst": "s6",
       "util": 0.0,
       "rate_mbps": 0.0005,
@@ -263,8 +272,8 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
-      "src": "s3",
+      "t": 4.000809907913208,
+      "src": "s2",
       "dst": "s1",
       "util": 0.0,
       "rate_mbps": 0.0005,
@@ -272,16 +281,25 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
+      "t": 4.000809907913208,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
+      "t": 4.000809907913208,
+      "src": "s1",
+      "dst": "s8",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.000809907913208,
       "src": "s2",
       "dst": "s8",
       "util": 0.0,
@@ -290,106 +308,106 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
+      "t": 4.000809907913208,
       "src": "s2",
-      "dst": "s1",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.000809907913208,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.000809907913208,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0005,
+      "rate_mbps": 0.0054,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 4.000809907913208,
+      "src": "s5",
+      "dst": "s3",
       "util": 0.0522,
-      "rate_mbps": 0.5224,
+      "rate_mbps": 0.5216,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
-      "src": "s8",
-      "dst": "s1",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 4.00479793548584,
+      "t": 4.000809907913208,
       "src": "s4",
-      "dst": "s3",
+      "dst": "s7",
       "util": 0.0001,
       "rate_mbps": 0.0007,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
+      "t": 4.000809907913208,
       "src": "s5",
-      "dst": "s3",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 4.00479793548584,
-      "src": "s4",
-      "dst": "s5",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 4.00479793548584,
-      "src": "s2",
       "dst": "s4",
       "util": 0.0522,
-      "rate_mbps": 0.5224,
+      "rate_mbps": 0.5216,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0006,
-      "rate_mbps": 0.0063,
+      "t": 6.001091241836548,
+      "src": "s1",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 4.00479793548584,
+      "t": 6.001091241836548,
+      "src": "s2",
+      "dst": "s6",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.001091241836548,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.259,
+      "rate_mbps": 2.59,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.001091241836548,
       "src": "s1",
       "dst": "s7",
       "util": 0.0006,
-      "rate_mbps": 0.0063,
+      "rate_mbps": 0.0057,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 6.005053520202637,
-      "src": "s3",
-      "dst": "s6",
+      "t": 6.001091241836548,
+      "src": "s1",
+      "dst": "s8",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 6.005053520202637,
-      "src": "s3",
-      "dst": "s1",
-      "util": 0.2848,
-      "rate_mbps": 2.8481,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 6.005053520202637,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 6.005053520202637,
+      "t": 6.001091241836548,
       "src": "s2",
       "dst": "s8",
       "util": 0.0,
@@ -398,107 +416,98 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 6.005053520202637,
+      "t": 6.001091241836548,
       "src": "s2",
-      "dst": "s1",
-      "util": 0.0001,
-      "rate_mbps": 0.0013,
+      "dst": "s4",
+      "util": 0.2572,
+      "rate_mbps": 2.5721,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 6.005053520202637,
-      "src": "s8",
-      "dst": "s1",
+      "t": 6.001091241836548,
+      "src": "s6",
+      "dst": "s3",
       "util": 0.0001,
       "rate_mbps": 0.0007,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 6.005053520202637,
+      "t": 6.001091241836548,
       "src": "s4",
       "dst": "s3",
-      "util": 0.2866,
-      "rate_mbps": 2.8664,
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 6.005053520202637,
+      "t": 6.001091241836548,
       "src": "s5",
       "dst": "s3",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 6.005053520202637,
-      "src": "s4",
-      "dst": "s5",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 6.005053520202637,
-      "src": "s2",
-      "dst": "s4",
-      "util": 0.0001,
-      "rate_mbps": 0.0013,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 6.005053520202637,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0003,
-      "rate_mbps": 0.0032,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 6.005053520202637,
-      "src": "s1",
-      "dst": "s7",
-      "util": 0.0003,
-      "rate_mbps": 0.0032,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 8.005362033843994,
-      "src": "s3",
-      "dst": "s6",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 8.005362033843994,
-      "src": "s3",
-      "dst": "s1",
-      "util": 0.0061,
-      "rate_mbps": 0.0607,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 8.005362033843994,
-      "src": "s6",
-      "dst": "s2",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 8.005362033843994,
+      "t": 6.001091241836548,
+      "src": "s4",
+      "dst": "s7",
+      "util": 0.0006,
+      "rate_mbps": 0.0057,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 6.001091241836548,
+      "src": "s5",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.001368999481201,
+      "src": "s1",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.001368999481201,
       "src": "s2",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.001368999481201,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.006,
+      "rate_mbps": 0.0603,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.001368999481201,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.3032,
+      "rate_mbps": 3.0322,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.001368999481201,
+      "src": "s1",
       "dst": "s8",
       "util": 0.0,
       "rate_mbps": 0.0005,
@@ -506,34 +515,43 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 8.005362033843994,
+      "t": 8.001368999481201,
       "src": "s2",
-      "dst": "s1",
-      "util": 0.3021,
-      "rate_mbps": 3.0213,
+      "dst": "s8",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 8.005362033843994,
-      "src": "s8",
-      "dst": "s1",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 8.005362033843994,
-      "src": "s4",
-      "dst": "s3",
+      "t": 8.001368999481201,
+      "src": "s2",
+      "dst": "s4",
       "util": 0.0078,
-      "rate_mbps": 0.0777,
+      "rate_mbps": 0.0785,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 8.005362033843994,
+      "t": 8.001368999481201,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.001368999481201,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.001368999481201,
       "src": "s5",
       "dst": "s3",
       "util": 0.0,
@@ -542,44 +560,35 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 8.005362033843994,
+      "t": 8.001368999481201,
       "src": "s4",
-      "dst": "s5",
+      "dst": "s7",
+      "util": 0.3012,
+      "rate_mbps": 3.0121,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 8.001368999481201,
+      "src": "s5",
+      "dst": "s4",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 8.005362033843994,
-      "src": "s2",
-      "dst": "s4",
-      "util": 0.3004,
-      "rate_mbps": 3.0037,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 8.005362033843994,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 8.005362033843994,
+      "t": 10.001561641693115,
       "src": "s1",
-      "dst": "s7",
-      "util": 0.0001,
-      "rate_mbps": 0.0008,
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
-      "src": "s3",
+      "t": 10.001561641693115,
+      "src": "s2",
       "dst": "s6",
       "util": 0.0,
       "rate_mbps": 0.0005,
@@ -587,26 +596,26 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
-      "src": "s3",
-      "dst": "s1",
-      "util": 0.3077,
-      "rate_mbps": 3.0772,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 10.005641222000122,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 10.005641222000122,
+      "t": 10.001561641693115,
       "src": "s2",
+      "dst": "s1",
+      "util": 0.3036,
+      "rate_mbps": 3.0357,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.001561641693115,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0061,
+      "rate_mbps": 0.0605,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.001561641693115,
+      "src": "s1",
       "dst": "s8",
       "util": 0.0001,
       "rate_mbps": 0.001,
@@ -614,26 +623,26 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
+      "t": 10.001561641693115,
       "src": "s2",
-      "dst": "s1",
-      "util": 0.0031,
-      "rate_mbps": 0.0306,
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
-      "src": "s8",
-      "dst": "s1",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
+      "t": 10.001561641693115,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.3024,
+      "rate_mbps": 3.0238,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
-      "src": "s4",
+      "t": 10.001561641693115,
+      "src": "s6",
       "dst": "s3",
       "util": 0.0001,
       "rate_mbps": 0.0007,
@@ -641,43 +650,70 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
+      "t": 10.001561641693115,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 10.001561641693115,
       "src": "s5",
       "dst": "s3",
-      "util": 0.3022,
-      "rate_mbps": 3.022,
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
+      "t": 10.001561641693115,
       "src": "s4",
-      "dst": "s5",
-      "util": 0.3048,
-      "rate_mbps": 3.0478,
+      "dst": "s7",
+      "util": 0.0072,
+      "rate_mbps": 0.072,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
+      "t": 10.001561641693115,
+      "src": "s5",
+      "dst": "s4",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.001817464828491,
+      "src": "s1",
+      "dst": "s3",
+      "util": 0.3057,
+      "rate_mbps": 3.0573,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.001817464828491,
       "src": "s2",
-      "dst": "s4",
-      "util": 0.0048,
-      "rate_mbps": 0.0478,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 10.005641222000122,
-      "src": "s7",
-      "dst": "s4",
+      "dst": "s6",
       "util": 0.0001,
       "rate_mbps": 0.0008,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 10.005641222000122,
+      "t": 12.001817464828491,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0037,
+      "rate_mbps": 0.0366,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.001817464828491,
       "src": "s1",
       "dst": "s7",
       "util": 0.0,
@@ -686,34 +722,16 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 12.005900859832764,
-      "src": "s3",
-      "dst": "s6",
-      "util": 0.0001,
-      "rate_mbps": 0.001,
+      "t": 12.001817464828491,
+      "src": "s1",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 12.005900859832764,
-      "src": "s3",
-      "dst": "s1",
-      "util": 0.0054,
-      "rate_mbps": 0.0542,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 12.005900859832764,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0001,
-      "rate_mbps": 0.0013,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 12.005900859832764,
+      "t": 12.001817464828491,
       "src": "s2",
       "dst": "s8",
       "util": 0.0,
@@ -722,143 +740,125 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 12.005900859832764,
+      "t": 12.001817464828491,
       "src": "s2",
-      "dst": "s1",
-      "util": 0.3065,
-      "rate_mbps": 3.065,
+      "dst": "s4",
+      "util": 0.0049,
+      "rate_mbps": 0.0489,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 12.005900859832764,
-      "src": "s8",
-      "dst": "s1",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
+      "t": 12.001817464828491,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 12.005900859832764,
+      "t": 12.001817464828491,
       "src": "s4",
       "dst": "s3",
-      "util": 0.003,
-      "rate_mbps": 0.0301,
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 12.005900859832764,
+      "t": 12.001817464828491,
       "src": "s5",
-      "dst": "s3",
-      "util": 0.0036,
-      "rate_mbps": 0.0365,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 12.005900859832764,
-      "src": "s4",
-      "dst": "s5",
-      "util": 0.0054,
-      "rate_mbps": 0.0538,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 12.005900859832764,
-      "src": "s2",
-      "dst": "s4",
-      "util": 0.3047,
-      "rate_mbps": 3.0468,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 12.005900859832764,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 12.005900859832764,
-      "src": "s1",
-      "dst": "s7",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 14.006754398345947,
-      "src": "s3",
-      "dst": "s6",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 14.006754398345947,
-      "src": "s3",
-      "dst": "s1",
-      "util": 0.3042,
-      "rate_mbps": 3.0422,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 14.006754398345947,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 14.006754398345947,
-      "src": "s2",
-      "dst": "s8",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 14.006754398345947,
-      "src": "s2",
-      "dst": "s1",
-      "util": 0.003,
-      "rate_mbps": 0.0305,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 14.006754398345947,
-      "src": "s8",
-      "dst": "s1",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 14.006754398345947,
-      "src": "s4",
       "dst": "s3",
       "util": 0.3025,
-      "rate_mbps": 3.0248,
+      "rate_mbps": 3.0254,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 14.006754398345947,
+      "t": 12.001817464828491,
+      "src": "s4",
+      "dst": "s7",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 12.001817464828491,
       "src": "s5",
+      "dst": "s4",
+      "util": 0.3007,
+      "rate_mbps": 3.007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.002077341079712,
+      "src": "s1",
+      "dst": "s3",
+      "util": 0.301,
+      "rate_mbps": 3.0104,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.002077341079712,
+      "src": "s2",
+      "dst": "s6",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.002077341079712,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.003,
+      "rate_mbps": 0.0302,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.002077341079712,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0012,
+      "rate_mbps": 0.0123,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.002077341079712,
+      "src": "s1",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.002077341079712,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.002077341079712,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.003,
+      "rate_mbps": 0.03,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 14.002077341079712,
+      "src": "s6",
       "dst": "s3",
       "util": 0.0,
       "rate_mbps": 0.0005,
@@ -866,70 +866,88 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 14.006754398345947,
+      "t": 14.002077341079712,
       "src": "s4",
-      "dst": "s5",
-      "util": 0.0001,
-      "rate_mbps": 0.001,
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 14.006754398345947,
-      "src": "s2",
-      "dst": "s4",
-      "util": 0.0048,
-      "rate_mbps": 0.0481,
+      "t": 14.002077341079712,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.3054,
+      "rate_mbps": 3.054,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 14.006754398345947,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0012,
-      "rate_mbps": 0.0124,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 14.006754398345947,
-      "src": "s1",
+      "t": 14.002077341079712,
+      "src": "s4",
       "dst": "s7",
-      "util": 0.0012,
-      "rate_mbps": 0.0124,
+      "util": 0.0013,
+      "rate_mbps": 0.0125,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
-      "src": "s3",
+      "t": 14.002077341079712,
+      "src": "s5",
+      "dst": "s4",
+      "util": 0.306,
+      "rate_mbps": 3.0603,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.0023512840271,
+      "src": "s1",
+      "dst": "s3",
+      "util": 0.3097,
+      "rate_mbps": 3.0973,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.0023512840271,
+      "src": "s2",
       "dst": "s6",
       "util": 0.0002,
-      "rate_mbps": 0.0021,
+      "rate_mbps": 0.0015,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
-      "src": "s3",
+      "t": 16.0023512840271,
+      "src": "s2",
       "dst": "s1",
-      "util": 0.0032,
-      "rate_mbps": 0.0318,
+      "util": 0.0026,
+      "rate_mbps": 0.0255,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0001,
-      "rate_mbps": 0.0013,
+      "t": 16.0023512840271,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0002,
+      "rate_mbps": 0.0024,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
+      "t": 16.0023512840271,
+      "src": "s1",
+      "dst": "s8",
+      "util": 0.0002,
+      "rate_mbps": 0.0024,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.0023512840271,
       "src": "s2",
       "dst": "s8",
       "util": 0.0002,
@@ -938,35 +956,134 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
+      "t": 16.0023512840271,
       "src": "s2",
-      "dst": "s1",
-      "util": 0.3044,
-      "rate_mbps": 3.0439,
+      "dst": "s4",
+      "util": 0.0026,
+      "rate_mbps": 0.0258,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
-      "src": "s8",
-      "dst": "s1",
+      "t": 16.0023512840271,
+      "src": "s6",
+      "dst": "s3",
       "util": 0.0002,
       "rate_mbps": 0.0021,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
+      "t": 16.0023512840271,
       "src": "s4",
       "dst": "s3",
-      "util": 0.005,
-      "rate_mbps": 0.0497,
+      "util": 0.0002,
+      "rate_mbps": 0.0021,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
+      "t": 16.0023512840271,
       "src": "s5",
+      "dst": "s3",
+      "util": 0.3039,
+      "rate_mbps": 3.039,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.0023512840271,
+      "src": "s4",
+      "dst": "s7",
+      "util": 0.0002,
+      "rate_mbps": 0.0021,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 16.0023512840271,
+      "src": "s5",
+      "dst": "s4",
+      "util": 0.3034,
+      "rate_mbps": 3.0339,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s1",
+      "dst": "s3",
+      "util": 0.3002,
+      "rate_mbps": 3.0016,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s2",
+      "dst": "s6",
+      "util": 0.0001,
+      "rate_mbps": 0.0013,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s2",
+      "dst": "s1",
+      "util": 0.0091,
+      "rate_mbps": 0.0912,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s1",
+      "dst": "s8",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.0091,
+      "rate_mbps": 0.0909,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
+      "src": "s4",
       "dst": "s3",
       "util": 0.0001,
       "rate_mbps": 0.0013,
@@ -974,260 +1091,44 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 16.007009029388428,
+      "t": 18.003865718841553,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.3023,
+      "rate_mbps": 3.023,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 18.003865718841553,
       "src": "s4",
-      "dst": "s5",
-      "util": 0.0002,
-      "rate_mbps": 0.0021,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 16.007009029388428,
-      "src": "s2",
-      "dst": "s4",
-      "util": 0.3025,
-      "rate_mbps": 3.0255,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 16.007009029388428,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0014,
-      "rate_mbps": 0.0141,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 16.007009029388428,
-      "src": "s1",
       "dst": "s7",
-      "util": 0.0014,
-      "rate_mbps": 0.0142,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
-      "src": "s3",
-      "dst": "s6",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
-      "src": "s3",
-      "dst": "s1",
-      "util": 0.3054,
-      "rate_mbps": 3.0536,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
-      "src": "s6",
-      "dst": "s2",
       "util": 0.0001,
       "rate_mbps": 0.0013,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 18.009126663208008,
-      "src": "s2",
-      "dst": "s8",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
-      "src": "s2",
-      "dst": "s1",
-      "util": 0.0024,
-      "rate_mbps": 0.0241,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
-      "src": "s8",
-      "dst": "s1",
-      "util": 0.0001,
-      "rate_mbps": 0.0008,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
-      "src": "s4",
-      "dst": "s3",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
+      "t": 18.003865718841553,
       "src": "s5",
-      "dst": "s3",
-      "util": 0.3014,
-      "rate_mbps": 3.0137,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
-      "src": "s4",
-      "dst": "s5",
-      "util": 0.2963,
-      "rate_mbps": 2.9633,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
-      "src": "s2",
       "dst": "s4",
-      "util": 0.0043,
-      "rate_mbps": 0.0428,
+      "util": 0.3022,
+      "rate_mbps": 3.0222,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 18.009126663208008,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0024,
-      "rate_mbps": 0.0243,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 18.009126663208008,
+      "t": 20.007150173187256,
       "src": "s1",
-      "dst": "s7",
-      "util": 0.0024,
-      "rate_mbps": 0.0241,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s3",
-      "dst": "s6",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s3",
-      "dst": "s1",
-      "util": 0.0072,
-      "rate_mbps": 0.0724,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s2",
-      "dst": "s8",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s2",
-      "dst": "s1",
-      "util": 0.1669,
-      "rate_mbps": 1.6686,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s8",
-      "dst": "s1",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s4",
       "dst": "s3",
-      "util": 0.0049,
-      "rate_mbps": 0.0492,
+      "util": 0.0045,
+      "rate_mbps": 0.0448,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 20.009340047836304,
-      "src": "s5",
-      "dst": "s3",
-      "util": 0.0037,
-      "rate_mbps": 0.0367,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s4",
-      "dst": "s5",
-      "util": 0.0055,
-      "rate_mbps": 0.0553,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
+      "t": 20.007150173187256,
       "src": "s2",
-      "dst": "s4",
-      "util": 0.1669,
-      "rate_mbps": 1.6686,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0003,
-      "rate_mbps": 0.0034,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 20.009340047836304,
-      "src": "s1",
-      "dst": "s7",
-      "util": 0.0003,
-      "rate_mbps": 0.0035,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 22.009543657302856,
-      "src": "s3",
       "dst": "s6",
       "util": 0.0001,
       "rate_mbps": 0.0007,
@@ -1235,34 +1136,115 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
-      "src": "s3",
+      "t": 20.007150173187256,
+      "src": "s2",
       "dst": "s1",
+      "util": 0.1956,
+      "rate_mbps": 1.9563,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.007150173187256,
+      "src": "s1",
+      "dst": "s7",
+      "util": 0.0012,
+      "rate_mbps": 0.0123,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.007150173187256,
+      "src": "s1",
+      "dst": "s8",
       "util": 0.0,
       "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
-      "src": "s6",
-      "dst": "s2",
-      "util": 0.0,
-      "rate_mbps": 0.0005,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 22.009543657302856,
+      "t": 20.007150173187256,
       "src": "s2",
       "dst": "s8",
       "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.007150173187256,
+      "src": "s2",
+      "dst": "s4",
+      "util": 0.1956,
+      "rate_mbps": 1.9563,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.007150173187256,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.007150173187256,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0003,
+      "rate_mbps": 0.0033,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.007150173187256,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0053,
+      "rate_mbps": 0.0534,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.007150173187256,
+      "src": "s4",
+      "dst": "s7",
+      "util": 0.0012,
+      "rate_mbps": 0.0122,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 20.007150173187256,
+      "src": "s5",
+      "dst": "s4",
+      "util": 0.0071,
+      "rate_mbps": 0.0711,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009707927703857,
+      "src": "s1",
+      "dst": "s3",
+      "util": 0.0001,
+      "rate_mbps": 0.0007,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009707927703857,
+      "src": "s2",
+      "dst": "s6",
+      "util": 0.0001,
       "rate_mbps": 0.0008,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
+      "t": 22.009707927703857,
       "src": "s2",
       "dst": "s1",
       "util": 0.0,
@@ -1271,65 +1253,83 @@
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
-      "src": "s8",
-      "dst": "s1",
+      "t": 22.009707927703857,
+      "src": "s1",
+      "dst": "s7",
       "util": 0.0001,
-      "rate_mbps": 0.0008,
+      "rate_mbps": 0.001,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
-      "src": "s4",
-      "dst": "s3",
-      "util": 0.0001,
-      "rate_mbps": 0.0008,
+      "t": 22.009707927703857,
+      "src": "s1",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
-      "src": "s5",
-      "dst": "s3",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
+      "t": 22.009707927703857,
+      "src": "s2",
+      "dst": "s8",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
-      "src": "s4",
-      "dst": "s5",
-      "util": 0.0001,
-      "rate_mbps": 0.0007,
-      "capacity_mbps": 10.0,
-      "loss_fraction": 0.0
-    },
-    {
-      "t": 22.009543657302856,
+      "t": 22.009707927703857,
       "src": "s2",
       "dst": "s4",
-      "util": 0.0001,
-      "rate_mbps": 0.001,
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
-      "src": "s7",
-      "dst": "s4",
-      "util": 0.0001,
-      "rate_mbps": 0.001,
+      "t": 22.009707927703857,
+      "src": "s6",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     },
     {
-      "t": 22.009543657302856,
-      "src": "s1",
+      "t": 22.009707927703857,
+      "src": "s4",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009707927703857,
+      "src": "s5",
+      "dst": "s3",
+      "util": 0.0,
+      "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009707927703857,
+      "src": "s4",
       "dst": "s7",
       "util": 0.0,
       "rate_mbps": 0.0005,
+      "capacity_mbps": 10.0,
+      "loss_fraction": 0.0
+    },
+    {
+      "t": 22.009707927703857,
+      "src": "s5",
+      "dst": "s4",
+      "util": 0.0001,
+      "rate_mbps": 0.0008,
       "capacity_mbps": 10.0,
       "loss_fraction": 0.0
     }
@@ -1341,10 +1341,10 @@
       "dst_ip": "10.0.0.1",
       "path": [
         "s4",
-        "s7",
+        "s3",
         "s1"
       ],
-      "G": 3.39676,
+      "G": 3.21546,
       "rerouted": true
     },
     {
@@ -1353,135 +1353,40 @@
       "dst_ip": "10.0.0.2",
       "path": [
         "s1",
-        "s7",
+        "s3",
+        "s5",
         "s4"
       ],
-      "G": 3.29977,
+      "G": 3.27549,
       "rerouted": true
     },
     {
-      "t": 2.004504680633545,
+      "t": 2.0005266666412354,
       "src_ip": "10.0.0.2",
       "dst_ip": "10.0.0.1",
       "path": [
         "s4",
-        "s7",
+        "s3",
         "s1"
       ],
-      "G": 3.54368,
+      "G": 3.53336,
       "rerouted": false
     },
     {
-      "t": 2.004504680633545,
-      "src_ip": "10.0.0.1",
-      "dst_ip": "10.0.0.2",
-      "path": [
-        "s1",
-        "s2",
-        "s4"
-      ],
-      "G": 3.53867,
-      "rerouted": false
-    },
-    {
-      "t": 4.00479793548584,
-      "src_ip": "10.0.0.2",
-      "dst_ip": "10.0.0.1",
-      "path": [
-        "s4",
-        "s7",
-        "s1"
-      ],
-      "G": 2.99078,
-      "rerouted": false
-    },
-    {
-      "t": 4.00479793548584,
-      "src_ip": "10.0.0.1",
-      "dst_ip": "10.0.0.2",
-      "path": [
-        "s1",
-        "s2",
-        "s4"
-      ],
-      "G": 3.23127,
-      "rerouted": false
-    },
-    {
-      "t": 6.005053520202637,
-      "src_ip": "10.0.0.2",
-      "dst_ip": "10.0.0.1",
-      "path": [
-        "s4",
-        "s2",
-        "s8",
-        "s1"
-      ],
-      "G": 2.67594,
-      "rerouted": true
-    },
-    {
-      "t": 6.005053520202637,
-      "src_ip": "10.0.0.1",
-      "dst_ip": "10.0.0.2",
-      "path": [
-        "s1",
-        "s2",
-        "s4"
-      ],
-      "G": 1.76982,
-      "rerouted": true
-    },
-    {
-      "t": 8.005362033843994,
-      "src_ip": "10.0.0.2",
-      "dst_ip": "10.0.0.1",
-      "path": [
-        "s4",
-        "s7",
-        "s1"
-      ],
-      "G": 1.01959,
-      "rerouted": false
-    },
-    {
-      "t": 8.005362033843994,
-      "src_ip": "10.0.0.1",
-      "dst_ip": "10.0.0.2",
-      "path": [
-        "s1",
-        "s2",
-        "s4"
-      ],
-      "G": 1.77693,
-      "rerouted": false
-    },
-    {
-      "t": 10.005641222000122,
-      "src_ip": "10.0.0.2",
-      "dst_ip": "10.0.0.1",
-      "path": [
-        "s4",
-        "s7",
-        "s1"
-      ],
-      "G": 1.93129,
-      "rerouted": false
-    },
-    {
-      "t": 10.005641222000122,
+      "t": 2.0005266666412354,
       "src_ip": "10.0.0.1",
       "dst_ip": "10.0.0.2",
       "path": [
         "s1",
         "s3",
+        "s5",
         "s4"
       ],
-      "G": 1.08674,
+      "G": 3.53637,
       "rerouted": false
     },
     {
-      "t": 12.005900859832764,
+      "t": 4.000809907913208,
       "src_ip": "10.0.0.2",
       "dst_ip": "10.0.0.1",
       "path": [
@@ -1489,59 +1394,36 @@
         "s7",
         "s1"
       ],
-      "G": 1.54918,
-      "rerouted": false
-    },
-    {
-      "t": 12.005900859832764,
-      "src_ip": "10.0.0.1",
-      "dst_ip": "10.0.0.2",
-      "path": [
-        "s1",
-        "s2",
-        "s4"
-      ],
-      "G": 1.18969,
-      "rerouted": false
-    },
-    {
-      "t": 14.006754398345947,
-      "src_ip": "10.0.0.2",
-      "dst_ip": "10.0.0.1",
-      "path": [
-        "s4",
-        "s7",
-        "s1"
-      ],
-      "G": 1.07413,
+      "G": 3.41603,
       "rerouted": true
     },
     {
-      "t": 14.006754398345947,
+      "t": 4.000809907913208,
       "src_ip": "10.0.0.1",
       "dst_ip": "10.0.0.2",
       "path": [
         "s1",
-        "s2",
+        "s3",
+        "s5",
         "s4"
       ],
-      "G": 1.72814,
+      "G": 3.05204,
       "rerouted": true
     },
     {
-      "t": 16.007009029388428,
+      "t": 6.001091241836548,
       "src_ip": "10.0.0.2",
       "dst_ip": "10.0.0.1",
       "path": [
         "s4",
-        "s7",
+        "s3",
         "s1"
       ],
-      "G": 1.04059,
+      "G": 1.7818,
       "rerouted": false
     },
     {
-      "t": 16.007009029388428,
+      "t": 6.001091241836548,
       "src_ip": "10.0.0.1",
       "dst_ip": "10.0.0.2",
       "path": [
@@ -1549,23 +1431,23 @@
         "s2",
         "s4"
       ],
-      "G": 1.18923,
+      "G": 2.1712,
       "rerouted": false
     },
     {
-      "t": 18.009126663208008,
+      "t": 8.001368999481201,
       "src_ip": "10.0.0.2",
       "dst_ip": "10.0.0.1",
       "path": [
         "s4",
-        "s7",
+        "s3",
         "s1"
       ],
-      "G": 1.15032,
+      "G": 2.18566,
       "rerouted": false
     },
     {
-      "t": 18.009126663208008,
+      "t": 8.001368999481201,
       "src_ip": "10.0.0.1",
       "dst_ip": "10.0.0.2",
       "path": [
@@ -1573,23 +1455,119 @@
         "s2",
         "s4"
       ],
-      "G": 1.20201,
+      "G": 2.17128,
       "rerouted": false
     },
     {
-      "t": 20.009340047836304,
+      "t": 10.001561641693115,
       "src_ip": "10.0.0.2",
       "dst_ip": "10.0.0.1",
       "path": [
         "s4",
-        "s7",
+        "s3",
         "s1"
       ],
-      "G": 1.55568,
+      "G": 1.50999,
+      "rerouted": false
+    },
+    {
+      "t": 10.001561641693115,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 2.24939,
+      "rerouted": false
+    },
+    {
+      "t": 12.001817464828491,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 0.88459,
+      "rerouted": false
+    },
+    {
+      "t": 12.001817464828491,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 1.63607,
+      "rerouted": false
+    },
+    {
+      "t": 14.002077341079712,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 2.61755,
+      "rerouted": false
+    },
+    {
+      "t": 14.002077341079712,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 2.18428,
+      "rerouted": false
+    },
+    {
+      "t": 16.0023512840271,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 2.85228,
+      "rerouted": false
+    },
+    {
+      "t": 16.0023512840271,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 2.27749,
+      "rerouted": false
+    },
+    {
+      "t": 18.003865718841553,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 2.75149,
       "rerouted": true
     },
     {
-      "t": 20.009340047836304,
+      "t": 18.003865718841553,
       "src_ip": "10.0.0.1",
       "dst_ip": "10.0.0.2",
       "path": [
@@ -1597,23 +1575,23 @@
         "s2",
         "s4"
       ],
-      "G": 1.44169,
+      "G": 2.1677,
       "rerouted": true
     },
     {
-      "t": 22.009543657302856,
+      "t": 20.007150173187256,
       "src_ip": "10.0.0.2",
       "dst_ip": "10.0.0.1",
       "path": [
         "s4",
-        "s7",
+        "s3",
         "s1"
       ],
-      "G": 2.34891,
+      "G": 1.06312,
       "rerouted": false
     },
     {
-      "t": 22.009543657302856,
+      "t": 20.007150173187256,
       "src_ip": "10.0.0.1",
       "dst_ip": "10.0.0.2",
       "path": [
@@ -1621,96 +1599,4458 @@
         "s2",
         "s4"
       ],
-      "G": 2.6372,
+      "G": 1.59057,
+      "rerouted": false
+    },
+    {
+      "t": 22.009707927703857,
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "G": 3.18369,
+      "rerouted": false
+    },
+    {
+      "t": 22.009707927703857,
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "G": 2.60132,
       "rerouted": false
     }
   ],
   "throughput_samples": [
     {
-      "t": 17.516921758651733,
+      "t": 17.517959594726562,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.51692509651184,
+      "t": 17.51796531677246,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516926050186157,
+      "t": 17.517966270446777,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516927003860474,
+      "t": 17.517966985702515,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.51692795753479,
+      "t": 17.51796793937683,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516928672790527,
+      "t": 17.51796865463257,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516929388046265,
+      "t": 17.517969608306885,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516930103302002,
+      "t": 17.517970323562622,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.51693105697632,
+      "t": 17.517980098724365,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516931772232056,
+      "t": 17.51798105239868,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516932487487793,
+      "t": 17.517982006072998,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.51693320274353,
+      "t": 17.517982721328735,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516934156417847,
+      "t": 17.51798367500305,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.516934871673584,
-      "flow_id": "base",
-      "mbps": 2.99
-    },
-    {
-      "t": 17.51693558692932,
-      "flow_id": "base",
-      "mbps": 3.01
-    },
-    {
-      "t": 17.516937494277954,
+      "t": 17.51798439025879,
       "flow_id": "base",
       "mbps": 3.0
     },
     {
-      "t": 17.51693820953369,
+      "t": 17.517985343933105,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.517987489700317,
+      "flow_id": "base",
+      "mbps": 3.0
+    },
+    {
+      "t": 17.517988204956055,
       "flow_id": "base",
       "mbps": 2.99
     }
   ],
-  "reroute_events": []
+  "reroute_events": [
+    {
+      "t": 0.10292840003967285,
+      "wall_time": 1790518880.982242,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "G": 3.35566,
+        "decision": "switch",
+        "load_estimate": 0.1024,
+        "new_idx": 2,
+        "old_idx": 3
+      }
+    },
+    {
+      "t": 0.10611271858215332,
+      "wall_time": 1790518880.9854264,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": null,
+      "improvement": -0.0001,
+      "success": true,
+      "approach_specific": {
+        "G": 3.41332,
+        "decision": "switch",
+        "load_estimate": 0.0819,
+        "new_idx": 3,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 0.10866808891296387,
+      "wall_time": 1790518880.9879818,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": 0.0001,
+      "success": true,
+      "approach_specific": {
+        "G": 3.45459,
+        "decision": "switch",
+        "load_estimate": 0.0655,
+        "new_idx": 2,
+        "old_idx": 3
+      }
+    },
+    {
+      "t": 0.11124992370605469,
+      "wall_time": 1790518880.9905636,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": null,
+      "improvement": -0.0001,
+      "success": true,
+      "approach_specific": {
+        "G": 3.48392,
+        "decision": "switch",
+        "load_estimate": 0.0524,
+        "new_idx": 3,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 2.125783920288086,
+      "wall_time": 1790518883.0050976,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0005,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": null,
+      "improvement": 0.0004,
+      "success": true,
+      "approach_specific": {
+        "G": 3.54864,
+        "decision": "switch",
+        "load_estimate": 0.1561,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 2.129551649093628,
+      "wall_time": 1790518883.0088654,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.80142,
+      "bottleneck_util_after": 0.0522,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          25,
+          25,
+          25,
+          24
+        ],
+        "load_estimate": 0.8014
+      }
+    },
+    {
+      "t": 2.1325881481170654,
+      "wall_time": 1790518883.0119019,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0005,
+      "alt_path_best_util": null,
+      "improvement": -0.0004,
+      "success": true,
+      "approach_specific": {
+        "G": 3.54885,
+        "decision": "switch",
+        "load_estimate": 0.1869,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 2.136615753173828,
+      "wall_time": 1790518883.0159295,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.65162,
+      "bottleneck_util_after": 0.0524,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          26,
+          25,
+          26,
+          24
+        ],
+        "load_estimate": 0.6516
+      }
+    },
+    {
+      "t": 2.139944314956665,
+      "wall_time": 1790518883.019258,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0525,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": null,
+      "improvement": 0.0524,
+      "success": true,
+      "approach_specific": {
+        "G": 3.41603,
+        "decision": "switch",
+        "load_estimate": 0.16,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 2.1429202556610107,
+      "wall_time": 1790518883.022234,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.52284,
+      "bottleneck_util_after": 0.0524,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          26,
+          24,
+          26,
+          24
+        ],
+        "load_estimate": 0.5228
+      }
+    },
+    {
+      "t": 4.1042938232421875,
+      "wall_time": 1790518884.9836075,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0525,
+      "alt_path_best_util": null,
+      "improvement": -0.0524,
+      "success": true,
+      "approach_specific": {
+        "G": 3.32952,
+        "decision": "switch",
+        "load_estimate": 0.1281,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 4.106050729751587,
+      "wall_time": 1790518884.9853644,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.42875,
+      "bottleneck_util_after": 0.0524,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          26,
+          24,
+          26,
+          24
+        ],
+        "load_estimate": 0.4288
+      }
+    },
+    {
+      "t": 4.117794513702393,
+      "wall_time": 1790518884.9971082,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0525,
+      "bottleneck_util_after": 0.0006,
+      "alt_path_best_util": null,
+      "improvement": 0.0519,
+      "success": true,
+      "approach_specific": {
+        "G": 2.15299,
+        "decision": "switch",
+        "load_estimate": 0.1129,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 4.11948037147522,
+      "wall_time": 1790518884.998794,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.35348,
+      "bottleneck_util_after": 0.0524,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          26,
+          24,
+          26,
+          24
+        ],
+        "load_estimate": 0.3535
+      }
+    },
+    {
+      "t": 4.121870994567871,
+      "wall_time": 1790518885.0011847,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s7",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0006,
+      "bottleneck_util_after": 0.0525,
+      "alt_path_best_util": null,
+      "improvement": -0.0519,
+      "success": true,
+      "approach_specific": {
+        "G": 1.65424,
+        "decision": "switch",
+        "load_estimate": 0.0905,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 4.124471426010132,
+      "wall_time": 1790518885.0037851,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.29327,
+      "bottleneck_util_after": 0.0524,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          26,
+          24,
+          26,
+          24
+        ],
+        "load_estimate": 0.2933
+      }
+    },
+    {
+      "t": 4.126121997833252,
+      "wall_time": 1790518885.0054357,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0524,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": 0.0524,
+      "success": true,
+      "approach_specific": {
+        "G": 2.8126,
+        "decision": "switch",
+        "load_estimate": 0.2451,
+        "new_idx": 0,
+        "old_idx": 3
+      }
+    },
+    {
+      "t": 4.1305906772613525,
+      "wall_time": 1790518885.0099044,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.2615,
+      "bottleneck_util_after": 0.2615,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          16,
+          28,
+          29,
+          27
+        ],
+        "load_estimate": 0.2615
+      }
+    },
+    {
+      "t": 4.135019063949585,
+      "wall_time": 1790518885.0143328,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.2615,
+      "bottleneck_util_after": 0.2615,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          16,
+          28,
+          29,
+          27
+        ],
+        "load_estimate": 0.2615
+      }
+    },
+    {
+      "t": 4.136789798736572,
+      "wall_time": 1790518885.0161035,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.2615,
+      "bottleneck_util_after": 0.2615,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          16,
+          28,
+          29,
+          27
+        ],
+        "load_estimate": 0.2615
+      }
+    },
+    {
+      "t": 4.139616012573242,
+      "wall_time": 1790518885.0189297,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.2615,
+      "bottleneck_util_after": 0.2615,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          16,
+          28,
+          29,
+          27
+        ],
+        "load_estimate": 0.2615
+      }
+    },
+    {
+      "t": 6.10579252243042,
+      "wall_time": 1790518886.9851062,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.2615,
+      "bottleneck_util_after": 0.2615,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          15,
+          28,
+          29,
+          28
+        ],
+        "load_estimate": 0.2615
+      }
+    },
+    {
+      "t": 6.1145405769348145,
+      "wall_time": 1790518886.9938543,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.2615,
+      "bottleneck_util_after": 0.2615,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          14,
+          28,
+          29,
+          28
+        ],
+        "load_estimate": 0.2615
+      }
+    },
+    {
+      "t": 6.119668006896973,
+      "wall_time": 1790518886.9989817,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.2615,
+      "bottleneck_util_after": 0.2615,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          14,
+          29,
+          29,
+          28
+        ],
+        "load_estimate": 0.2615
+      }
+    },
+    {
+      "t": 6.124903440475464,
+      "wall_time": 1790518887.0042171,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.2615,
+      "bottleneck_util_after": 0.2615,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          13,
+          29,
+          29,
+          29
+        ],
+        "load_estimate": 0.2615
+      }
+    },
+    {
+      "t": 6.12763237953186,
+      "wall_time": 1790518887.006946,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.84215,
+      "bottleneck_util_after": 0.0078,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          22,
+          30,
+          19,
+          29
+        ],
+        "load_estimate": 0.8422
+      }
+    },
+    {
+      "t": 6.1297197341918945,
+      "wall_time": 1790518887.0090334,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.67528,
+      "bottleneck_util_after": 0.0078,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          24,
+          30,
+          17,
+          30
+        ],
+        "load_estimate": 0.6753
+      }
+    },
+    {
+      "t": 6.134052515029907,
+      "wall_time": 1790518887.0133662,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.54179,
+      "bottleneck_util_after": 0.0078,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          26,
+          30,
+          15,
+          30
+        ],
+        "load_estimate": 0.5418
+      }
+    },
+    {
+      "t": 6.137262344360352,
+      "wall_time": 1790518887.016576,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.54179,
+      "bottleneck_util_after": 0.0078,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          26,
+          30,
+          15,
+          30
+        ],
+        "load_estimate": 0.5418
+      }
+    },
+    {
+      "t": 8.106965780258179,
+      "wall_time": 1790518888.9862795,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.43499,
+      "bottleneck_util_after": 0.0078,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          27,
+          30,
+          13,
+          30
+        ],
+        "load_estimate": 0.435
+      }
+    },
+    {
+      "t": 8.110281705856323,
+      "wall_time": 1790518888.9895954,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.34955,
+      "bottleneck_util_after": 0.0078,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          28,
+          30,
+          12,
+          30
+        ],
+        "load_estimate": 0.3496
+      }
+    },
+    {
+      "t": 8.114733695983887,
+      "wall_time": 1790518888.9940474,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.32325,
+      "bottleneck_util_after": 0.305,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          15,
+          32,
+          22,
+          32
+        ],
+        "load_estimate": 0.3232
+      }
+    },
+    {
+      "t": 8.120784521102905,
+      "wall_time": 1790518889.0000982,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3196,
+      "bottleneck_util_after": 0.305,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          13,
+          31,
+          24,
+          31
+        ],
+        "load_estimate": 0.3196
+      }
+    },
+    {
+      "t": 8.122797012329102,
+      "wall_time": 1790518889.0021107,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.31668,
+      "bottleneck_util_after": 0.305,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          12,
+          31,
+          26,
+          31
+        ],
+        "load_estimate": 0.3167
+      }
+    },
+    {
+      "t": 8.124728441238403,
+      "wall_time": 1790518889.0040421,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.31668,
+      "bottleneck_util_after": 0.305,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          12,
+          31,
+          26,
+          31
+        ],
+        "load_estimate": 0.3167
+      }
+    },
+    {
+      "t": 10.107133150100708,
+      "wall_time": 1790518890.9864469,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.31434,
+      "bottleneck_util_after": 0.305,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          11,
+          31,
+          27,
+          31
+        ],
+        "load_estimate": 0.3143
+      }
+    },
+    {
+      "t": 10.111071348190308,
+      "wall_time": 1790518890.990385,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.31247,
+      "bottleneck_util_after": 0.305,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          11,
+          31,
+          28,
+          31
+        ],
+        "load_estimate": 0.3125
+      }
+    },
+    {
+      "t": 10.114020824432373,
+      "wall_time": 1790518890.9933345,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.85002,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          23,
+          22,
+          32,
+          22
+        ],
+        "load_estimate": 0.85
+      }
+    },
+    {
+      "t": 10.12041425704956,
+      "wall_time": 1790518890.999728,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.681,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          27,
+          19,
+          34,
+          19
+        ],
+        "load_estimate": 0.681
+      }
+    },
+    {
+      "t": 10.12287425994873,
+      "wall_time": 1790518891.002188,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.54578,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          30,
+          17,
+          35,
+          17
+        ],
+        "load_estimate": 0.5458
+      }
+    },
+    {
+      "t": 10.124895334243774,
+      "wall_time": 1790518891.004209,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3072,
+      "bottleneck_util_after": 0.3072,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          23,
+          16,
+          46,
+          16
+        ],
+        "load_estimate": 0.3072
+      }
+    },
+    {
+      "t": 10.132006168365479,
+      "wall_time": 1790518891.0113199,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.4376,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          32,
+          16,
+          36,
+          16
+        ],
+        "load_estimate": 0.4376
+      }
+    },
+    {
+      "t": 10.134164333343506,
+      "wall_time": 1790518891.013478,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3072,
+      "bottleneck_util_after": 0.3072,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          17,
+          21,
+          40,
+          21
+        ],
+        "load_estimate": 0.3072
+      }
+    },
+    {
+      "t": 10.137132167816162,
+      "wall_time": 1790518891.0164459,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.88752,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          34,
+          15,
+          37,
+          15
+        ],
+        "load_estimate": 0.8875
+      }
+    },
+    {
+      "t": 10.139172792434692,
+      "wall_time": 1790518891.0184865,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.88752,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          34,
+          15,
+          37,
+          15
+        ],
+        "load_estimate": 0.8875
+      }
+    },
+    {
+      "t": 10.140737295150757,
+      "wall_time": 1790518891.020051,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.88752,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          34,
+          15,
+          37,
+          15
+        ],
+        "load_estimate": 0.8875
+      }
+    },
+    {
+      "t": 12.108344316482544,
+      "wall_time": 1790518892.987658,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3072,
+      "bottleneck_util_after": 0.3072,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          15,
+          25,
+          36,
+          25
+        ],
+        "load_estimate": 0.3072
+      }
+    },
+    {
+      "t": 12.109986066818237,
+      "wall_time": 1790518892.9892998,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.80657,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          35,
+          14,
+          37,
+          14
+        ],
+        "load_estimate": 0.8066
+      }
+    },
+    {
+      "t": 12.115699768066406,
+      "wall_time": 1790518892.9950135,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3072,
+      "bottleneck_util_after": 0.3072,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          13,
+          26,
+          34,
+          26
+        ],
+        "load_estimate": 0.3072
+      }
+    },
+    {
+      "t": 12.117184400558472,
+      "wall_time": 1790518892.996498,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.74181,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          36,
+          13,
+          37,
+          13
+        ],
+        "load_estimate": 0.7418
+      }
+    },
+    {
+      "t": 12.122652292251587,
+      "wall_time": 1790518893.001966,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3072,
+      "bottleneck_util_after": 0.3072,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          12,
+          28,
+          33,
+          28
+        ],
+        "load_estimate": 0.3072
+      }
+    },
+    {
+      "t": 12.124204158782959,
+      "wall_time": 1790518893.0035179,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.69,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          36,
+          13,
+          37,
+          13
+        ],
+        "load_estimate": 0.69
+      }
+    },
+    {
+      "t": 12.1261465549469,
+      "wall_time": 1790518893.0054603,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3072,
+      "bottleneck_util_after": 0.3072,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          11,
+          28,
+          32,
+          28
+        ],
+        "load_estimate": 0.3072
+      }
+    },
+    {
+      "t": 12.129941940307617,
+      "wall_time": 1790518893.0092556,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.64856,
+      "bottleneck_util_after": 0.0049,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          13
+        ],
+        "load_estimate": 0.6486
+      }
+    },
+    {
+      "t": 12.13216757774353,
+      "wall_time": 1790518893.0114813,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3072,
+      "bottleneck_util_after": 0.3072,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          11,
+          29,
+          31,
+          29
+        ],
+        "load_estimate": 0.3072
+      }
+    },
+    {
+      "t": 12.135123014450073,
+      "wall_time": 1790518893.0144367,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.6154,
+      "bottleneck_util_after": 0.0037,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          13
+        ],
+        "load_estimate": 0.6154
+      }
+    },
+    {
+      "t": 12.13730764389038,
+      "wall_time": 1790518893.0166214,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3072,
+      "bottleneck_util_after": 0.3072,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          29,
+          31,
+          29
+        ],
+        "load_estimate": 0.3072
+      }
+    },
+    {
+      "t": 12.138901233673096,
+      "wall_time": 1790518893.018215,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.58888,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          12
+        ],
+        "load_estimate": 0.5889
+      }
+    },
+    {
+      "t": 12.14227557182312,
+      "wall_time": 1790518893.0215893,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.30588,
+      "bottleneck_util_after": 0.3006,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          29,
+          31,
+          30
+        ],
+        "load_estimate": 0.3059
+      }
+    },
+    {
+      "t": 12.143698453903198,
+      "wall_time": 1790518893.0230122,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.56766,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          12
+        ],
+        "load_estimate": 0.5677
+      }
+    },
+    {
+      "t": 12.147743225097656,
+      "wall_time": 1790518893.027057,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.30482,
+      "bottleneck_util_after": 0.3006,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          31,
+          30
+        ],
+        "load_estimate": 0.3048
+      }
+    },
+    {
+      "t": 12.149315595626831,
+      "wall_time": 1790518893.0286293,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.55068,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          12
+        ],
+        "load_estimate": 0.5507
+      }
+    },
+    {
+      "t": 12.151676416397095,
+      "wall_time": 1790518893.0309901,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.55068,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          12
+        ],
+        "load_estimate": 0.5507
+      }
+    },
+    {
+      "t": 12.15452766418457,
+      "wall_time": 1790518893.0338414,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.55068,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          12
+        ],
+        "load_estimate": 0.5507
+      }
+    },
+    {
+      "t": 12.156017780303955,
+      "wall_time": 1790518893.0353315,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.55068,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          12
+        ],
+        "load_estimate": 0.5507
+      }
+    },
+    {
+      "t": 12.157804727554321,
+      "wall_time": 1790518893.0371184,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.55068,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          12
+        ],
+        "load_estimate": 0.5507
+      }
+    },
+    {
+      "t": 14.111406803131104,
+      "wall_time": 1790518894.9907205,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.30398,
+      "bottleneck_util_after": 0.3006,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.304
+      }
+    },
+    {
+      "t": 14.11289358139038,
+      "wall_time": 1790518894.9922073,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.5371,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          37,
+          13,
+          38,
+          12
+        ],
+        "load_estimate": 0.5371
+      }
+    },
+    {
+      "t": 14.121286153793335,
+      "wall_time": 1790518895.0005999,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3033,
+      "bottleneck_util_after": 0.3006,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.3033
+      }
+    },
+    {
+      "t": 14.123181343078613,
+      "wall_time": 1790518895.002495,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.52623,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.5262
+      }
+    },
+    {
+      "t": 14.132131099700928,
+      "wall_time": 1790518895.0114448,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.30276,
+      "bottleneck_util_after": 0.3006,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.3028
+      }
+    },
+    {
+      "t": 14.133610963821411,
+      "wall_time": 1790518895.0129247,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.42117,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4212
+      }
+    },
+    {
+      "t": 14.135594367980957,
+      "wall_time": 1790518895.014908,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 14.138536214828491,
+      "wall_time": 1790518895.01785,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.33753,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.3375
+      }
+    },
+    {
+      "t": 14.140592575073242,
+      "wall_time": 1790518895.0199063,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 14.143493175506592,
+      "wall_time": 1790518895.022807,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.86751,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.8675
+      }
+    },
+    {
+      "t": 14.150146722793579,
+      "wall_time": 1790518895.0294604,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 14.151715993881226,
+      "wall_time": 1790518895.0310297,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.69461,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.6946
+      }
+    },
+    {
+      "t": 14.155942440032959,
+      "wall_time": 1790518895.0352561,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 14.161512613296509,
+      "wall_time": 1790518895.0408263,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.58463,
+      "bottleneck_util_after": 0.003,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.5846
+      }
+    },
+    {
+      "t": 14.172867774963379,
+      "wall_time": 1790518895.0521815,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 14.174827575683594,
+      "wall_time": 1790518895.0541413,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.177281379699707,
+      "wall_time": 1790518895.056595,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.188108921051025,
+      "wall_time": 1790518895.0674226,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.189740419387817,
+      "wall_time": 1790518895.0690541,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.197782754898071,
+      "wall_time": 1790518895.0770965,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.199262142181396,
+      "wall_time": 1790518895.0785758,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.209017753601074,
+      "wall_time": 1790518895.0883315,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.210949897766113,
+      "wall_time": 1790518895.0902636,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.212602138519287,
+      "wall_time": 1790518895.0919158,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.218093633651733,
+      "wall_time": 1790518895.0974073,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.219758987426758,
+      "wall_time": 1790518895.0990727,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.223972082138062,
+      "wall_time": 1790518895.1032858,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.22541618347168,
+      "wall_time": 1790518895.10473,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.230984926223755,
+      "wall_time": 1790518895.1102986,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.232749223709106,
+      "wall_time": 1790518895.112063,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.235846757888794,
+      "wall_time": 1790518895.1151605,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.237446308135986,
+      "wall_time": 1790518895.11676,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 14.242924451828003,
+      "wall_time": 1790518895.1222382,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "ss1",
+        "ss2",
+        "ss4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.49666,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.4967
+      }
+    },
+    {
+      "t": 16.114633083343506,
+      "wall_time": 1790518896.9939468,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 16.116100311279297,
+      "wall_time": 1790518896.995414,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.39785,
+      "bottleneck_util_after": 0.0026,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.3978
+      }
+    },
+    {
+      "t": 16.11942195892334,
+      "wall_time": 1790518896.9987357,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 16.12119960784912,
+      "wall_time": 1790518897.0005133,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.32008,
+      "bottleneck_util_after": 0.009,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          38,
+          12,
+          38,
+          12
+        ],
+        "load_estimate": 0.3201
+      }
+    },
+    {
+      "t": 16.12603235244751,
+      "wall_time": 1790518897.005346,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 16.126786947250366,
+      "wall_time": 1790518897.0061007,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.009,
+      "bottleneck_util_after": 0.0002,
+      "alt_path_best_util": null,
+      "improvement": 0.0088,
+      "success": true,
+      "approach_specific": {
+        "G": 2.22844,
+        "decision": "switch",
+        "load_estimate": 0.2579,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 16.128831386566162,
+      "wall_time": 1790518897.008145,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.308,
+      "bottleneck_util_after": 0.308,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.308
+      }
+    },
+    {
+      "t": 16.1296226978302,
+      "wall_time": 1790518897.0089364,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0002,
+      "bottleneck_util_after": 0.009,
+      "alt_path_best_util": null,
+      "improvement": -0.0088,
+      "success": true,
+      "approach_specific": {
+        "G": 2.21367,
+        "decision": "switch",
+        "load_estimate": 0.2063,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 16.1326003074646,
+      "wall_time": 1790518897.011914,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3065,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.3065
+      }
+    },
+    {
+      "t": 16.1337571144104,
+      "wall_time": 1790518897.0130708,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.009,
+      "bottleneck_util_after": 0.0002,
+      "alt_path_best_util": null,
+      "improvement": 0.0088,
+      "success": true,
+      "approach_specific": {
+        "G": 2.19523,
+        "decision": "switch",
+        "load_estimate": 0.1669,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 16.135992765426636,
+      "wall_time": 1790518897.0153065,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3053,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.3053
+      }
+    },
+    {
+      "t": 16.138004064559937,
+      "wall_time": 1790518897.0173178,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.009,
+      "alt_path_best_util": null,
+      "improvement": -0.0089,
+      "success": true,
+      "approach_specific": {
+        "G": 2.18271,
+        "decision": "switch",
+        "load_estimate": 0.1335,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 16.140015363693237,
+      "wall_time": 1790518897.019329,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.30434,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.3043
+      }
+    },
+    {
+      "t": 16.14072012901306,
+      "wall_time": 1790518897.0200338,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.009,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": null,
+      "improvement": 0.0089,
+      "success": true,
+      "approach_specific": {
+        "G": 2.17401,
+        "decision": "switch",
+        "load_estimate": 0.1086,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 16.143297910690308,
+      "wall_time": 1790518897.0226116,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.30357,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.3036
+      }
+    },
+    {
+      "t": 16.144124031066895,
+      "wall_time": 1790518897.0234377,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0091,
+      "alt_path_best_util": null,
+      "improvement": -0.009,
+      "success": true,
+      "approach_specific": {
+        "G": 2.1677,
+        "decision": "switch",
+        "load_estimate": 0.0869,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 18.12474751472473,
+      "wall_time": 1790518899.0040612,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.30296,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.303
+      }
+    },
+    {
+      "t": 18.128166437149048,
+      "wall_time": 1790518899.0074801,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0091,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": null,
+      "improvement": 0.009,
+      "success": true,
+      "approach_specific": {
+        "G": 2.16329,
+        "decision": "switch",
+        "load_estimate": 0.0713,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 18.134902715682983,
+      "wall_time": 1790518899.0142164,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.30247,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          30,
+          30,
+          30
+        ],
+        "load_estimate": 0.3025
+      }
+    },
+    {
+      "t": 18.14193034172058,
+      "wall_time": 1790518899.021244,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0012,
+      "bottleneck_util_after": 0.1946,
+      "alt_path_best_util": null,
+      "improvement": -0.1934,
+      "success": true,
+      "approach_specific": {
+        "G": 1.53165,
+        "decision": "switch",
+        "load_estimate": 0.0573,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 18.148101329803467,
+      "wall_time": 1790518899.027415,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3005,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          10,
+          27,
+          32,
+          31
+        ],
+        "load_estimate": 0.3005
+      }
+    },
+    {
+      "t": 18.152884244918823,
+      "wall_time": 1790518899.032198,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3005,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          11,
+          25,
+          32,
+          32
+        ],
+        "load_estimate": 0.3005
+      }
+    },
+    {
+      "t": 18.161902904510498,
+      "wall_time": 1790518899.0412166,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3005,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          11,
+          23,
+          33,
+          32
+        ],
+        "load_estimate": 0.3005
+      }
+    },
+    {
+      "t": 18.165732622146606,
+      "wall_time": 1790518899.0450463,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.3005,
+      "bottleneck_util_after": 0.3005,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          12,
+          23,
+          35,
+          30
+        ],
+        "load_estimate": 0.3005
+      }
+    },
+    {
+      "t": 18.17062544822693,
+      "wall_time": 1790518899.0499392,
+      "flow_id": "10.0.0.2->10.0.0.1",
+      "src_ip": "10.0.0.2",
+      "dst_ip": "10.0.0.1",
+      "old_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "new_path": [
+        "s4",
+        "s3",
+        "s1"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.24954,
+      "bottleneck_util_after": 0.0044,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "split",
+        "fwd_weights": [
+          18,
+          22,
+          34,
+          26
+        ],
+        "load_estimate": 0.2495
+      }
+    },
+    {
+      "t": 18.17302656173706,
+      "wall_time": 1790518899.0523403,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.86176,
+      "bottleneck_util_after": 0.1956,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          20,
+          30,
+          33,
+          17
+        ],
+        "load_estimate": 0.8618
+      }
+    },
+    {
+      "t": 18.17648434638977,
+      "wall_time": 1790518899.055798,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.72853,
+      "bottleneck_util_after": 0.1956,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          19,
+          29,
+          31,
+          21
+        ],
+        "load_estimate": 0.7285
+      }
+    },
+    {
+      "t": 20.126689672470093,
+      "wall_time": 1790518901.0060034,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.62195,
+      "bottleneck_util_after": 0.1956,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          18,
+          29,
+          30,
+          23
+        ],
+        "load_estimate": 0.6219
+      }
+    },
+    {
+      "t": 20.136958122253418,
+      "wall_time": 1790518901.0162718,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.53668,
+      "bottleneck_util_after": 0.1956,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          17,
+          29,
+          30,
+          25
+        ],
+        "load_estimate": 0.5367
+      }
+    },
+    {
+      "t": 20.142937898635864,
+      "wall_time": 1790518901.0222516,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_split",
+      "bottleneck_util_before": 0.46826,
+      "bottleneck_util_after": 0.1946,
+      "alt_path_best_util": null,
+      "improvement": null,
+      "success": true,
+      "approach_specific": {
+        "decision": "stay",
+        "fwd_weights": [
+          17,
+          28,
+          29,
+          26
+        ],
+        "load_estimate": 0.4683
+      }
+    },
+    {
+      "t": 22.138880014419556,
+      "wall_time": 1790518903.0181937,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0001,
+      "alt_path_best_util": null,
+      "improvement": -0.0001,
+      "success": true,
+      "approach_specific": {
+        "G": 3.13372,
+        "decision": "switch",
+        "load_estimate": 0.1256,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 22.143314123153687,
+      "wall_time": 1790518903.0226278,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0001,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": 0.0001,
+      "success": true,
+      "approach_specific": {
+        "G": 3.2493,
+        "decision": "switch",
+        "load_estimate": 0.1005,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    },
+    {
+      "t": 22.14693832397461,
+      "wall_time": 1790518903.026252,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "G": 3.33592,
+        "decision": "switch",
+        "load_estimate": 0.0804,
+        "new_idx": 2,
+        "old_idx": 0
+      }
+    },
+    {
+      "t": 22.150909900665283,
+      "wall_time": 1790518903.0302236,
+      "flow_id": "10.0.0.1->10.0.0.2",
+      "src_ip": "10.0.0.1",
+      "dst_ip": "10.0.0.2",
+      "old_path": [
+        "s1",
+        "s7",
+        "s4"
+      ],
+      "new_path": [
+        "s1",
+        "s2",
+        "s4"
+      ],
+      "trigger_reason": "efe_switch",
+      "bottleneck_util_before": 0.0,
+      "bottleneck_util_after": 0.0,
+      "alt_path_best_util": null,
+      "improvement": 0.0,
+      "success": true,
+      "approach_specific": {
+        "G": 3.3991,
+        "decision": "switch",
+        "load_estimate": 0.0643,
+        "new_idx": 0,
+        "old_idx": 2
+      }
+    }
+  ]
 }

@@ -1,0 +1,882 @@
+{
+  "baseline": {
+    "active_inference": {
+      "controller": "active_inference",
+      "scenario": "baseline",
+      "n_trials": 5,
+      "mean_link_util": {
+        "mean": 0.03735,
+        "std": 0.00331,
+        "min": 0.03298,
+        "max": 0.04175,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "max_link_util": {
+        "mean": 0.30912,
+        "std": 0.00175,
+        "min": 0.3068,
+        "max": 0.3108,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "p95_link_util": {
+        "mean": 0.3021,
+        "std": 0.00117,
+        "min": 0.3002,
+        "max": 0.3032,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_packet_loss": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_throughput": {
+        "mean": 2.99941,
+        "std": 0.0,
+        "min": 2.99941,
+        "max": 2.99941,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "throughput_cov": {
+        "mean": 0.00081,
+        "std": 0.0,
+        "min": 0.00081,
+        "max": 0.00081,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "jains_fairness": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "reroute_count": {
+        "mean": 166.2,
+        "std": 66.54096,
+        "min": 117.0,
+        "max": 282.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "successful_reroutes": {
+        "mean": 16.0,
+        "std": 5.24404,
+        "min": 11.0,
+        "max": 23.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "failed_reroutes": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_first_reroute": {
+        "mean": 2.11907,
+        "std": 2.27643,
+        "min": 0.10293,
+        "max": 5.61329,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_recover": {
+        "mean": null,
+        "std": null,
+        "min": null,
+        "max": null,
+        "n_trials": 5,
+        "n_none": 5
+      },
+      "congestion_events": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      }
+    },
+    "reactive": {
+      "controller": "reactive",
+      "scenario": "baseline",
+      "n_trials": 5,
+      "mean_link_util": {
+        "mean": 0.03757,
+        "std": 0.00427,
+        "min": 0.03292,
+        "max": 0.04153,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "max_link_util": {
+        "mean": 0.30974,
+        "std": 0.00058,
+        "min": 0.3091,
+        "max": 0.3104,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "p95_link_util": {
+        "mean": 0.30688,
+        "std": 0.00129,
+        "min": 0.3058,
+        "max": 0.3088,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_packet_loss": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_throughput": {
+        "mean": 2.99941,
+        "std": 0.0,
+        "min": 2.99941,
+        "max": 2.99941,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "throughput_cov": {
+        "mean": 0.00081,
+        "std": 0.0,
+        "min": 0.00081,
+        "max": 0.00081,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "jains_fairness": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "reroute_count": {
+        "mean": 82.6,
+        "std": 43.0848,
+        "min": 43.0,
+        "max": 154.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "successful_reroutes": {
+        "mean": 3.0,
+        "std": 2.12132,
+        "min": 0.0,
+        "max": 6.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "failed_reroutes": {
+        "mean": 39.6,
+        "std": 20.69541,
+        "min": 20.0,
+        "max": 74.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_first_reroute": {
+        "mean": 6.71484,
+        "std": 2.13551,
+        "min": 4.64455,
+        "max": 8.96402,
+        "n_trials": 5,
+        "n_none": 1
+      },
+      "time_to_recover": {
+        "mean": null,
+        "std": null,
+        "min": null,
+        "max": null,
+        "n_trials": 5,
+        "n_none": 5
+      },
+      "congestion_events": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      }
+    }
+  },
+  "bursty_threshold": {
+    "active_inference": {
+      "controller": "active_inference",
+      "scenario": "bursty_threshold",
+      "n_trials": 5,
+      "mean_link_util": {
+        "mean": 0.0662,
+        "std": 0.0087,
+        "min": 0.06023,
+        "max": 0.08125,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "max_link_util": {
+        "mean": 0.49736,
+        "std": 0.03128,
+        "min": 0.4597,
+        "max": 0.5438,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "p95_link_util": {
+        "mean": 0.27168,
+        "std": 0.02251,
+        "min": 0.2531,
+        "max": 0.2998,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_packet_loss": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_throughput": {
+        "mean": 2.4969,
+        "std": 0.00042,
+        "min": 2.49625,
+        "max": 2.49725,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "throughput_cov": {
+        "mean": 0.00281,
+        "std": 0.00041,
+        "min": 0.00245,
+        "max": 0.0034,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "jains_fairness": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "reroute_count": {
+        "mean": 511.6,
+        "std": 104.48588,
+        "min": 415.0,
+        "max": 686.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "successful_reroutes": {
+        "mean": 14.2,
+        "std": 8.43801,
+        "min": 8.0,
+        "max": 29.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "failed_reroutes": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_first_reroute": {
+        "mean": 6.63578,
+        "std": 10.50869,
+        "min": 1.08336,
+        "max": 25.39892,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_recover": {
+        "mean": 2.00154,
+        "std": 0.00159,
+        "min": 2.00035,
+        "max": 2.00389,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "congestion_events": {
+        "mean": 2.4,
+        "std": 0.89443,
+        "min": 1.0,
+        "max": 3.0,
+        "n_trials": 5,
+        "n_none": 0
+      }
+    },
+    "reactive": {
+      "controller": "reactive",
+      "scenario": "bursty_threshold",
+      "n_trials": 5,
+      "mean_link_util": {
+        "mean": 0.07517,
+        "std": 0.01226,
+        "min": 0.06316,
+        "max": 0.09121,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "max_link_util": {
+        "mean": 0.49584,
+        "std": 0.01257,
+        "min": 0.4748,
+        "max": 0.5079,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "p95_link_util": {
+        "mean": 0.26616,
+        "std": 0.01099,
+        "min": 0.2579,
+        "max": 0.2827,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_packet_loss": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_throughput": {
+        "mean": 2.49665,
+        "std": 0.00022,
+        "min": 2.4965,
+        "max": 2.497,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "throughput_cov": {
+        "mean": 0.00327,
+        "std": 0.00034,
+        "min": 0.00274,
+        "max": 0.00367,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "jains_fairness": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "reroute_count": {
+        "mean": 202.0,
+        "std": 44.17013,
+        "min": 162.0,
+        "max": 271.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "successful_reroutes": {
+        "mean": 16.6,
+        "std": 4.9295,
+        "min": 12.0,
+        "max": 25.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "failed_reroutes": {
+        "mean": 93.8,
+        "std": 22.79693,
+        "min": 69.0,
+        "max": 128.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_first_reroute": {
+        "mean": 4.10601,
+        "std": 0.76358,
+        "min": 3.191,
+        "max": 5.06279,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_recover": {
+        "mean": 2.00095,
+        "std": 0.00148,
+        "min": 2.00022,
+        "max": 2.00359,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "congestion_events": {
+        "mean": 2.6,
+        "std": 0.89443,
+        "min": 2.0,
+        "max": 4.0,
+        "n_trials": 5,
+        "n_none": 0
+      }
+    }
+  },
+  "forced_bottleneck": {
+    "active_inference": {
+      "controller": "active_inference",
+      "scenario": "forced_bottleneck",
+      "n_trials": 5,
+      "mean_link_util": {
+        "mean": 0.07888,
+        "std": 0.0018,
+        "min": 0.07653,
+        "max": 0.08121,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "max_link_util": {
+        "mean": 0.5845,
+        "std": 0.01011,
+        "min": 0.5727,
+        "max": 0.5935,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "p95_link_util": {
+        "mean": 0.30926,
+        "std": 0.00408,
+        "min": 0.3048,
+        "max": 0.315,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_packet_loss": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_throughput": {
+        "mean": 2.99945,
+        "std": 0.00012,
+        "min": 2.99932,
+        "max": 2.99955,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "throughput_cov": {
+        "mean": 0.0009,
+        "std": 0.00022,
+        "min": 0.00071,
+        "max": 0.00123,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "jains_fairness": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "reroute_count": {
+        "mean": 716.2,
+        "std": 224.73696,
+        "min": 383.0,
+        "max": 914.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "successful_reroutes": {
+        "mean": 18.0,
+        "std": 5.87367,
+        "min": 12.0,
+        "max": 27.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "failed_reroutes": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_first_reroute": {
+        "mean": 1.46293,
+        "std": 0.7572,
+        "min": 0.51651,
+        "max": 2.39083,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_recover": {
+        "mean": 2.00052,
+        "std": 0.00048,
+        "min": 2.00025,
+        "max": 2.00139,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "congestion_events": {
+        "mean": 3.8,
+        "std": 1.64317,
+        "min": 2.0,
+        "max": 6.0,
+        "n_trials": 5,
+        "n_none": 0
+      }
+    },
+    "reactive": {
+      "controller": "reactive",
+      "scenario": "forced_bottleneck",
+      "n_trials": 5,
+      "mean_link_util": {
+        "mean": 0.07396,
+        "std": 0.00256,
+        "min": 0.07141,
+        "max": 0.077,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "max_link_util": {
+        "mean": 0.545,
+        "std": 0.13054,
+        "min": 0.3124,
+        "max": 0.6145,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "p95_link_util": {
+        "mean": 0.30842,
+        "std": 0.00218,
+        "min": 0.3053,
+        "max": 0.3113,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_packet_loss": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_throughput": {
+        "mean": 2.9995,
+        "std": 0.0001,
+        "min": 2.99932,
+        "max": 2.99955,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "throughput_cov": {
+        "mean": 0.00099,
+        "std": 0.00026,
+        "min": 0.00071,
+        "max": 0.00125,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "jains_fairness": {
+        "mean": 1.0,
+        "std": 0.0,
+        "min": 1.0,
+        "max": 1.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "reroute_count": {
+        "mean": 213.0,
+        "std": 30.05828,
+        "min": 184.0,
+        "max": 260.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "successful_reroutes": {
+        "mean": 16.8,
+        "std": 6.76018,
+        "min": 7.0,
+        "max": 24.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "failed_reroutes": {
+        "mean": 97.8,
+        "std": 15.53061,
+        "min": 78.0,
+        "max": 120.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_first_reroute": {
+        "mean": 3.77253,
+        "std": 0.97632,
+        "min": 2.33667,
+        "max": 4.85328,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_recover": {
+        "mean": 2.00056,
+        "std": 0.00055,
+        "min": 2.00021,
+        "max": 2.00138,
+        "n_trials": 5,
+        "n_none": 1
+      },
+      "congestion_events": {
+        "mean": 1.2,
+        "std": 0.83666,
+        "min": 0.0,
+        "max": 2.0,
+        "n_trials": 5,
+        "n_none": 0
+      }
+    }
+  },
+  "load_ramp": {
+    "active_inference": {
+      "controller": "active_inference",
+      "scenario": "load_ramp",
+      "n_trials": 5,
+      "mean_link_util": {
+        "mean": 0.10947,
+        "std": 0.02005,
+        "min": 0.08523,
+        "max": 0.13769,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "max_link_util": {
+        "mean": 0.90176,
+        "std": 0.13597,
+        "min": 0.7264,
+        "max": 1.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "p95_link_util": {
+        "mean": 0.43316,
+        "std": 0.11018,
+        "min": 0.3335,
+        "max": 0.613,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_packet_loss": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_throughput": {
+        "mean": 2.72815,
+        "std": 0.16539,
+        "min": 2.43233,
+        "max": 2.80526,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "throughput_cov": {
+        "mean": 0.02768,
+        "std": 0.00869,
+        "min": 0.01373,
+        "max": 0.0355,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "jains_fairness": {
+        "mean": 0.93824,
+        "std": 0.01313,
+        "min": 0.93186,
+        "max": 0.96173,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "reroute_count": {
+        "mean": 2861.2,
+        "std": 478.339,
+        "min": 2257.0,
+        "max": 3522.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "successful_reroutes": {
+        "mean": 9.4,
+        "std": 9.37017,
+        "min": 0.0,
+        "max": 22.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "failed_reroutes": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_first_reroute": {
+        "mean": 6.88063,
+        "std": 5.06645,
+        "min": 2.45581,
+        "max": 13.83446,
+        "n_trials": 5,
+        "n_none": 1
+      },
+      "time_to_recover": {
+        "mean": 3.60207,
+        "std": 1.67315,
+        "min": 2.00033,
+        "max": 6.00277,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "congestion_events": {
+        "mean": 7.0,
+        "std": 2.23607,
+        "min": 6.0,
+        "max": 11.0,
+        "n_trials": 5,
+        "n_none": 0
+      }
+    },
+    "reactive": {
+      "controller": "reactive",
+      "scenario": "load_ramp",
+      "n_trials": 5,
+      "mean_link_util": {
+        "mean": 0.10296,
+        "std": 0.01353,
+        "min": 0.08858,
+        "max": 0.11839,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "max_link_util": {
+        "mean": 0.93932,
+        "std": 0.02596,
+        "min": 0.9142,
+        "max": 0.9783,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "p95_link_util": {
+        "mean": 0.85118,
+        "std": 0.03245,
+        "min": 0.8195,
+        "max": 0.9031,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_packet_loss": {
+        "mean": 0.0,
+        "std": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "mean_throughput": {
+        "mean": 2.82319,
+        "std": 0.00023,
+        "min": 2.82298,
+        "max": 2.82351,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "throughput_cov": {
+        "mean": 0.00243,
+        "std": 0.00053,
+        "min": 0.00182,
+        "max": 0.003,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "jains_fairness": {
+        "mean": 0.93079,
+        "std": 8e-05,
+        "min": 0.93073,
+        "max": 0.93093,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "reroute_count": {
+        "mean": 404.0,
+        "std": 165.62307,
+        "min": 139.0,
+        "max": 533.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "successful_reroutes": {
+        "mean": 54.0,
+        "std": 26.42915,
+        "min": 11.0,
+        "max": 82.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "failed_reroutes": {
+        "mean": 181.6,
+        "std": 74.92196,
+        "min": 64.0,
+        "max": 244.0,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_first_reroute": {
+        "mean": 5.95612,
+        "std": 2.97592,
+        "min": 3.27955,
+        "max": 10.76377,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "time_to_recover": {
+        "mean": 4.80376,
+        "std": 5.22021,
+        "min": 2.0003,
+        "max": 14.01265,
+        "n_trials": 5,
+        "n_none": 0
+      },
+      "congestion_events": {
+        "mean": 13.6,
+        "std": 5.41295,
+        "min": 4.0,
+        "max": 17.0,
+        "n_trials": 5,
+        "n_none": 0
+      }
+    }
+  }
+}

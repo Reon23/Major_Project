@@ -193,6 +193,35 @@ class AutoBenchmarkRunner:
         # state.json path — controller writes it to cwd, so use project_dir.
         self.state_path = state_path or os.path.join(self.project_dir, "state.json")
 
+        # ── Trial metadata path ────────────────────────────────────────
+        # The controller subprocess (ryu-manager) reads a small JSON file
+        # at SDN_TRIAL_META_PATH on EVERY log_reroute_event() call to know
+        # which trial is currently running (it can't read env vars at
+        # spawn time because they're frozen when the subprocess starts,
+        # but trials change mid-run).
+        #
+        # CRITICAL: this path MUST be the same in BOTH:
+        #   (a) the controller subprocess's env (set in _start_controller)
+        #   (b) the main process's os.environ (read by TrialRecorder.run
+        #       → TrialEnv → write_trial_metadata)
+        # If the two disagree, the recorder writes the metadata to one
+        # path and the controller reads from another, falls back to a
+        # stray reroute_events.jsonl in cwd, and the recorder reads back
+        # an empty file — silently producing zero reroute events.
+        #
+        # We compute it ONCE here as an instance attribute, then use it
+        # from both places so they can never diverge.
+        self.trial_meta_path = os.path.join(
+            self.output_dir, "results", "_trial_metadata.json"
+        )
+        os.makedirs(os.path.dirname(self.trial_meta_path), exist_ok=True)
+        # Set it in the MAIN process's env so TrialRecorder.run() picks
+        # it up via os.environ.get("SDN_TRIAL_META_PATH"). The subprocess
+        # env is derived from os.environ.copy() in _start_controller, so
+        # this also propagates to the controller — but we set it
+        # explicitly there too for clarity.
+        os.environ["SDN_TRIAL_META_PATH"] = self.trial_meta_path
+
         # Sudo password handling.
         self._sudo_password: Optional[str] = sudo_password
         self._sudo_passwordless: Optional[bool] = None  # cached check
@@ -550,20 +579,21 @@ class AutoBenchmarkRunner:
             return
         env = os.environ.copy()
         env["SDN_TOPOLOGY_SPEC"] = self.spec_path
-        # Set the trial metadata file path — the controller reads this
-        # file on every event-log call to know which trial is currently
-        # running (since the controller is spawned once, but multiple
-        # trials run against it). The benchmark runner writes to this
-        # file before each trial.
-        env["SDN_TRIAL_META_PATH"] = os.path.join(
-            self.output_dir, "results", "_trial_metadata.json"
-        )
+        # The controller subprocess reads this file on every event-log
+        # call to know which trial is currently running. MUST match the
+        # path the main process's TrialRecorder writes to — using the
+        # shared self.trial_meta_path instance attr guarantees they agree.
+        # (os.environ already has this set from __init__, so the .copy()
+        # above would propagate it, but we set it explicitly for clarity
+        # and to be robust against any future env mutation.)
+        env["SDN_TRIAL_META_PATH"] = self.trial_meta_path
         # Set the approach name as an env-var fallback (used if the
         # metadata file doesn't exist yet — e.g. before the first trial).
         approach = "active_inference" if "active_inference" in module else "reactive"
         env["SDN_APPROACH"] = approach
         cmd = [self.ryu_manager_bin, "--observe-links", module]
         print(f"  Starting: {' '.join(cmd)}")
+        print(f"  Trial metadata path: {self.trial_meta_path}")
         try:
             proc = subprocess.Popen(
                 cmd,

@@ -283,11 +283,36 @@ class TrialRecorder:
 
     def run(self) -> TrialSamples:
         """Execute the trial. Blocks for ~scenario.monitor_duration seconds."""
-        # The auto_runner sets SDN_TRIAL_META_PATH env var when spawning
-        # the controller subprocess; the controller reads this file on
-        # every event-log call. The TrialEnv below writes to that same
-        # file so the controller picks up this trial's metadata.
+        # The auto_runner sets SDN_TRIAL_META_PATH in the MAIN process's
+        # os.environ (in __init__), and the same value is propagated to
+        # the controller subprocess's env in _start_controller. The
+        # TrialEnv below writes the per-trial metadata to this file so
+        # the controller picks it up on every log_reroute_event() call.
+        #
+        # If SDN_TRIAL_META_PATH is unset here, it means TrialRecorder
+        # is being used outside the auto_runner (e.g. in manual mode or
+        # in a smoke test). In that case TrialEnv falls back to a path
+        # next to the event log file — which still works, as long as
+        # the controller subprocess ALSO doesn't have SDN_TRIAL_META_PATH
+        # set (so it falls back to the same default). The mismatch only
+        # happens when ONE side sets it and the OTHER doesn't.
         trial_meta_path = os.environ.get("SDN_TRIAL_META_PATH")
+        if trial_meta_path is None:
+            print(
+                f"  [WARN] SDN_TRIAL_META_PATH not set in main process env — "
+                f"falling back to default next to event log. This is OK for "
+                f"manual mode, but if you're running via auto_runner, this "
+                f"means the controller subprocess and the recorder disagree "
+                f"on where to write/read trial metadata → reroute events "
+                f"will be silently lost.",
+                flush=True,
+            )
+        else:
+            print(
+                f"  Trial metadata path: {trial_meta_path} "
+                f"(controller subprocess reads same path via SDN_TRIAL_META_PATH)",
+                flush=True,
+            )
         env_ctx = sdn_event_log.TrialEnv(
             approach=self.controller,
             scenario=self.scenario.name,
@@ -366,8 +391,69 @@ class TrialRecorder:
         # state.json path diffs.
         self._read_reroute_events()
 
+        # ── Post-trial sanity check on the trial metadata file ──────────
+        # If the controller subprocess never picked up the metadata
+        # (because SDN_TRIAL_META_PATH was unset or pointed to a
+        # different file), the per-trial event log file will be empty
+        # and the controller will have written to a stray
+        # reroute_events.jsonl in its cwd instead. Catch this class of
+        # bug immediately rather than silently producing empty plots.
+        self._check_trial_metadata_consistency()
+
         self._samples.finished_at = time.time()
         return self._samples
+
+    def _check_trial_metadata_consistency(self) -> None:
+        """
+        Sanity-check that the trial metadata file actually exists and was
+        written recently (i.e. by THIS trial's TrialEnv.__enter__).
+
+        If the file is missing or stale, the controller subprocess
+        couldn't have read the correct per-trial event log path from it
+        — which means any reroute events it logged went to a stray file
+        the recorder doesn't read back. This is the silent-failure mode
+        that previously produced zero reroute events in every plot.
+
+        Warns loudly (doesn't raise) so the user can spot the problem
+        in the trial output instead of finding it post-hoc in empty
+        plots.
+        """
+        trial_meta_path = os.environ.get("SDN_TRIAL_META_PATH")
+        if trial_meta_path is None:
+            # Manual mode / smoke test — TrialEnv used a default path
+            # next to the event log. That's fine as long as the controller
+            # ALSO doesn't have SDN_TRIAL_META_PATH set (which would be
+            # the bug we're guarding against).
+            return
+        if not os.path.isfile(trial_meta_path):
+            print(
+                f"  [WARN] Trial metadata file missing: {trial_meta_path}\n"
+                f"    The controller subprocess couldn't have read the\n"
+                f"    per-trial event log path → reroute events were likely\n"
+                f"    written to a stray file the recorder doesn't read.\n"
+                f"    This trial's reroute_events will be empty.",
+                flush=True,
+            )
+            return
+        # Check the file was written recently (within the trial duration).
+        try:
+            mtime = os.path.getmtime(trial_meta_path)
+            age_s = time.time() - mtime
+            if age_s > self.scenario.monitor_duration + 60:
+                print(
+                    f"  [WARN] Trial metadata file is stale (age={age_s:.0f}s,\n"
+                    f"    trial duration={self.scenario.monitor_duration:.0f}s):\n"
+                    f"    {trial_meta_path}\n"
+                    f"    The controller subprocess may have read an old\n"
+                    f"    metadata file → reroute events may have been\n"
+                    f"    written to a previous trial's log file.",
+                    flush=True,
+                )
+        except OSError as exc:
+            print(
+                f"  [WARN] Could not stat trial metadata file {trial_meta_path}: {exc}",
+                flush=True,
+            )
 
     def _warmup_host_learning(self) -> None:
         """
