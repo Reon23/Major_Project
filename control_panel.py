@@ -58,12 +58,20 @@ class ControlPanel(QWidget):
 
     start_all_clicked = pyqtSignal()
     stop_all_clicked = pyqtSignal()
-    start_controller_clicked = pyqtSignal()
+    start_controller_clicked = pyqtSignal(str)  # controller module filename
     stop_controller_clicked = pyqtSignal()
-    restart_controller_clicked = pyqtSignal()
+    restart_controller_clicked = pyqtSignal(str)  # controller module filename
     start_mininet_clicked = pyqtSignal(str)  # password
     stop_mininet_clicked = pyqtSignal()
     restart_mininet_clicked = pyqtSignal(str)  # password
+
+    # Display label -> Ryu app filename. Both write the same state.json
+    # schema and read the same topology spec, so switching this needs no
+    # other change anywhere else in the GUI.
+    CONTROLLER_OPTIONS = {
+        "Active Inference": "active_inference_dynamic.py",
+        "Reactive (threshold-based)": "reactive_dynamic.py",
+    }
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -82,6 +90,14 @@ class ControlPanel(QWidget):
         # ── Controller ───────────────────────────────────────────────────
         ctrl_box = QGroupBox("Controller (ryu-manager)")
         ctrl_layout = QVBoxLayout(ctrl_box)
+
+        algo_row = QHBoxLayout()
+        algo_row.addWidget(QLabel("Routing algorithm:"))
+        self.controller_algo_combo = QComboBox()
+        self.controller_algo_combo.addItems(list(self.CONTROLLER_OPTIONS.keys()))
+        algo_row.addWidget(self.controller_algo_combo)
+        ctrl_layout.addLayout(algo_row)
+
         self.controller_status_row = _StatusRow("Status:")
         ctrl_layout.addWidget(self.controller_status_row)
         ctrl_btn_row = QHBoxLayout()
@@ -93,9 +109,13 @@ class ControlPanel(QWidget):
         ctrl_layout.addLayout(ctrl_btn_row)
         layout.addWidget(ctrl_box)
 
-        self.controller_start_btn.clicked.connect(self.start_controller_clicked.emit)
+        self.controller_start_btn.clicked.connect(
+            lambda: self.start_controller_clicked.emit(self.selected_controller_module())
+        )
         self.controller_stop_btn.clicked.connect(self.stop_controller_clicked.emit)
-        self.controller_restart_btn.clicked.connect(self.restart_controller_clicked.emit)
+        self.controller_restart_btn.clicked.connect(
+            lambda: self.restart_controller_clicked.emit(self.selected_controller_module())
+        )
 
         # ── Mininet ──────────────────────────────────────────────────────
         mn_box = QGroupBox("Network (Mininet)")
@@ -135,8 +155,24 @@ class ControlPanel(QWidget):
     def sudo_password(self) -> str:
         return self.password_edit.text()
 
+    def selected_controller_module(self) -> str:
+        return self.CONTROLLER_OPTIONS[self.controller_algo_combo.currentText()]
+
+    def set_default_controller_module(self, module_filename: str) -> None:
+        """Pre-select the dropdown by module filename (e.g. called once at
+        startup by app_reactive.py to default to the reactive backend)."""
+        for label, filename in self.CONTROLLER_OPTIONS.items():
+            if filename == module_filename:
+                self.controller_algo_combo.setCurrentText(label)
+                return
+
     def set_controller_status(self, status: ProcStatus) -> None:
         self.controller_status_row.set_status(status)
+        # Can't swap the routing algorithm out from under a running
+        # process — stop it first.
+        self.controller_algo_combo.setEnabled(
+            status in (ProcStatus.NOT_STARTED, ProcStatus.CRASHED)
+        )
 
     def set_mininet_status(self, status: ProcStatus) -> None:
         self.mininet_status_row.set_status(status)

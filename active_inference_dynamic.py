@@ -5,8 +5,9 @@ active_inference_dynamic.py  —  Topology-Independent Ryu SDN Controller
 This file contains only the RyuApp class.  All logic is delegated to:
 
   ai/belief.py            PathBelief  (+ serialize/deserialize snapshot)
-  ai/policy.py            compute_efe_for_path, select_best_path,
-                          compute_multipath_weights
+  ai/policy.py            compute_efe_for_path, decide_routing_action,
+                          compute_multipath_weights, select_best_path
+                          (legacy binary selector, no longer called here)
   sdn/constants.py        all constants  (incl. ENABLE_MODEL_TRADING,
                           ENABLE_AUDIT_LEDGER, CONTROLLER_DOMAINS, CIU)
   sdn/topology_manager.py graph, switches, links, trunk ports, paths,
@@ -21,15 +22,27 @@ This file contains only the RyuApp class.  All logic is delegated to:
 
 Routing modes
 -------------
-SINGLE-PATH  (active path util < MULTIPATH_CONGESTION_THRESHOLD)
-  EFE picks the single best path; plain output() actions are installed.
+Each flow is (re-)evaluated via ai.policy.decide_routing_action(), a
+three-way stay/switch/split decision (see that function's docstring for
+why a binary stay/switch choice used to cause visible path oscillation at
+low/medium load). Multipath is used whenever EITHER of these holds:
 
-MULTIPATH    (active path util >= MULTIPATH_CONGESTION_THRESHOLD)
+SINGLE-PATH  (decide_routing_action returns "stay" or "switch", AND
+              active path util < MULTIPATH_CONGESTION_THRESHOLD)
+  EFE picks the single best path (or keeps the current one); plain
+  output() actions are installed.
+
+MULTIPATH    (decide_routing_action returns "split", OR
+              active path util >= MULTIPATH_CONGESTION_THRESHOLD)
   All candidate paths are active simultaneously via an OF1.3 SELECT group.
   Bucket weights are proportional to each path's remaining headroom
   (congestion_threshold - belief.mu), computed by compute_multipath_weights().
   The switch hardware distributes packets per-flow (ECMP-style) without
-  any controller involvement in the data plane.
+  any controller involvement in the data plane. The utilisation threshold
+  remains as an unconditional safety net; "split" additionally covers the
+  common case where no single path is clearly better than distributing
+  load across what's available (e.g. two lightly, similarly loaded
+  paths) — previously this forced an arbitrary, unstable full commit.
 
 Blockchain layer (Section III / Fig. 2)
 ---------------------------------------
@@ -81,7 +94,11 @@ from ryu.ofproto import ofproto_v1_3
 from ryu.topology import event as topo_event
 
 from ai.belief import PathBelief, serialize_belief_snapshot, deserialize_belief_snapshot
-from ai.policy import compute_multipath_weights, compute_efe_for_path, select_best_path
+from ai.policy import (
+    compute_efe_for_path,
+    compute_multipath_weights,
+    decide_routing_action,
+)
 from sdn import flow_manager as fm
 from sdn import topology_spec
 from sdn.constants import (
@@ -828,8 +845,21 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
         fwd_load = fwd_flow.get("load_estimate", 0.0)
         rev_load = rev_flow.get("load_estimate", 0.0)
 
-        use_multipath = (
-            len(fwd_candidates) > 1 and fwd_load >= MULTIPATH_CONGESTION_THRESHOLD
+        # Multipath if EITHER the hard congestion safety-net trips, OR the
+        # three-way EFE analysis itself recommends splitting rather than
+        # committing fully to one path — see decide_routing_action() and
+        # FULL_COMMIT_MARGIN for why "split" (not a forced binary
+        # stay/switch pick) is what fixes oscillation at low/medium load.
+        fwd_action, _ = decide_routing_action(
+            fwd_key,
+            fwd_candidates,
+            fwd_flow["beliefs"],
+            fwd_flow["path_idx"],
+            fwd_load,
+            logger=self.logger,
+        )
+        use_multipath = len(fwd_candidates) > 1 and (
+            fwd_load >= MULTIPATH_CONGESTION_THRESHOLD or fwd_action == "split"
         )
 
         if use_multipath:
@@ -878,7 +908,18 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
 
     def _pick_path(self, flow_key: tuple, candidates: list) -> list:
         """
-        Retrieve or initialise flow state, run EFE selection, return best path.
+        Retrieve or initialise flow state, run the three-way EFE decision,
+        return a single best path.
+
+        `_pick_path`'s contract is to always return one path — it's used
+        where the caller structurally can't install a split (picking the
+        reverse-direction path alongside a forward single-path install).
+        So when the decision comes back "split" (no single path is
+        clearly better than distributing load — the common case at
+        low/medium load), that's treated the same as "stay": committing
+        fully to an arbitrary path on a tie is exactly what used to cause
+        oscillation, and staying is the stable choice here since this
+        call site can't act on a split recommendation anyway.
         """
         with self._lock:
             flow = self._flows.get(flow_key)
@@ -906,7 +947,7 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                 flow["beliefs"] = new_beliefs
                 beliefs = new_beliefs
 
-        best_idx = select_best_path(
+        action, alt_idx = decide_routing_action(
             flow_key,
             candidates,
             beliefs,
@@ -914,6 +955,7 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
             flow.get("load_estimate", 0.0),
             logger=self.logger,
         )
+        best_idx = alt_idx if action == "switch" else active_idx
 
         with self._lock:
             if best_idx != flow["path_idx"]:
@@ -1196,8 +1238,18 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                 flow["load_estimate"] = load_est
 
             # ── Routing mode decision ─────────────────────────────────────────
-            use_multipath = (
-                len(candidates) > 1 and load_est >= MULTIPATH_CONGESTION_THRESHOLD
+            # Multipath if EITHER the hard congestion safety-net trips, OR
+            # the three-way EFE analysis recommends splitting rather than
+            # fully committing to one path — see decide_routing_action()
+            # for why this (not a forced binary stay/switch pick) is what
+            # fixes oscillation at low/medium load: a real tie between a
+            # full commit and a half-split now resolves to a real
+            # multipath install instead of an arbitrary, unstable pick.
+            action, alt_idx = decide_routing_action(
+                flow_key, candidates, beliefs, active_idx, load_est, logger=self.logger
+            )
+            use_multipath = len(candidates) > 1 and (
+                load_est >= MULTIPATH_CONGESTION_THRESHOLD or action == "split"
             )
 
             if use_multipath:
@@ -1256,15 +1308,10 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                 )
 
             else:
-                # Single-path EFE
-                best_idx = select_best_path(
-                    flow_key,
-                    candidates,
-                    beliefs,
-                    active_idx,
-                    load_est,
-                    logger=self.logger,
-                )
+                # Single-path EFE — `action` is guaranteed "stay" or
+                # "switch" here ("split" was already routed into the
+                # multipath branch above).
+                best_idx = alt_idx if action == "switch" else active_idx
 
                 if best_idx != active_idx:
                     with self._lock:
@@ -1430,3 +1477,18 @@ class ActiveInferenceDynamic(app_manager.RyuApp):
                 )
             except Exception as exc:
                 self.logger.debug("belief publish failed: %s", exc)
+
+
+if __name__ == "__main__":
+    import sys
+
+    print(
+        "active_inference_dynamic.py is a Ryu application, not a "
+        "standalone script — running it with plain `python` does nothing "
+        "(no error, just an immediate exit, because the file only "
+        "defines the class).\n\n"
+        "Run it with:\n"
+        "    ryu-manager --observe-links active_inference_dynamic.py\n",
+        file=sys.stderr,
+    )
+    sys.exit(1)

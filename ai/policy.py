@@ -9,6 +9,7 @@ import math
 from ai.belief import PathBelief
 from sdn.constants import (
     EFE_TEMPERATURE,
+    FULL_COMMIT_MARGIN,
     MULTIPATH_CONGESTION_THRESHOLD,
     PREFERRED_UTIL,
     REROUTE_MIN_IMPROVEMENT,
@@ -145,6 +146,119 @@ def select_best_path(
             best_idx = active_idx
 
     return best_idx
+
+
+def decide_routing_action(
+    flow_key: tuple,
+    candidates: list,
+    beliefs: dict,
+    active_idx: int,
+    load_estimate: float,
+    logger=None,
+) -> tuple:
+    """
+    Three-way Active Inference routing decision: stay / switch / split.
+
+    Background — why this exists
+    -----------------------------
+    `select_best_path` (above) evaluates each alternative path under two
+    split fractions (1.0 = full switch, 0.5 = half-split) and takes
+    whichever framing gives the lower G, but the caller then always
+    *fully commits* to one path — there was never an actual action
+    corresponding to "half-split". At low/medium load this mismatch shows
+    up as visible oscillation: whenever the model's genuine preference is
+    a **partial** load migration (the 0.5-split G beats the 1.0-switch
+    G), forcing a binary stay/switch choice leaves the two options nearly
+    tied, and small measurement noise flips the pick tick to tick — the
+    controller "just switches between paths" instead of distributing
+    load, even though multiple decent paths exist.
+
+    This function keeps the same hysteresis-gated "is acting worth it at
+    all" check as `select_best_path`, but — once acting is warranted —
+    separately compares a genuine full-commit action against a genuine
+    half-split action. A real tie between them now resolves to SPLIT
+    (the caller installs a real multipath SELECT group across all
+    candidates) instead of an arbitrary full commit that has nothing
+    stable to converge to. A full commit is only chosen when it clearly
+    beats splitting by FULL_COMMIT_MARGIN.
+
+    Returns
+    -------
+    (action, target_idx) — action is one of "stay", "switch", "split".
+    target_idx is the path to fully commit to for "switch"; for "stay"
+    and "split" it's the best alternative index, informational only (the
+    caller installs across every candidate for "split", not just this
+    one).
+    """
+    n = len(candidates)
+    if n == 1:
+        return "stay", active_idx
+
+    g_stay = compute_efe_for_path(
+        path_idx=active_idx,
+        active_idx=active_idx,
+        beliefs=beliefs,
+        load_delta=load_estimate,
+        split_fraction=1.0,  # ignored for STAY
+    )
+
+    g_full, g_half = {}, {}
+    for i in range(n):
+        if i == active_idx:
+            continue
+        g_full[i] = compute_efe_for_path(
+            path_idx=i,
+            active_idx=active_idx,
+            beliefs=beliefs,
+            load_delta=load_estimate,
+            split_fraction=1.0,
+        )
+        g_half[i] = compute_efe_for_path(
+            path_idx=i,
+            active_idx=active_idx,
+            beliefs=beliefs,
+            load_delta=load_estimate,
+            split_fraction=0.5,
+        )
+
+    best_full_idx = min(g_full, key=g_full.get)
+    best_half_idx = min(g_half, key=g_half.get)
+    best_full_g = g_full[best_full_idx]
+    best_half_g = g_half[best_half_idx]
+
+    # Softmax over {stay, best-full, best-split} — same temperature-scaled
+    # probability read as select_best_path, just over three options
+    # instead of two, so P(act) still has to clear SWITCH_PROB_THRESHOLD.
+    g_min = min(g_stay, best_full_g, best_half_g)
+    exp_vals = {
+        "stay": math.exp(-EFE_TEMPERATURE * (g_stay - g_min)),
+        "switch": math.exp(-EFE_TEMPERATURE * (best_full_g - g_min)),
+        "split": math.exp(-EFE_TEMPERATURE * (best_half_g - g_min)),
+    }
+    Z = sum(exp_vals.values())
+    probs = {k: v / Z for k, v in exp_vals.items()}
+
+    best_act_g = min(best_full_g, best_half_g)
+    improvement = g_stay - best_act_g
+    p_act = probs["switch"] + probs["split"]
+
+    if improvement < REROUTE_MIN_IMPROVEMENT or p_act < SWITCH_PROB_THRESHOLD:
+        if logger:
+            logger.info(
+                "Flow %s: hysteresis hold on path%d (improvement=%.4f, P_act=%.3f)",
+                flow_key,
+                active_idx,
+                improvement,
+                p_act,
+            )
+        return "stay", active_idx
+
+    # Acting clears hysteresis — decide full commit vs. split. Ties (the
+    # common case at low/medium load) resolve to split on purpose.
+    if best_full_g + FULL_COMMIT_MARGIN < best_half_g:
+        return "switch", best_full_idx
+
+    return "split", best_half_idx
 
 
 def compute_multipath_weights(

@@ -2,14 +2,25 @@
 
 An SDN network (Mininet + Ryu) whose controller uses active inference
 (expected free energy minimisation) to route flows, with a live PyQt6
-visualizer.
+visualizer. A second, classic **reactive** threshold-based controller
+(`reactive_dynamic.py`) is included as a like-for-like comparison baseline
+— pick either one from the Control Panel's "Routing algorithm" dropdown
+in `app.py`, or launch straight into the reactive one by default with
+`app_reactive.py` (an identical orchestrator app, just pre-selected).
 
 ## Quick start — one app
 
 ```
 nix develop      # enters the shell with mininet/ryu/PyQt6/etc. on PATH
-python3 app.py
+python3 app.py            # defaults to Active Inference
+# or
+python3 app_reactive.py   # identical app, defaults to Reactive instead
 ```
+
+Both are the same orchestrator window (Topology Editor, Control Panel,
+Traffic Generator, Logs Console); either can switch to the other
+algorithm from the Control Panel's dropdown at any time. Pick whichever
+default is more convenient to start with.
 
 This single process:
 
@@ -44,8 +55,13 @@ that by hand before the next launch.
    launcher and the controller read (including real link bandwidth, so
    utilisation is computed against your configured capacity, not a
    hardcoded default).
-3. In the **Control Panel**, enter your sudo password and click
-   **Start Everything** (or start the controller and network separately).
+3. In the **Control Panel**, pick a **routing algorithm** — **Active
+   Inference** (belief-driven EFE routing) or **Reactive
+   (threshold-based)** (classic "wait for congestion, then move away from
+   it" baseline) — enter your sudo password, and click **Start
+   Everything** (or start the controller and network separately). The
+   dropdown locks while a controller is running; stop it first to switch
+   algorithms.
 4. Watch the live topology/traffic view. Use the **Traffic Generator**
    panel to send iperf3 traffic between any two hosts — set protocol,
    bandwidth, and duration, click **Start Flow**; start as many
@@ -66,6 +82,8 @@ debugging one layer in isolation.
 ```
 # Terminal 1 — controller (topology-independent; discovers switches/links via LLDP)
 ryu-manager --observe-links active_inference_dynamic.py
+# or, for the reactive baseline instead:
+# ryu-manager --observe-links reactive_dynamic.py
 
 # Terminal 2 — network (needs root; uses the built-in default topology
 # unless you pass --spec)
@@ -113,11 +131,41 @@ live by the Topology Editor):
   must connect to at least one switch
 - a switch graph that isn't fully connected is a warning, not an error
 
+## Two routing controllers
+
+Both controllers share every piece of generic SDN plumbing (topology
+discovery, host learning, port/flow-stat polling, `state.json` export via
+`sdn/state_writer.py`) — they differ *only* in how a path is chosen, so
+the rest of the app (Topology Editor, Traffic Panel, monitor view) works
+identically no matter which is running.
+
+- **`active_inference_dynamic.py`** (Active Inference): each flow keeps a
+  `PathBelief` per candidate path (`ai/belief.py`) and a three-way
+  stay/switch/split decision (`ai.policy.decide_routing_action`) picks the
+  action with the lowest Expected Free Energy each tick — proactively
+  spreading load across paths whenever no single one is clearly better,
+  not just once a hard congestion line is crossed.
+- **`reactive_dynamic.py`** (Reactive): no belief modelling, no anticipation.
+  A flow stays on its current path until its measured utilisation crosses
+  `REACTIVE_CONGESTION_THRESHOLD`; only then does it look for a clearly
+  better alternative (`REACTIVE_MIN_IMPROVEMENT`) to fully switch to, or
+  fall back to naive equal-weight ECMP across all candidates if nothing
+  stands out. Both thresholds live in `sdn/constants.py`.
+
+Pick either from the Control Panel's "Routing algorithm" dropdown, or run
+either standalone with `ryu-manager --observe-links <file>` (fallback
+path above).
+
 ## Architecture
 
 - **`app.py`** — the orchestrator entry point. Extends
   `dynamic_visualizer.MainWindow` with a Control Panel dock, a Topology
-  Editor dock, a Traffic Generator dock, and a Logs Console dock.
+  Editor dock, a Traffic Generator dock, and a Logs Console dock. Defaults
+  the Control Panel's routing-algorithm selection to Active Inference.
+- **`app_reactive.py`** — the exact same orchestrator (it just calls
+  `app.main(...)`), defaulting the routing-algorithm selection to Reactive
+  instead. Both windows can switch to either algorithm at any time; these
+  two files only differ in which one is pre-selected on open.
 - **`process_manager.py`** — `QProcess`-based lifecycle management for the
   `ryu-manager` and Mininet child processes (start/stop/restart, log
   streaming, sudo escalation for Mininet only, `mn -c` cleanup on

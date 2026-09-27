@@ -43,11 +43,41 @@ SWITCH_PROB_THRESHOLD = 0.52  # was 0.60 — lower so valid switches aren't bloc
 REROUTE_MIN_IMPROVEMENT = 0.02  # was 0.05 — calibrated for measured load_delta
 PREFERRED_UTIL = 0.2
 
+# How much lower a FULL commit's G must be than a HALF-split's G before the
+# controller fully switches a flow to one path, instead of splitting it
+# across all candidates (see ai.policy.decide_routing_action). Below this
+# margin the two look close enough that a full commit isn't clearly
+# justified, so the tie resolves to SPLIT — the smooth, non-oscillating
+# option — rather than an arbitrary binary pick that would otherwise flap
+# between paths tick to tick whenever both look nearly equally good (the
+# common case at low/medium load, where neither path is stressed enough to
+# make a clean full-switch case).
+FULL_COMMIT_MARGIN = 0.03
+
 # ── Multipath (SELECT group) ──────────────────────────────────────────────────
-# When active path utilisation exceeds this threshold the controller switches
-# from single-path EFE selection to a SELECT group that sprays traffic across
-# ALL candidate paths weighted by their remaining headroom.
+# Multipath (a SELECT group spraying traffic across ALL candidate paths,
+# weighted by remaining headroom) is used whenever EITHER:
+#   (a) decide_routing_action's three-way stay/switch/split analysis
+#       recommends SPLIT — i.e. no single path is clearly better than
+#       distributing load across what's available, which is the common
+#       case whenever multiple paths are lightly and similarly loaded; or
+#   (b) the active path's utilisation crosses this hard threshold — an
+#       unconditional safety net so a flow is never left fully committed
+#       to a path that's genuinely close to saturating, even in the
+#       (rare) case the EFE-based analysis doesn't flag it.
 MULTIPATH_CONGESTION_THRESHOLD = 0.45  # fraction of link capacity
+
+# ── Reactive congestion control (app_reactive.py) ──────────────────────────────
+# A classic "wait until it's a problem, then move away from it" baseline,
+# used to contrast against the Active Inference controller above. No belief
+# modelling, no anticipation, no exploration bonus — just a fixed threshold
+# and a fixed minimum-improvement guard before acting.
+#
+# Set equal to MULTIPATH_CONGESTION_THRESHOLD by default so both controllers
+# react at the same congestion point in a side-by-side comparison; tune
+# independently if you want the reactive baseline to trip earlier/later.
+REACTIVE_CONGESTION_THRESHOLD = 0.45  # fraction of link capacity
+REACTIVE_MIN_IMPROVEMENT = 0.05  # min utilisation gap before switching paths
 
 # ── Load estimation ───────────────────────────────────────────────────────────
 FLOW_STATS_POLL_INTERVAL = 4  # seconds between OFPFlowStatsRequest polls

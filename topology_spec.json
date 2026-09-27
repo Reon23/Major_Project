@@ -21,6 +21,12 @@
     },
     {
       "id": "s6"
+    },
+    {
+      "id": "s7"
+    },
+    {
+      "id": "s8"
     }
   ],
   "hosts": [
@@ -55,6 +61,14 @@
     {
       "id": "h8",
       "ip": "10.0.0.8/24"
+    },
+    {
+      "id": "h9",
+      "ip": "10.0.0.9/24"
+    },
+    {
+      "id": "h10",
+      "ip": "10.0.0.10/24"
     }
   ],
   "links": [
@@ -124,6 +138,48 @@
     },
     {
       "src": "s3",
+      "dst": "s6",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s2",
+      "dst": "s6",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s2",
+      "dst": "s8",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s1",
+      "dst": "s8",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s1",
+      "dst": "s7",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s4",
+      "dst": "s7",
+      "bw": 10.0,
+      "delay": "10ms",
+      "max_queue_size": 50
+    },
+    {
+      "src": "s3",
       "dst": "s5",
       "bw": 10.0,
       "delay": "10ms",
@@ -137,18 +193,16 @@
       "max_queue_size": 50
     },
     {
-      "src": "s2",
+      "src": "h9",
       "dst": "s6",
-      "bw": 10.0,
-      "delay": "10ms",
-      "max_queue_size": 50
+      "bw": 50.0,
+      "delay": "1ms"
     },
     {
-      "src": "s1",
-      "dst": "s6",
-      "bw": 10.0,
-      "delay": "10ms",
-      "max_queue_size": 50
+      "src": "h10",
+      "dst": "s8",
+      "bw": 50.0,
+      "delay": "1ms"
     },
     {
       "src": "h7",
@@ -158,7 +212,7 @@
     },
     {
       "src": "h8",
-      "dst": "s6",
+      "dst": "s7",
       "bw": 50.0,
       "delay": "1ms"
     }

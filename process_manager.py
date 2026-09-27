@@ -91,6 +91,7 @@ class ProcessManager(QObject):
 
         self._controller_stop_requested = False
         self._mininet_stop_requested = False
+        self._controller_module = "active_inference_dynamic.py"
 
         self._sudo_password: Optional[str] = None
         self._mininet_seen_ready = False
@@ -112,12 +113,24 @@ class ProcessManager(QObject):
 
     # ── Controller lifecycle ────────────────────────────────────────────
 
-    def start_controller(self, spec_path: str) -> None:
+    def start_controller(
+        self, spec_path: str, controller_module: str = "active_inference_dynamic.py"
+    ) -> None:
+        """
+        controller_module selects which Ryu app file to load — e.g.
+        "active_inference_dynamic.py" (Active Inference routing, the
+        default) or "app_reactive.py" (classic threshold-based reactive
+        congestion control). Both read the same topology spec / write the
+        same state.json, so the rest of the GUI (Topology Editor, Traffic
+        Panel, monitor view) works unchanged regardless of which is
+        running.
+        """
         if self._controller_proc is not None:
             return  # already running/starting
 
         self._set_controller_status(ProcStatus.STARTING)
         self._controller_stop_requested = False
+        self._controller_module = controller_module
 
         proc = QProcess(self)
         env = QProcessEnvironment.systemEnvironment()
@@ -137,7 +150,7 @@ class ProcessManager(QObject):
 
         proc.start(
             self._ryu_manager_bin,
-            ["--observe-links", "active_inference_dynamic.py"],
+            ["--observe-links", controller_module],
         )
         self._controller_proc = proc
 
@@ -151,9 +164,11 @@ class ProcessManager(QObject):
             self._controller_proc.kill()
             self._controller_proc.waitForFinished(2000)
 
-    def restart_controller(self, spec_path: str) -> None:
+    def restart_controller(
+        self, spec_path: str, controller_module: str = "active_inference_dynamic.py"
+    ) -> None:
         self.stop_controller()
-        self.start_controller(spec_path)
+        self.start_controller(spec_path, controller_module=controller_module)
 
     def _on_controller_finished(self, exit_code: int, exit_status) -> None:
         was_requested = self._controller_stop_requested

@@ -2,6 +2,7 @@
 rm -f ./project.zip
 zip -r project.zip \
   app.py \
+  app_reactive.py \
   active_inference_dynamic.py \
   control_panel.py \
   dynamic_visualizer.py \

@@ -57,7 +57,7 @@ STATE_PATH = os.path.join(PROJECT_DIR, "state.json")
 
 
 class OrchestratorWindow(MainWindow):
-    def __init__(self):
+    def __init__(self, default_controller_module: str = "active_inference_dynamic.py"):
         # Ensure a spec file exists before anything starts, so the
         # controller's very first _reload_topology_spec() and a manual
         # `python3 topology.py --spec topology_spec.json` both have
@@ -76,6 +76,7 @@ class OrchestratorWindow(MainWindow):
         self._wire_process_manager()
         self._wire_traffic_manager()
         self._refresh_traffic_hosts()
+        self.control_panel.set_default_controller_module(default_controller_module)
 
         self._event_log.log(
             "Orchestrator ready. Use the Control Panel to start the "
@@ -136,9 +137,13 @@ class OrchestratorWindow(MainWindow):
         )
         pm.mininet_crashed.connect(lambda reason: self._on_crash("Mininet", reason))
 
-        cp.start_controller_clicked.connect(lambda: pm.start_controller(SPEC_PATH))
+        cp.start_controller_clicked.connect(
+            lambda module: pm.start_controller(SPEC_PATH, controller_module=module)
+        )
         cp.stop_controller_clicked.connect(pm.stop_controller)
-        cp.restart_controller_clicked.connect(lambda: pm.restart_controller(SPEC_PATH))
+        cp.restart_controller_clicked.connect(
+            lambda module: pm.restart_controller(SPEC_PATH, controller_module=module)
+        )
 
         cp.start_mininet_clicked.connect(self._start_mininet)
         cp.stop_mininet_clicked.connect(pm.stop_mininet)
@@ -219,8 +224,9 @@ class OrchestratorWindow(MainWindow):
     def _start_everything(self) -> None:
         pw = self.control_panel.sudo_password()
         self.process_manager.set_sudo_password(pw)
-        self._event_log.log("Starting controller...")
-        self.process_manager.start_controller(SPEC_PATH)
+        module = self.control_panel.selected_controller_module()
+        self._event_log.log(f"Starting controller ({module})...")
+        self.process_manager.start_controller(SPEC_PATH, controller_module=module)
         # Give the controller a couple seconds' head start so OVS switches
         # connect to a controller that's already listening — not strictly
         # required (OVS retries), but avoids a burst of connect failures
@@ -271,7 +277,7 @@ class OrchestratorWindow(MainWindow):
         super().closeEvent(event)
 
 
-def main():
+def main(default_controller_module: str = "active_inference_dynamic.py"):
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
@@ -289,7 +295,7 @@ def main():
     dark.setColor(QPalette.ColorRole.HighlightedText, QColor("#ffffff"))
     app.setPalette(dark)
 
-    win = OrchestratorWindow()
+    win = OrchestratorWindow(default_controller_module=default_controller_module)
     win.show()
     sys.exit(app.exec())
 
