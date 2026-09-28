@@ -10,6 +10,7 @@ zip -r project.zip \
   state.json \
   ai/ \
   sdn/ \
+  blockchain/ \
   utils/ \
   --exclude "*/__pycache__/*" \
   --exclude "*.pyc"
